@@ -69,6 +69,9 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
+创建项目：npx create-react-app projectname --use-npm
+切换端口：在根目录新建文件.env PORT=5000
+
 {
     "env": {
       "browser": true,
