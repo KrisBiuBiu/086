@@ -1,0 +1,37 @@
+{
+  "name": "koa-demos",
+  "version": "1.0.0",
+  "description": "a collection of simple demos of Koa",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Koa",
+    "Node"
+  ],
+  "private": true,
+  "author": "Ruan Yifeng",
+  "license": "ISC",
+  "dependencies": {
+    "@koa/cors": "^3.0.0",
+    "bootstrap": "^4.4.1",
+    "ejs": "^2.6.1",
+    "fs": "0.0.1-security",
+    "fs.promised": "^3.0.0",
+    "koa": "^2.4.1",
+    "koa-body": "^2.6.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-compress": "^2.0.0",
+    "koa-conditional-get": "^2.0.0",
+    "koa-etag": "^3.0.0",
+    "koa-favicon": "^2.0.0",
+    "koa-helmet": "^4.0.0",
+    "koa-ratelimit": "^4.1.2",
+    "koa-router": "^7.3.0",
+    "koa-session": "^5.12.0",
+    "koa-sslify": "^2.1.2",
+    "koa-static": "^4.0.2",
+    "koa-views": "^6.2.0",
+    "mongoose": "^5.7.5"
+  }
+}

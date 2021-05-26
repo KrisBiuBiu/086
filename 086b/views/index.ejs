@@ -1,0 +1,461 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="">
+<!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<meta name="description" content="">
+<meta name="author" content="webthemez">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home</title>
+<link href="./css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/style-all.css" type="text/css" />
+
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/flexslider.css">
+<link rel="stylesheet" href="css/jquery.fancybox.css">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/responsive.css">
+<link rel="stylesheet" href="css/font-icon.css">
+<link rel="stylesheet" href="css/animate.min.css">
+<link rel="stylesheet" type="text/css" href="css/style4.css" />
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link rel="stylesheet" href="css/animate.min.css">
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/plugins.js"></script>
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?8f6f6a44f08006c8bf1f485c0c1da1af";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+        <!-- Document Title
+        ============================================= -->
+        <title>  成都赤晓</title>
+        <script type="text/javascript">
+            var nowYearStamp = JSON.parse('<%- JSON.stringify(post.nowYearStamp) %>');
+        var nextYearStamp = JSON.parse('<%- JSON.stringify(post.nextYearStamp) %>');
+        var dayStamp = 24*60*60*1000;
+        var dayArray = JSON.parse('<%- JSON.stringify(post.dayArray) %>');
+        var canvasEvents = {};
+        for(nowYearStamp;nowYearStamp<nextYearStamp;nowYearStamp+=dayStamp) {
+          var yearMS = new Date(nowYearStamp).getFullYear();
+          var monthMS = new Date(nowYearStamp).getMonth() + 1;
+          var dayMS = new Date(nowYearStamp).getDate();
+          var dateRight = yearMS+"-"+monthMS+"-"+dayMS;
+          if((monthMS+"").length < 2) monthMS = "0"+monthMS;
+          if((dayMS+"").length < 2) dayMS = "0"+dayMS;
+          var dateLeft = monthMS+"-"+dayMS+"-"+yearMS;
+          canvasEvents[dateLeft] = '<a href="#"></a>';
+          for(var i in dayArray) {
+            if(dayArray[i].date == dateRight) {
+              canvasEvents[dateLeft] = '<a href="#">'+dayArray[i].content+'</a>';
+            }
+          }
+        }
+    </script> 
+</head>
+
+<body>
+<!-- header section -->
+<section class="banner" role="banner" id="home">
+  <header id="header" class="fixed">
+    <div class="header-content clearfix">
+      <div style="position: relative;float: left;font-family: 'Microsoft Yahei', 'Raleway', sans-serif;font-size: 36px;line-height: 100%;">
+        <a href="" style="display: block">
+          <img src="images/logo/logo.png" alt="" style="height: 60px">
+        </a>
+      </div>
+      <nav class="navigation" role="navigation">
+        <ul class="primary-nav">
+		      <li><a href="/">首页</a></li>
+          <li><a href="/introduction">赛道介绍</a></li>
+          <li><a href="/carsport">汽车运动</a></li> 
+          <li><a href="/event">赛事活动</a></li>
+          <li><a href="/service">经营服务</a></li>
+		      <li><a href="/news">新闻中心</a></li>
+          <li><a href="/contact">联系我们</a></li>
+          <!-- <li><a href="#contact">Contact</a></li> -->
+        </ul>
+      </nav>
+      <a href="#" class="nav-toggle">Menu<span></span></a> </div>
+  </header>
+  <script type="text/javascript" src="/js/jquery.calendario.js"></script> 
+  <!-- banner text --> 
+<div id="first-slider">
+    <% var homeDemo = post.homeDemo %>
+    <div id="carousel-example-generic" class="carousel slide carousel-fade">
+        <!-- Indicators -->
+        <!-- <ol class="carousel-indicators">
+            <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+            <li data-target="#carousel-example-generic" data-slide-to="2"></li> 
+        </ol> -->
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+            <!-- Item 1 -->
+            
+            <div class="item active slide1">
+                    <div class="container clearfix home-calendar">
+                            <div style="float:right;">
+                              <p>
+                                  <span id="calendar-prev" class="button button-3d button-mini button-rounded button-red"><i class="fa fa-chevron-left">上一页</i></span>
+                                  <span id="calendar-next" class="button button-3d button-mini button-rounded button-red"><i class="fa fa-chevron-right">下一页</i></span>
+                              </p>
+                              <p>
+                                  <a href="#" class="button button-3d button-mini button-rounded button-red" onClick="Layer1.style.display='block'"><span id="calendar-month"></span>日程</a>
+                              </p>
+                              <p>
+                                  <a href="#" class="button button-3d button-mini button-rounded button-red" onClick="Layer1.style.display='none'">关闭显示</a>
+                              </p>                                        
+                            </div> 
+                            <!-- <div class="clear"></div>                -->
+                            <div class="events-calendar" id="Layer1">
+                                <div id="calendar" class="fc-calendar-container"></div>
+                            </div>
+                        </div>
+                    <script type="text/javascript">
+                    
+                        var cal = $( '#calendar' ).calendario( {
+                                onDayClick : function( $el, $contentEl, dateProperties ) {
+                    
+                                    for( var key in dateProperties ) {
+                                        console.log( key + ' = ' + dateProperties[ key ] );
+                                    }
+                    
+                                },
+                                caldata : canvasEvents
+                            } ),
+                            $month = $( '#calendar-month' ).html( cal.getMonthName() ),
+                            $year = $( '#calendar-year' ).html( cal.getYear() );
+                    
+                        $( '#calendar-next' ).on( 'click', function() {
+                            cal.gotoNextMonth( updateMonthYear );
+                        } );
+                        $( '#calendar-prev' ).on( 'click', function() {
+                            cal.gotoPreviousMonth( updateMonthYear );
+                        } );
+                        $( '#calendar-current' ).on( 'click', function() {
+                            cal.gotoNow( updateMonthYear );
+                        } );
+                    
+                        function updateMonthYear() {
+                            $month.html( cal.getMonthName() );
+                            $year.html( cal.getYear() );
+                        }
+                    
+                    </script>
+                <!-- <div class="row">
+
+                    <div class="container">
+                     
+                        <div class="col-md-9 text-left">
+                            <h3 data-animation="animated bounceInDown">Best Car Wash</h3>
+                            <h4 data-animation="animated bounceInUp">Easily use stunning effects</h4>             
+                        </div>
+                    </div>
+                </div> -->
+             </div> 
+            <!-- Item 2 -->
+<!--            <div class="item slide2">-->
+<!--                <div class="row"><div class="container">-->
+<!--                    <div class="col-md-7 text-left">-->
+<!--                        <h3 data-animation="animated bounceInDown">Quick Servicing</h3>-->
+<!--                        <h4 data-animation="animated bounceInUp">Create beautiful slideshows </h4>-->
+<!--                     </div> -->
+<!--                </div></div>-->
+<!--            </div>-->
+<!--            &lt;!&ndash; Item 3 &ndash;&gt;-->
+<!--            <div class="item slide3">-->
+<!--                <div class="row"><div class="container">-->
+<!--                    <div class="col-md-7 text-left">-->
+<!--                        <h3 data-animation="animated bounceInDown">Quality Checkup</h3>-->
+<!--                        <h4 data-animation="animated bounceInUp">Bootstrap Image Animate.css</h4>-->
+<!--                     </div>    -->
+<!--                </div></div>-->
+<!--            </div>     -->
+        </div>
+        <!-- End Wrapper for slides-->
+        <!-- <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+            <i class="fa fa-angle-left"></i><span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+            <i class="fa fa-angle-right"></i><span class="sr-only">Next</span>
+        </a> -->
+    </div>
+</div>
+  
+</section>
+<!-- header section --> 
+<!-- intro section -->
+<section id="intro" class="section intro">
+  <div class="container">
+    <div class="col-md-10 col-md-offset-1 text-center">
+      <h3><%=homeDemo.firstTitle %></h3>
+      <p><%=homeDemo.firstCnCon %></p>
+      <p><%=homeDemo.firstEnCon %></p>
+    </div>
+  </div>
+</section>
+<!-- intro section --> 
+<!-- services section -->
+<section id="services" class="services service-section"  style="padding-top: 0px;margin-bottom: 0">
+  <div class="container">
+  <div class="section-header">
+                <h2 class="wow fadeInDown animated">我们的服务</h2>
+                <p class="wow fadeInDown animated"><%=homeDemo.serEasyTitle %></p>
+            </div>
+    <div class="row">
+      <div class="col-md-4 col-sm-6 services text-center" style="height: 30rem;overflow: hidden"> <span class="icon icon-focus"></span>
+        <div class="services-content" style="height:20rem">
+          <h5><%=homeDemo.serNameOne %></h5>
+          <div style="height: 10rem;overflow: auto;text-align:justify "><%=homeDemo.serTextOne %></div>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-6 services text-center" style="height: 30rem;overflow: hidden"> <span class="icon icon-ribbon"></span>
+        <div class="services-content" style="height:20rem">
+          <h5><%=homeDemo.serNameTwo %></h5>
+          <div style="height: 10rem;overflow: auto;text-align:justify "><%=homeDemo.serTextTwo %></div>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-6 services text-center" style="height: 30rem;overflow: hidden"> <span class="icon icon-megaphone"></span>
+        <div class="services-content" style="height:20rem">
+          <h5><%=homeDemo.serNameThr %></h5>
+          <div style="height: 10rem;overflow: auto;text-align:justify "><%=homeDemo.serTextThr %></div>
+        </div>
+      </div>
+      <!-- <div class="col-md-4 col-sm-6 services text-center"> <span class="icon icon-flag"></span>
+        <div class="services-content">
+          <h5>Painting</h5>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eu libero scelerisque ligula sagittis faucibus eget quis lacus.</p>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-6 services text-center"> <span class="icon icon-map"></span>
+        <div class="services-content">
+          <h5>Modifiying</h5>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eu libero scelerisque ligula sagittis faucibus eget quis lacus.</p>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-6 services text-center"> <span class="icon icon-envelope"></span>
+        <div class="services-content">
+          <h5>Alignment</h5>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis eu libero scelerisque ligula sagittis faucibus eget quis lacus.</p>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</section>
+<!-- services section --> 
+<!--About-->
+<!--<section id="content-3-10" class="content-block data-section nopad content-3-10">-->
+<!--	<div class="image-container col-sm-6 col-xs-12 pull-left">-->
+<!--		<div class="background-image-holder">-->
+
+<!--		</div>-->
+<!--	</div>-->
+
+<!--	<div class="container-fluid">-->
+<!--		<div class="row">-->
+<!--			<div class="col-sm-6 col-sm-offset-6 col-xs-12 content">-->
+<!--				<div class="editContent">-->
+<!--					<h3><%=homeDemo.midRightTitle %></h3>-->
+<!--				</div>-->
+<!--				<div class="editContent">-->
+<!--					<p><%=homeDemo.midRightConOne %></p>-->
+<!--					<p><%=homeDemo.midRightConTwo %></p>-->
+<!--				</div>-->
+<!--			</div>-->
+<!--		</div>&lt;!&ndash; /.row&ndash;&gt;-->
+<!--	</div>&lt;!&ndash; /.container &ndash;&gt;-->
+<!--</section>-->
+
+
+<!-- package section -->
+<!-- <section class="video-section">
+  <div class="container"> 
+    <div class="row">  
+            <div id="content24" data-section="content-24" class="data-section"> 
+    		<div class="col-md-6">
+				<h3 class="eidtContent">Content Video</h3>
+				<p class="eidtContent">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+   				<p class="editContent">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
+				<p class="editContent">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
+    		</div>
+			<div class="col-md-6">
+				<div class="embed-responsive embed-responsive-16by9">
+				  <iframe class="embed-responsive-item" src="" allowfullscreen=""></iframe>
+				</div>
+			</div> 
+    	</div>
+			</div> 
+  </div>
+</section> -->
+<!-- gallery section -->
+<section id="gallery" class="gallery section" style="padding: 0px;margin: 0px">
+  <div class="">
+    <div class="section-header" style="background-color: #fec400">
+        <h2 class="wow fadeInDown animated"  style="color: white;padding-top: 15px;">新闻资讯</h2>
+        <p class="wow fadeInDown animated" style="color: white;font-size: 1.5rem;font-weight: bold;">新闻与公告&nbsp;&nbsp;|&nbsp;&nbsp;News & announcements</p>
+    </div>
+
+      <div class="row no-gutter"  style="margin: 30px">
+
+          <div class="clearfix">
+              <% for(var i in post.newsArray){ %>
+                <div class="col-lg-6 col-md-12 col-sm-12" style="height: 19rem;overflow: hidden;margin-bottom: 15px">
+                  <a href="/news/<%=post.newsArray[i].id %>">
+                    <div class="clearfix" style="overflow: hidden">
+                        <div class="col-lg-6 col-md-6 col-sm-6" >
+                            <img src="<%=post.newsArray[i].frame %>">
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6" style="overflow: hidden;padding: 0 10px">
+                            <div>
+                                <h4 style="color:#26567f;font-size: 1.8rem"><%=post.newsArray[i].title %></h4>
+                            </div>
+                            <div style="color: black">
+                                <%=post.newsArray[i].time %>
+                            </div>
+                            <div  style="overflow: hidden;color: black">
+                                <%=post.newsArray[i].description %>...
+                            </div>
+                        </div>
+                    </div>
+                  </a>
+                </div>
+              <% } %>
+          </div>
+
+      </div>
+<!--    <div class="row no-gutter">-->
+<!--        <% var groImgArr = post.homeDemo.groImgArr %>-->
+<!--        <% for(var i=0;i < groImgArr.length;i++){ %>-->
+<!--          <div class="col-lg-3 col-md-6 col-sm-6 work"> <a href="/upload/<%=groImgArr[i] %>" class="work-box"> <img style="height:252px" src="/upload/<%=groImgArr[i] %>" alt="">-->
+<!--            <div class="overlay">-->
+<!--              <div class="overlay-caption">-->
+<!--                 <p><span class="icon icon-magnifying-glass"></span></p>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            &lt;!&ndash; overlay &ndash;&gt; -->
+<!--            </a> </div>-->
+<!--        <% } %>-->
+<!--      -->
+<!--    </div>-->
+  </div>
+</section>
+<!-- gallery section --> 
+<!-- our team section -->
+<!-- <section id="teams" class="section teams">
+  <div class="container">
+      <div class="section-header">
+                <h2 class="wow fadeInDown animated">Our Team</h2>
+                <p class="wow fadeInDown animated">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent eget risus vitae massa <br> semper aliquam quis mattis quam.</p>
+            </div>
+    <div class="row">
+      <div class="col-md-3 col-sm-6">
+        <div class="person"><img src="images/team-1.jpg" alt="" class="img-responsive">
+          <div class="person-content">
+            <h4>Jonh Dow</h4>
+            <h5 class="role">Founder</h5>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit eget risus vitae massa.</p>
+          </div>
+          <ul class="social-icons clearfix">
+            <li><a href="#"><span class="fa fa-facebook"></span></a></li>
+            <li><a href="#"><span class="fa fa-twitter"></span></a></li> 
+            <li><a href="#"><span class="fa fa-google-plus"></span></a></li> 
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="person"> <img src="images/team-2.jpg" alt="" class="img-responsive">
+          <div class="person-content">
+            <h4>Markus Linn</h4>
+            <h5 class="role">Marketing</h5>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit eget risus vitae massa.</p>
+          </div>
+          <ul class="social-icons clearfix">
+            <li><a href="#" class=""><span class="fa fa-facebook"></span></a></li>
+            <li><a href="#" class=""><span class="fa fa-twitter"></span></a></li> 
+            <li><a href="#" class=""><span class="fa fa-google-plus"></span></a></li> 
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="person"> <img src="images/team-3.jpg" alt="" class="img-responsive">
+          <div class="person-content">
+            <h4>Chris Jemes</h4>
+            <h5 class="role">Technical</h5>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit eget risus vitae massa.</p>
+          </div>
+          <ul class="social-icons clearfix">
+            <li><a href="#" class=""><span class="fa fa-facebook"></span></a></li>
+            <li><a href="#" class=""><span class="fa fa-twitter"></span></a></li> 
+            <li><a href="#" class=""><span class="fa fa-google-plus"></span></a></li> 
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="person"> <img src="images/team-4.jpg" alt="" class="img-responsive">
+          <div class="person-content">
+            <h4>Vintes Mars</h4>
+            <h5 class="role">Marketing</h5>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit eget risus vitae massa.</p>
+          </div>
+          <ul class="social-icons clearfix">
+            <li><a href="#" class=""><span class="fa fa-facebook"></span></a></li>
+            <li><a href="#" class=""><span class="fa fa-twitter"></span></a></li> 
+            <li><a href="#" class=""><span class="fa fa-google-plus"></span></a></li> 
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->
+<!-- our team section --> 
+<section id="price">
+ <div id="pricing5" data-section="pricing-5" class="data-section"  style="padding: 0 0 40px 0">
+    	<div class="container">
+		 <div class="section-header">
+                <h2 class="wow fadeInDown animated">我们的客户</h2>
+                <p class="wow fadeInDown animated"><%=homeDemo.kehuTitle %></p>
+            </div>
+            <div class="row no-gutter">
+                <% var kehuImgArr = post.homeDemo.kehuImgArr %>
+                <% for(var i=0;i < kehuImgArr.length;i++){ %>
+                    <% if(kehuImgArr[i] && kehuImgArr[i].length > 0){ %>
+                    <div class="col-lg-2 col-md-6 col-sm-6 work" style="height: 140px;position: relative;background-color: #fff;">
+                        <img style="position: absolute;top: 0;bottom: 0;left: 0;right: 0; margin: auto;padding: 6px" src="/upload/<%=kehuImgArr[i] %>" alt="">
+                      <div class="overlay">
+                        <div class="overlay-caption">
+                          <p><span class="icon icon-magnifying-glass"></span></p>
+                        </div>
+                      </div></div>
+                    <% } %>
+                <% } %>
+              </div>
+    	</div>
+    </div>
+    
+</section>
+<!-- contact section --> 
+<!-- Footer section -->
+<% include ./footer.ejs %>
+<!-- Footer section --> 
+<!-- JS FILES --> 
+<script src="/js/jquery.min.js"></script> 
+<script src="/js/bootstrap.min.js"></script> 
+<script src="/js/jquery.flexslider-min.js"></script> 
+<script src="/js/jquery.fancybox.pack.js"></script> 
+<script src="/js/retina.min.js"></script> 
+<script src="/js/modernizr.js"></script> 
+<script src="/js/main.js"></script> 
+<script type="text/javascript" src="/js/jquery.contact.js"></script> 
+</body>
+</html>
