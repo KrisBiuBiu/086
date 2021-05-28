@@ -35,7 +35,7 @@ class Content extends Component {
     }
     return (
       <>
-        <Layout.Content className="site-layout" style={{ padding: '0 50px', marginTop: 64 }}>
+        <Layout.Content className="site-layout container-fluid" style={{ padding: '0 50px', marginTop: 64 }}>
           <Switch>
             <Route exact path="/">
               <Home />
