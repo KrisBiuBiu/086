@@ -10,7 +10,9 @@ class Header extends Component {
     return (
       <>
         <Layout.Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-          <div className="logo" />
+          <div className="logo">
+            123456
+          </div>
           <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
             <Menu.Item key="1">
               <Link to="/">Home</Link></Menu.Item>
@@ -19,6 +21,10 @@ class Header extends Component {
             <Menu.Item key="3">
               <Link to="/dashboard">Dashboard</Link></Menu.Item>
           </Menu>
+
+          <div className="logo">
+            123456
+          </div>
         </Layout.Header>
       </>
     );
