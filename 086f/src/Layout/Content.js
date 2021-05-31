@@ -4,7 +4,7 @@ import {
   Route,
 } from "react-router-dom";
 import { Layout } from 'antd';
-import Home from "../Pages/Home";
+import Home from "../Pages/Home/Index.js";
 
 class Content extends Component {
 

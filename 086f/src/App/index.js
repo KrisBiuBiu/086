@@ -7,6 +7,7 @@ import 'antd/dist/antd.css';
 import Header from "../Layout/Header"
 import Content from "../Layout/Content"
 import Footer from "../Layout/Footer"
+import Floating from "../Layout/Floating"
 
 // This site has 3 pages, all of which are rendered
 // dynamically in the browser (not server rendered).
@@ -25,6 +26,7 @@ class App extends React.Component {
           <Header />
           <Content />
           <Footer />
+          <Floating />
         </Layout>
       </Router>
     );
