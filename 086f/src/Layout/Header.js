@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import {
   Link
 } from "react-router-dom";
-import { Layout, Menu, Button, Modal, Input, Select, Row, Col, Tooltip } from 'antd';
-import { UserOutlined, SearchOutlined } from "@ant-design/icons";
+import { Layout, Menu, Button, Modal } from 'antd';
 import SignModal from "../Components/SignModal";
 import logo from '../logo.svg'
 
@@ -30,7 +29,7 @@ class Header extends Component {
       <>
         <Layout.Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
           <div className="logo">
-            <img src={logo} style={{ verticalAlign: "top" }}></img>
+            <img src={logo} style={{ verticalAlign: "top" }} alt={logo}></img>
           </div>
           <div className="header-menu-right">
             <Button type="text" style={{ padding: "5px 10px", margin: "15px 0", color: "#fff" }} onClick={this.handleOk}>Sign In</Button>
