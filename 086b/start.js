@@ -11,6 +11,8 @@ const mongoose = require("mongoose");
 const appConfig = require("./config/appConfig");
 const cors = require('@koa/cors');
 const routers = require("./routers")
+const consoleOutput = require(path.join(__dirname, `./middleware/consoleOutput.js`));
+// const consoleOutput = require("./middleware/consoleOutput.js");
 
 const staticPath = './public'
 
@@ -32,21 +34,22 @@ app.use(koaBody({
 }));
 
 
-mongoose.Promise = global.Promise;
-const options = {
-  promiseLibrary: Promise,
-  autoIndex: true,
-  poolSize: 50,
-  keepAlive: 120,
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true
-};
-mongoose.connect('mongodb://127.0.0.1:27017/086', options);
+// mongoose.Promise = global.Promise;
+// const options = {
+//   promiseLibrary: Promise,
+//   autoIndex: true,
+//   poolSize: 50,
+//   keepAlive: 120,
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+//   useCreateIndex: true
+// };
+// mongoose.connect('mongodb://127.0.0.1:27017/086', options);
 app.use(static(path.join(__dirname, staticPath)))
 app.use(static(path.join(__dirname, './node_modules')))
 app.use(static(path.join(__dirname, './resource')))
 // app.use(views('views', { map: {html: 'ejs' }}));
+app.use(consoleOutput);
 app.use(bodyparser())
 app.use(views(path.join(__dirname, "./views"), {
   extension: "ejs"

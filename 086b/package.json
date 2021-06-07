@@ -32,6 +32,7 @@
     "koa-sslify": "^2.1.2",
     "koa-static": "^4.0.2",
     "koa-views": "^6.2.0",
+    "moment": "^2.29.1",
     "mongoose": "^5.12.12"
   }
 }

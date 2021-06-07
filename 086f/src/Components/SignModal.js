@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Button, Input, Select, Row, Col, Tooltip, Divider } from 'antd';
 import { SearchOutlined } from "@ant-design/icons";
+import {
+  makeHttpQuery,
+} from '../utils/fn';
 
 class SignModal extends Component {
   constructor() {
@@ -21,7 +24,7 @@ class SignModal extends Component {
     this.setState({ modalType: type })
   }
 
-  verificationCodeCountDown () {
+  verificationCodeCountDown() {
     const { count } = this.state;
     if (count === 1) {
       this.setState({
@@ -45,7 +48,13 @@ class SignModal extends Component {
     this.verificationCodeCountDown();
   };
 
-  render () {
+  userLogin = async () => {
+    console.log("denglu");
+    const res = await makeHttpQuery("/sign/login", {});
+    console.log(res)
+  }
+
+  render() {
     const {
       signInMethod,
       modalType
@@ -98,7 +107,7 @@ class SignModal extends Component {
                     }
                   </Col>
                   <Col span={24} style={{ marginBottom: "60px" }}>
-                    <Button type="primary" style={{ width: "100%" }}>登陆</Button>
+                    <Button type="primary" style={{ width: "100%" }} onClick={() => this.userLogin()}>登陆</Button>
                   </Col>
                   <Col span={24} style={{ textAlign: "center", marginBottom: "30px" }}>
                     <Tooltip title="search">
@@ -152,7 +161,7 @@ class SignModal extends Component {
                     }
                   </Col>
                   <Col span={24} style={{ marginBottom: "60px" }}>
-                    <Button type="primary" style={{ width: "100%" }}>登陆</Button>
+                    <Button type="primary" style={{ width: "100%" }}>注册</Button>
                   </Col>
                   <Col span={24} style={{ textAlign: "center", marginBottom: "30px" }}>
                     <Tooltip title="search">
