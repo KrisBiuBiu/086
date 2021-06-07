@@ -23,8 +23,16 @@ code {
 
 .logo {
   float: left;
-  width: 120px;
-  height: 31px;
+  width: 87px;
+  /* height: 31px;
   margin: 16px 24px 16px 0;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.2); */
+}
+
+.header-menu-right {
+  float: right;
+  /* width: 120px;
+  height: 31px;
+  margin: 16px 24px 16px 0; */
+  /* background: rgba(255, 255, 255, 0.2); */
 }

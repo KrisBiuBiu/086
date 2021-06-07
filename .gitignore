@@ -2,7 +2,9 @@
 
 # dependencies
 /086f/node_modules
+/086f/package-lock.json
 /086b/node_modules
+/086b/package-lock.json
 /086b/resource
 /.pnp
 .pnp.js
