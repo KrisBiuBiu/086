@@ -12,6 +12,7 @@ signRouter
   .post("/login", async (ctx, next) => {
     console.log(ctx.request);
     console.log(123456);
+<<<<<<< HEAD
     ctx.throw(401, "用户名或密码不正确")
     ctx.body = { "user": "123" }
   })
@@ -35,6 +36,10 @@ signRouter
     await user.save();
     ctx.body = { "token": "123" }
   })
+=======
+    ctx.body = { "user": "123" }
+  })
+>>>>>>> 9d37cb2a9513e12b913ebab3243d7cb91c70854f
   .post("/getSmsCode", async (ctx, next) => {
     const { mobileNumber } = ctx.request.body;
     let smsCode = fn.sixRandom();

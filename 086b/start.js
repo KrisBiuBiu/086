@@ -27,12 +27,15 @@ app.use(session({
   httpOnly: true, /** (boolean) httpOnly or not (default true) */
   signed: true, /** (boolean) signed or not (default true) */
 }, app));
+<<<<<<< HEAD
 app.use(
   error({
     postFormat: (e, { stack, ...rest }) =>
       process.env.NODE_ENV === "production" ? rest : { stack, ...rest }
   })
 );
+=======
+>>>>>>> 9d37cb2a9513e12b913ebab3243d7cb91c70854f
 app.use(koaBody({
   multipart: true,
   formidable: {
@@ -41,6 +44,7 @@ app.use(koaBody({
 }));
 
 
+<<<<<<< HEAD
 mongoose.Promise = global.Promise;
 const options = {
   promiseLibrary: Promise,
@@ -52,6 +56,19 @@ const options = {
   useCreateIndex: true
 };
 mongoose.connect('mongodb://127.0.0.1:27017/086', options);
+=======
+// mongoose.Promise = global.Promise;
+// const options = {
+//   promiseLibrary: Promise,
+//   autoIndex: true,
+//   poolSize: 50,
+//   keepAlive: 120,
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+//   useCreateIndex: true
+// };
+// mongoose.connect('mongodb://127.0.0.1:27017/086', options);
+>>>>>>> 9d37cb2a9513e12b913ebab3243d7cb91c70854f
 app.use(static(path.join(__dirname, staticPath)))
 app.use(static(path.join(__dirname, './node_modules')))
 app.use(static(path.join(__dirname, './resource')))
