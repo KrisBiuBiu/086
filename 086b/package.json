@@ -34,11 +34,7 @@
     "koa-static": "^4.0.2",
     "koa-views": "^6.2.0",
     "moment": "^2.29.1",
-<<<<<<< HEAD
     "mongoose": "^5.12.12",
     "mongoose-long": "^0.4.0"
-=======
-    "mongoose": "^5.12.12"
->>>>>>> 9d37cb2a9513e12b913ebab3243d7cb91c70854f
   }
 }
