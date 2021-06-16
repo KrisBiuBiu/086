@@ -5,10 +5,11 @@ import {
 } from "react-router-dom";
 import { Layout } from 'antd';
 import Home from "../Pages/Home/Index.js";
+import Editor from "../Pages/Editor/Index.js";
 
 class Content extends Component {
 
-  render () {
+  render() {
 
     // function Home () {
     //   return (
@@ -18,7 +19,7 @@ class Content extends Component {
     //   );
     // }
 
-    function About () {
+    function About() {
       return (
         <div>
           <h2>About</h2>
@@ -26,7 +27,7 @@ class Content extends Component {
       );
     }
 
-    function Dashboard () {
+    function Dashboard() {
       return (
         <div>
           <h2>Dashboard</h2>
@@ -35,10 +36,13 @@ class Content extends Component {
     }
     return (
       <>
-        <Layout.Content className="site-layout container-fluid" style={{ padding: '0 50px', marginTop: 64 }}>
+        <Layout.Content className="site-layout container-fluid" style={{ padding: '0 50px', marginTop: 64, width: "100%" }}>
           <Switch>
             <Route exact path="/">
               <Home />
+            </Route>
+            <Route path="/editor">
+              <Editor />
             </Route>
             <Route path="/about">
               <About />
