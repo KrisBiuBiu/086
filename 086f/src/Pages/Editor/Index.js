@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Input } from 'antd';
+import { Row, Col, Input, Button } from 'antd';
 import QuillEditor from "./QuillEditor.js";
 
 class Editor extends Component {
@@ -11,13 +11,27 @@ class Editor extends Component {
   render() {
     return (
       <>
-        <div style={{ marginTop: "10px" }}>
-          <Row style={{ margin: "15px 0px" }} gutter={8}>
+        <div style={{ marginTop: "10px", background: "#fff" }}>
+          <Row style={{ padding: "20px" }} gutter={8}>
             <Col span={24}>
+              <div>
+                标题：
+              </div>
               <Input placeholder="请输入标题" />
             </Col>
-            <Col span={24} style={{ marginTop: "50px", background: "#fff" }}>
+            <Col span={24} style={{ marginTop: "20px" }}>
+              <div>
+                内容：
+              </div>
               <QuillEditor />
+            </Col>
+            <Col span={24} style={{ marginTop: "20px", textAlign: "end" }}>
+              <Button type="primary" style={{ background: "#325437", color: "#fff", borderColor: "#325437" }} shape="round">
+                发布
+              </Button>
+              <Button style={{ marginLeft: "20px" }}>
+                保存
+              </Button>
             </Col>
           </Row>
         </div>

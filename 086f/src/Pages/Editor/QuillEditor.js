@@ -61,7 +61,7 @@ class QuillEditor extends React.Component {
         value={renderText}
         // onChange={this.handleChange}
         style={renderStyle || {
-          height: 'calc(100% - 120px)', width: '100%', display: 'inline-block', fontFamily: 'Calibri', background: "#fff"
+          height: '600px', width: '100%', display: 'inline-block', fontFamily: 'Calibri', background: "#fff"
         }}
         // modules={{
         //   toolbar: {

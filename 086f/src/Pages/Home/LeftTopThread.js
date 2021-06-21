@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { Card, List, Avatar, Space } from 'antd';
+import { Card, List, Avatar, Space, Popover } from 'antd';
 import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
+import AvatarPopCard from '../../Components/AvatarPopCard'
 
 class LeftTopThread extends Component {
   onChange = (a, b, c) => {
     console.log(a, b, c);
   }
 
-  render () {
+  render() {
     const listData = [];
     for (let i = 0; i < 6; i++) {
       listData.push({
@@ -27,6 +28,7 @@ class LeftTopThread extends Component {
         {text}
       </Space>
     );
+
     return (
       <div>
         <Card size="small" title="Top Thread card" extra={<span>More</span>} style={{ width: "100%" }}>
@@ -51,7 +53,11 @@ class LeftTopThread extends Component {
                 }
               >
                 <List.Item.Meta
-                  avatar={<Avatar src={item.avatar} />}
+                  avatar={
+                    <Popover placement="bottomLeft" content={<AvatarPopCard />} arrowPointAtCenter trigger="click" style={{ padding: 0 }}>
+                      <Avatar src={item.avatar} />
+                    </Popover>
+                  }
                   title={<a href={item.href}>{item.title}</a>}
                   description={item.description}
                 />
