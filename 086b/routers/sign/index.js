@@ -1,5 +1,6 @@
 const Router = require('koa-router');
 const signRouter = new Router();
+const jwt = require("jsonwebtoken");
 const usersModel = require("../../data/usersModel.js");
 const idsModel = require("../../data/idsModel.js");
 const fn = require("../../module/fn");
@@ -10,10 +11,19 @@ signRouter
     ctx.body = { "user": "123" }
   })
   .post("/login", async (ctx, next) => {
-    console.log(ctx.request);
-    console.log(123456);
-    ctx.throw(401, "用户名或密码不正确")
-    ctx.body = { "user": "123" }
+    const { mobile } = ctx.request.body;
+    // 检查手机号
+    const mobileRegistered = await usersModel.checkMobileRegistered(mobile);
+    if (!mobileRegistered) ctx.throw(401, "手机号不存在");
+    // 获取uid
+    let uid = await usersModel.getUid(mobile);
+    // 更新用户最后登录时间
+    await usersModel.updateLastLoginTimeStamp(uid);
+    // 获取用户信息
+    const userInfo = await usersModel.getUserTokenInfo(uid);
+    const secret = "react-koa-bookiezilla"; // 指定密钥，这是之后用来判断token合法性的标志
+    const token = jwt.sign(userInfo, secret); // 签发token
+    ctx.body = { token }
   })
   .post("/register", async (ctx, next) => {
     console.log(ctx);
@@ -22,36 +32,23 @@ signRouter
     if (usernameExi) {
       ctx.throw(404, "用户名已存在")
     }
-    const mobileNumberExi = await usersModel.checkMobileExists(13547829667);
-    if (mobileNumberExi) {
+    const mobileExi = await usersModel.checkMobileRegistered(13547829667);
+    if (mobileExi) {
       ctx.throw(404, "该手机号已被注册");
     }
     // 创建用户
     const uid = await idsModel.getNewId("uid");
     const user = new usersModel({
       uid,
-      mobileNumber: 13547829667,
+      mobile: 13547829667,
     });
     await user.save();
     ctx.body = { "token": "123" }
   })
   .post("/getSmsCode", async (ctx, next) => {
-    const { mobileNumber } = ctx.request.body;
+    const { mobile } = ctx.request.body;
     let smsCode = fn.sixRandom();
     ctx.body = { smsCode }
-  })
-  .post("/register", async (ctx, next) => {
-    const { mobileNumber, smsCode } = ctx.request.body;
-    const uid = await idsModel.getNewId("uid");
-    const userExi = await usersModel.checkMobileExists(mobileNumber);
-    if (userExi) ctx.throw(400, "手机号已存在");
-    const user = new usersModel({
-      uid,
-      mobileNumber,
-    });
-    await user.save();
-
-    ctx.body = { status: "success", data: "注册成功" };
   })
 
 module.exports = signRouter;

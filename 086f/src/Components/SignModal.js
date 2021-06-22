@@ -11,6 +11,8 @@ class SignModal extends Component {
     this.state = {
       signInMethod: "code", // pass 密码登录；code 验证码登录
       modalType: "login",
+      mobile: "",
+      password: "",
       count: 60,
       liked: true,
     };
@@ -24,7 +26,7 @@ class SignModal extends Component {
     this.setState({ modalType: type })
   }
 
-  verificationCodeCountDown() {
+  verificationCodeCountDown () {
     const { count } = this.state;
     if (count === 1) {
       this.setState({
@@ -49,15 +51,27 @@ class SignModal extends Component {
   };
 
   userLogin = async () => {
-    console.log("denglu");
-    const res = await makeHttpQuery("/sign/login", {});
+    const { mobile, password } = this.state;
+    const res = await makeHttpQuery("/sign/login", { mobile });
     console.log(res)
   }
 
-  render() {
+  userRegister = async () => {
+    const { mobile } = this.state;
+    const res = await makeHttpQuery("/sign/register", { mobile });
+    console.log(res)
+  }
+
+  handleInputChange = (event, type) => {
+    this.setState({ [type]: event.target.value })
+  }
+
+  render () {
     const {
       signInMethod,
-      modalType
+      modalType,
+      mobile,
+      password
     } = this.state;
     return (
       <>
@@ -72,13 +86,13 @@ class SignModal extends Component {
                         <Select.Option value="+86">+86</Select.Option>
                         <Select.Option value="+1">+1</Select.Option>
                       </Select>
-                      <Input style={{ width: '70%' }} placeholder="手机号" />
+                      <Input style={{ width: '70%' }} placeholder="手机号" value={mobile} onChange={(event) => this.handleInputChange(event, "mobile")} />
                     </Input.Group>
                   </Col>
                   <Col span={24} style={{ marginBottom: "5px" }}>
                     {
                       signInMethod === "pass" ? (
-                        <Input.Password placeholder="密码" />
+                        <Input.Password placeholder="密码" value={password} onChange={(event) => this.handleInputChange(event, "password")} />
                       ) : (
                         <Row>
                           <Col span={12}>
@@ -161,7 +175,7 @@ class SignModal extends Component {
                     }
                   </Col>
                   <Col span={24} style={{ marginBottom: "60px" }}>
-                    <Button type="primary" style={{ width: "100%" }}>注册</Button>
+                    <Button type="primary" style={{ width: "100%" }} onClick={() => this.userRegister()}>注册</Button>
                   </Col>
                   <Col span={24} style={{ textAlign: "center", marginBottom: "30px" }}>
                     <Tooltip title="search">

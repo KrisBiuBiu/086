@@ -22,7 +22,7 @@ const usersSchema = new Schema({
     type: String,
     default: ""
   },
-  mobileNumber: {
+  mobile: {
     type: String,
     default: ''
   },
@@ -36,7 +36,12 @@ const usersSchema = new Schema({
     index: 1
   },
   registerTimeStamp: {
-    type: Long,
+    type: String,
+    default: (new Date()).getTime(),
+    index: 1
+  },
+  lastLoginTimeStamp: {
+    type: String,
     default: (new Date()).getTime(),
     index: 1
   }
@@ -48,10 +53,38 @@ const usersSchema = new Schema({
   }
 });
 
-usersSchema.statics.checkMobileExists = async (mobileNumber) => {
+usersSchema.statics.updateLastLoginTimeStamp = async (uid) => {
+  const usersModel = mongoose.model('users');
+  await usersModel.updateOne({ uid }, { $set: { lastLoginTimeStamp: new Date().getTime() } });
+}
+
+usersSchema.statics.getUid = async (mobile) => {
+  const usersModel = mongoose.model('users');
+  let user = await usersModel.findOne({ mobile });
+  return user.uid;
+}
+
+usersSchema.statics.getUserTokenInfo = async (uid) => {
+  const usersModel = mongoose.model('users');
+  let user = await usersModel.findOne({ uid });
+  return {
+    uid: user.uid,
+    lastLoginTimeStamp: user.lastLoginTimeStamp
+  };
+}
+
+usersSchema.statics.checkMobileRegistered = async (mobile) => {
   let exi = false;
   const usersModel = mongoose.model('users');
-  let user = await usersModel.findOne({ mobileNumber });
+  let user = await usersModel.findOne({ mobile });
+  if (user) exi = true;
+  return exi;
+}
+
+usersSchema.statics.checkMobileExists = async (mobile) => {
+  let exi = false;
+  const usersModel = mongoose.model('users');
+  let user = await usersModel.findOne({ mobile });
   if (user) exi = true;
   return exi;
 }
