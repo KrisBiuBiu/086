@@ -13,12 +13,14 @@ const error = require("koa-json-error");
 const cors = require('@koa/cors');
 const routers = require("./routers")
 const consoleOutput = require(path.join(__dirname, `./middleware/consoleOutput.js`));
+const tokenCheck = require(path.join(__dirname, `./middleware/tokenCheck.js`));
 // const consoleOutput = require("./middleware/consoleOutput.js");
 
 const staticPath = './public'
 
 app.use(cors())
 
+app.use(tokenCheck);
 app.keys = ['this is my secret and fuck you all'];
 app.use(session({
   key: 'koa:sess', /** cookie的名称，可以不管 */

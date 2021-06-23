@@ -5,6 +5,7 @@ import {
 import { Layout, Menu, Button, Modal } from 'antd';
 import SignModal from "../Components/SignModal";
 import logo from '../logo.svg'
+import cookies from '../utils/cookies';
 
 class Header extends Component {
   constructor() {
@@ -23,8 +24,14 @@ class Header extends Component {
       modalVisiable: true
     })
   }
-  render () {
+  signOut = () => {
+    console.log("signout");
+    cookies.remove("token", { path: "/" })
+    window.location.replace("/")
+  }
+  render() {
     const { modalVisiable } = this.state;
+    const token = cookies.get("token");
     return (
       <>
         <Layout.Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
@@ -32,8 +39,16 @@ class Header extends Component {
             <img src={logo} style={{ verticalAlign: "top" }} alt={logo}></img>
           </div>
           <div className="header-menu-right">
-            <Button type="text" style={{ padding: "5px 10px", margin: "15px 0", color: "#fff" }} onClick={this.handleOk}>Sign In</Button>
-            <Button type="text" style={{ padding: "5px 10px", margin: "15px 0", color: "#fff" }}>Sign Up</Button>
+            {
+              token ? (
+                <Button type="text" style={{ padding: "5px 10px", margin: "15px 0", color: "#fff" }} onClick={this.signOut}>Sign Out</Button>
+              ) : (
+                <>
+                  <Button type="text" style={{ padding: "5px 10px", margin: "15px 0", color: "#fff" }} onClick={this.handleOk}>Sign In</Button>
+                  <Button type="text" style={{ padding: "5px 10px", margin: "15px 0", color: "#fff" }}>Sign Up</Button>
+                </>
+              )
+            }
           </div>
           <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
             <Menu.Item key="1">

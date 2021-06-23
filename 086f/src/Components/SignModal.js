@@ -4,6 +4,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import {
   makeHttpQuery,
 } from '../utils/fn';
+import cookies from '../utils/cookies';
 
 class SignModal extends Component {
   constructor() {
@@ -26,7 +27,7 @@ class SignModal extends Component {
     this.setState({ modalType: type })
   }
 
-  verificationCodeCountDown () {
+  verificationCodeCountDown() {
     const { count } = this.state;
     if (count === 1) {
       this.setState({
@@ -53,7 +54,9 @@ class SignModal extends Component {
   userLogin = async () => {
     const { mobile, password } = this.state;
     const res = await makeHttpQuery("/sign/login", { mobile });
-    console.log(res)
+    const date = new Date();
+    date.setTime(date.getTime() + (48 * 60 * 60 * 1000));
+    cookies.set('token', res.data.token, { path: '/', expires: date });
   }
 
   userRegister = async () => {
@@ -66,7 +69,7 @@ class SignModal extends Component {
     this.setState({ [type]: event.target.value })
   }
 
-  render () {
+  render() {
     const {
       signInMethod,
       modalType,

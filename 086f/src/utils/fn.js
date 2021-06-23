@@ -1,6 +1,6 @@
 import Axios from 'axios';
 import { message } from 'antd';
-import cookie from './cookie';
+import cookies from './cookies';
 
 export const makeHttpQuery = async (path, option) => {
 
@@ -11,7 +11,7 @@ export const makeHttpQuery = async (path, option) => {
   try {
     res = await Axios.post(url, option, {
       headers: {
-        Authorization: `${cookie.get('token')}`,
+        Authorization: `${cookies.get('token')}`,
       },
     });
     return res;
