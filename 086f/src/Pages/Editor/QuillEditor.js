@@ -10,15 +10,15 @@ class QuillEditor extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(event) {
+  handleChange (event) {
     const { inputFunc, inputType } = this.props;
     inputFunc(inputType, event);
   }
 
   uploadFile = (formData) => {
-    const res = Axios.post(`http://${window.location.hostname}:3000/create/fileUp`, formData, {
+    const res = Axios.post(`http://${window.location.hostname}:5001/resource/upload`, formData, {
       headers: {
-        Authorization: cookies.get('access_token_qa'),
+        Authorization: cookies.get('token'),
       },
     });
     return res;
@@ -35,9 +35,10 @@ class QuillEditor extends React.Component {
       const formData = new FormData();
       formData.append('file', file);
       const res = await this.uploadFile(formData);
+      console.log(res)
       const range = this.quillEditor.getSelection();
-      const link = res.data.result.url;
-      const imgSrc = `http://${window.location.hostname}:3000/${link}`;
+      const filename = res.data.filename;
+      const imgSrc = `http://${window.location.hostname}:5001/statics/${filename}`;
 
       // this part the image is inserted
       // by 'image' option below, you just have to put src(link) of img here.

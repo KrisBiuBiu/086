@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
-import { Row, Col, Input, Button } from 'antd';
+import { Row, Col, Input, Button, Tag } from 'antd';
 import QuillEditor from "./QuillEditor.js";
 import { makeHttpQuery } from '../../utils/fn.js';
+const { CheckableTag } = Tag;
 
 class Editor extends Component {
   constructor() {
     super();
     this.state = {
       title: "",
-      content: ""
+      content: "",
+      selectedPlates: [],
+      plates: []
     };
+  }
+
+  async componentDidMount () {
+    await this.getAllPlates()
   }
 
   onChange = (a, b, c) => {
@@ -18,9 +25,12 @@ class Editor extends Component {
 
   postThread = async () => {
     const { title, content } = this.state;
-    console.log(title, content);
-    const res = await makeHttpQuery("/post/thread", { title, content });
-    console.log(res)
+    await makeHttpQuery("/post/thread", { title, content });
+  }
+
+  getAllPlates = async () => {
+    const res = await makeHttpQuery("/plate/plates", {});
+    this.setState({ plates: res.data.list })
   }
 
   handleInputChange = (event, type) => {
@@ -32,8 +42,14 @@ class Editor extends Component {
     this.setState({ [type]: inputText });
   }
 
-  render() {
-    const { title, content } = this.state;
+  handlePlateChange (tag, checked) {
+    const { selectedPlates } = this.state;
+    const nextSelectedPlates = checked ? [...selectedPlates, tag] : selectedPlates.filter(t => t !== tag);
+    this.setState({ selectedPlates: nextSelectedPlates });
+  }
+
+  render () {
+    const { title, content, plates, selectedPlates } = this.state;
     return (
       <>
         <div style={{ marginTop: "10px", background: "#fff" }}>
@@ -43,6 +59,20 @@ class Editor extends Component {
                 标题：
               </div>
               <Input placeholder="请输入标题" onChange={(event) => this.handleInputChange(event, "title")} value={title} />
+            </Col>
+            <Col span={24} style={{ marginTop: "20px" }}>
+              <div>
+                板块：
+              </div>
+              {plates.map(tag => (
+                <CheckableTag
+                  key={tag.pid}
+                  checked={selectedPlates.indexOf(tag.pid) > -1}
+                  onChange={checked => this.handlePlateChange(tag.pid, checked)}
+                >
+                  {tag.name}
+                </CheckableTag>
+              ))}
             </Col>
             <Col span={24} style={{ marginTop: "20px" }}>
               <div>

@@ -19,7 +19,6 @@ const tokenCheck = require(path.join(__dirname, `./middleware/tokenCheck.js`));
 const staticPath = './public'
 
 app.use(cors())
-
 app.use(tokenCheck);
 app.keys = ['this is my secret and fuck you all'];
 app.use(session({
@@ -29,12 +28,12 @@ app.use(session({
   httpOnly: true, /** (boolean) httpOnly or not (default true) */
   signed: true, /** (boolean) signed or not (default true) */
 }, app));
-app.use(
-  error({
-    postFormat: (e, { stack, ...rest }) =>
-      process.env.NODE_ENV === "production" ? rest : { stack, ...rest }
-  })
-);
+// app.use(
+//   error({
+//     postFormat: (e, { stack, ...rest }) =>
+//       process.env.NODE_ENV === "production" ? rest : { stack, ...rest }
+//   })
+// );
 app.use(koaBody({
   multipart: true,
   formidable: {

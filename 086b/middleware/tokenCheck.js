@@ -6,11 +6,16 @@ const secret = "react-koa-bookiezilla"
 const url = require("url");
 const querystring = require("querystring");
 
-async function main(ctx, next) {
-  let token = ctx.header.authorization;  // Get the token carried in the request
-  let userInfo = await verify(token, secret);
-  ctx.user = userInfo;
-  return next()
+async function main (ctx, next) {
+  if (ctx.originalUrl === "/sign/login" || ctx.originalUrl.indexOf("statics") > -1 || ctx.originalUrl.indexOf("/favicon.ico") > -1) {
+
+    return next()
+  } else {
+    let token = ctx.header.authorization;  // Get the token carried in the request
+    let userInfo = await verify(token, secret);
+    ctx.user = userInfo;
+    return next()
+  }
 }
 
 module.exports = main;

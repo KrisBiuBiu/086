@@ -29,7 +29,7 @@ class Header extends Component {
     cookies.remove("token", { path: "/" })
     window.location.replace("/")
   }
-  render() {
+  render () {
     const { modalVisiable } = this.state;
     const token = cookies.get("token");
     return (
@@ -56,7 +56,7 @@ class Header extends Component {
             <Menu.Item key="2">
               <Link to="/about">About</Link></Menu.Item>
             <Menu.Item key="3">
-              <Link to="/dashboard">Dashboard</Link></Menu.Item>
+              <Link to="/manage">Manage</Link></Menu.Item>
           </Menu>
         </Layout.Header>
         <div>
