@@ -21,6 +21,10 @@ const threadSchema = new Schema({
     type: String,
     default: ""
   },
+  plates: {
+    type: Array,
+    default: []
+  },
   createTime: {
     type: Date,
     default: "",

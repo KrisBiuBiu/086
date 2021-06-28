@@ -15,7 +15,7 @@ class Editor extends Component {
     };
   }
 
-  async componentDidMount () {
+  async componentDidMount() {
     await this.getAllPlates()
   }
 
@@ -24,8 +24,9 @@ class Editor extends Component {
   }
 
   postThread = async () => {
-    const { title, content } = this.state;
-    await makeHttpQuery("/post/thread", { title, content });
+    const { title, content, selectedPlates } = this.state;
+    console.log(selectedPlates)
+    await makeHttpQuery("/post/thread", { title, content, selectedPlates });
   }
 
   getAllPlates = async () => {
@@ -42,13 +43,13 @@ class Editor extends Component {
     this.setState({ [type]: inputText });
   }
 
-  handlePlateChange (tag, checked) {
+  handlePlateChange(tag, checked) {
     const { selectedPlates } = this.state;
     const nextSelectedPlates = checked ? [...selectedPlates, tag] : selectedPlates.filter(t => t !== tag);
     this.setState({ selectedPlates: nextSelectedPlates });
   }
 
-  render () {
+  render() {
     const { title, content, plates, selectedPlates } = this.state;
     return (
       <>

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
   Link
 } from "react-router-dom";
-import { Layout, Menu, Button, Modal } from 'antd';
+import { Layout, Menu, Button, Modal, Popover, List } from 'antd';
+import { UserOutlined, LogoutOutlined, SettingOutlined } from "@ant-design/icons";
 import SignModal from "../Components/SignModal";
 import logo from '../logo.svg'
 import cookies from '../utils/cookies';
@@ -14,22 +15,52 @@ class Header extends Component {
       modalVisiable: false,
     };
   }
+
   handleCancel = () => {
     this.setState({
       modalVisiable: false
     })
   }
+
   handleOk = () => {
     this.setState({
       modalVisiable: true
     })
   }
+
+  turnToUserInfo = () => {
+    window.location.replace("/user")
+  }
+
   signOut = () => {
     console.log("signout");
     cookies.remove("token", { path: "/" })
     window.location.replace("/")
   }
-  render () {
+
+  renderAvatorDropDown = () => {
+    const data = [
+      { text: '个人主页', img: <UserOutlined />, fn: this.turnToUserInfo },
+      {
+        text: "账号设置", img: <SettingOutlined />
+      },
+      { text: '退出', img: <LogoutOutlined />, fn: this.signOut },
+    ];
+    return (
+      <List
+        size="small"
+        bordered
+        dataSource={data}
+        renderItem={item => (
+          <List.Item>
+            <Button type="text" icon={item.img} onClick={item.fn}>{item.text}</Button>
+          </List.Item>
+        )}
+      />
+    )
+  }
+
+  render() {
     const { modalVisiable } = this.state;
     const token = cookies.get("token");
     return (
@@ -41,11 +72,13 @@ class Header extends Component {
           <div className="header-menu-right">
             {
               token ? (
-                <Button type="text" style={{ padding: "5px 10px", margin: "15px 0", color: "#fff" }} onClick={this.signOut}>Sign Out</Button>
+                // onClick={this.signOut}
+                <Popover placement="bottomRight" content={this.renderAvatorDropDown} trigger="click">
+                  <Button type="primary" shape="circle" icon={<UserOutlined />} ></Button>
+                </Popover>
               ) : (
                 <>
-                  <Button type="text" style={{ padding: "5px 10px", margin: "15px 0", color: "#fff" }} onClick={this.handleOk}>Sign In</Button>
-                  <Button type="text" style={{ padding: "5px 10px", margin: "15px 0", color: "#fff" }}>Sign Up</Button>
+                  <Button type="text" style={{ padding: "5px 10px", margin: "15px 0", color: "#fff" }} onClick={this.handleOk}>登录/注册</Button>
                 </>
               )
             }

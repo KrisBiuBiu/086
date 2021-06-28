@@ -7,10 +7,11 @@ import { Layout } from 'antd';
 import Home from "../Pages/Home/Index.js";
 import Manage from "../Pages/Manage/Index.js";
 import Editor from "../Pages/Editor/Index.js";
+import User from "../Pages/User/Index.js";
 
 class Content extends Component {
 
-  render () {
+  render() {
 
     // function Home () {
     //   return (
@@ -20,7 +21,7 @@ class Content extends Component {
     //   );
     // }
 
-    function About () {
+    function About() {
       return (
         <div>
           <h2>About</h2>
@@ -43,6 +44,9 @@ class Content extends Component {
             </Route>
             <Route path="/manage">
               <Manage />
+            </Route>
+            <Route path="/user">
+              <User />
             </Route>
           </Switch>
         </Layout.Content>

@@ -1,12 +1,12 @@
 const Router = require('koa-router');
-const postRouter = new Router();
+const userRouter = new Router();
 const jwt = require("jsonwebtoken");
 const threadModel = require("../../data/threadModel.js");
 const idsModel = require("../../data/idsModel.js");
 const fn = require("../../module/fn");
 
-postRouter
-  .post("/thread", async (ctx, next) => {
+userRouter
+  .post("/getInfo", async (ctx, next) => {
     const { title, content, selectedPlates } = ctx.request.body;
     const tid = await idsModel.getNewId("tid");
     const thread = new threadModel({
@@ -31,4 +31,4 @@ postRouter
     ctx.body = { test: "123" }
   })
 
-module.exports = postRouter;
+module.exports = userRouter;
