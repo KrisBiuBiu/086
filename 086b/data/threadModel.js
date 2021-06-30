@@ -25,11 +25,26 @@ const threadSchema = new Schema({
     type: Array,
     default: []
   },
+  viewCount: {
+    type: Number,
+    default: 0
+  },
   createTime: {
     type: Date,
-    default: "",
+    default: Date.now,
+    index: 1
   },
   createTimeStamp: {
+    type: String,
+    default: (new Date()).getTime(),
+    index: 1
+  },
+  lastTime: {
+    type: Date,
+    default: Date.now,
+    index: 1
+  },
+  lastTimeStamp: {
     type: String,
     default: (new Date()).getTime(),
     index: 1
@@ -45,6 +60,11 @@ const threadSchema = new Schema({
 threadSchema.statics.updateLastLoginTimeStamp = async (uid) => {
   const threadModel = mongoose.model('thread');
   await threadModel.updateOne({ uid }, { $set: { lastLoginTimeStamp: new Date().getTime() } });
+}
+
+threadSchema.statics.viewCountPlusOne = async (tid) => {
+  const threadModel = mongoose.model('thread');
+  await threadModel.updateOne({ tid }, { $inc: { viewCount: 1 } })
 }
 
 module.exports = mongoose.model('thread', threadSchema);

@@ -30,5 +30,17 @@ postRouter
     // const token = jwt.sign(userInfo, secret); // 签发token
     ctx.body = { test: "123" }
   })
+  .post("/topThreadList", async (ctx, next) => {
+    const threads = await threadModel.find({});
+    ctx.body = {
+      list: threads
+    }
+  })
+  .post("/oneThread", async (ctx, next) => {
+    const { tid } = ctx.request.body;
+    await threadModel.viewCountPlusOne(tid);
+    const thread = await threadModel.findOne({ tid });
+    ctx.body = { thread: thread }
+  })
 
 module.exports = postRouter;

@@ -8,6 +8,7 @@ import Home from "../Pages/Home/Index.js";
 import Manage from "../Pages/Manage/Index.js";
 import Editor from "../Pages/Editor/Index.js";
 import User from "../Pages/User/Index.js";
+import Thread from "../Pages/Thread/Index.js";
 
 class Content extends Component {
 
@@ -47,6 +48,8 @@ class Content extends Component {
             </Route>
             <Route path="/user">
               <User />
+            </Route>
+            <Route path="/thread/:id" render={(props) => <Thread {...props} />}>
             </Route>
           </Switch>
         </Layout.Content>

@@ -18,6 +18,10 @@ const usersSchema = new Schema({
     type: String,
     default: ""
   },
+  description: {
+    type: String,
+    default: ""
+  },
   email: {
     type: String,
     default: ""
@@ -56,6 +60,11 @@ const usersSchema = new Schema({
 usersSchema.statics.updateLastLoginTimeStamp = async (uid) => {
   const usersModel = mongoose.model('users');
   await usersModel.updateOne({ uid }, { $set: { lastLoginTimeStamp: new Date().getTime() } });
+}
+
+usersSchema.statics.updateUserInfo = async (uid, username, description) => {
+  const usersModel = mongoose.model("users");
+  await usersModel.updateOne({ uid }, { $set: { username, description } })
 }
 
 usersSchema.statics.getUid = async (mobile) => {

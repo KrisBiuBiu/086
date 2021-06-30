@@ -19,3 +19,14 @@ export const makeHttpQuery = async (path, option) => {
     console.log(err)
   }
 };
+
+export const removeHTMLTagsSubString = (hText, num, ifSuffix) => {
+  let str = hText.replace(/<[^>]+>/g, "");
+  if (num) {
+    str = str.substr(0, num)
+  };
+  if (ifSuffix) {
+    str = str + "...";
+  }
+  return str
+}

@@ -7,8 +7,8 @@ class AccountSetting extends Component {
   constructor() {
     super();
     this.state = {
-      plateName: "", // pass 密码登录；code 验证码登录
-      plateDescription: ""
+      username: "", // pass 密码登录；code 验证码登录
+      description: ""
     };
   }
 
@@ -24,21 +24,14 @@ class AccountSetting extends Component {
     this.setState({ [type]: event.target.value })
   }
 
-  addNewThread = async () => {
-    const { plateName, plateDescription } = this.state;
-    console.log(plateName, plateDescription)
-    const res = await makeHttpQuery("/plate/create", { name: plateName, description: plateDescription });
+  updateInfo = async () => {
+    const { username, description } = this.state;
+    const res = await makeHttpQuery("/user/updateInfo", { username, description });
     console.log(res)
   }
 
   render() {
-    const { plateName, plateDescription } = this.state;
-    console.log("test rrr");
-    const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`;
+    const { username, description } = this.state;
     return (
       <>
         <div style={{ marginTop: "5px" }}>
@@ -50,13 +43,16 @@ class AccountSetting extends Component {
                   <div>
                     昵称：
                   </div>
-                  <Input placeholder="请输入标题" onChange={(event) => this.handleInputChange(event, "title")} />
+                  <Input onChange={(event) => this.handleInputChange(event, "username")} value={username} />
                 </Col>
                 <Col span={24}>
                   <div>
                     个人简介：
                   </div>
-                  <Input.TextArea rows={4} showCount maxLength={100} placeholder="请输入标题" />
+                  <Input.TextArea rows={4} showCount maxLength={100} placeholder="个人简介" value={description} onChange={(event) => this.handleInputChange(event, "description")} />
+                </Col>
+                <Col span={24}>
+                  <Button type="primary" onClick={this.updateInfo}>更新个人信息</Button>
                 </Col>
               </Row>
             </Col>

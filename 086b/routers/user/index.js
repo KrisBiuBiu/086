@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const threadModel = require("../../data/threadModel.js");
 const idsModel = require("../../data/idsModel.js");
 const fn = require("../../module/fn");
+const usersModel = require('../../data/usersModel.js');
 
 userRouter
   .post("/getInfo", async (ctx, next) => {
@@ -29,6 +30,12 @@ userRouter
     // const secret = "react-koa-bookiezilla"; // 指定密钥，这是之后用来判断token合法性的标志
     // const token = jwt.sign(userInfo, secret); // 签发token
     ctx.body = { test: "123" }
+  })
+  .post("/updateInfo", async (ctx, next) => {
+    const { username, description } = ctx.request.body;
+    const { user } = ctx;
+    await usersModel.updateUserInfo(user.uid, username, description)
+    ctx.body = { text: "132" }
   })
 
 module.exports = userRouter;
