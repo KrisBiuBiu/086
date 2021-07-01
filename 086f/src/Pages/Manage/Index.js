@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Input, Button } from 'antd';
 import { makeHttpQuery } from '../../utils/fn';
-import Cropper from "react-cropper";
-import "cropperjs/dist/cropper.css";
+import AvaUpload from './AvaUpload';
 
 class Manage extends Component {
   constructor() {
@@ -27,11 +26,7 @@ class Manage extends Component {
     console.log(res)
   }
 
-  setCropper = (instance) => {
-    console.log(instance)
-  }
-
-  render () {
+  render() {
     const { plateName, plateDescription } = this.state;
     return (
       <>
@@ -53,28 +48,9 @@ class Manage extends Component {
               </Row>
             </Col>
             <Col span={16}>
-              <Cropper
-                style={{ width: "300", height: "200" }}
-                aspectRatio={1}
-                zoomTo={2}
-                initialAspectRatio={1}
-                preview=".uploadCrop"
-                viewMode={1}
-                guides={true}
-                minCropBoxHeight={10}
-                minCropBoxWidth={10}
-                background={false}
-                responsive={true}
-                autoCropArea={1}
-                checkOrientation={false}
-                src={'http://localhost:5001/statics/19.gif'}
-                ref={cropper => { this.cropper = cropper }}
-                onInitialized={(instance) => {
-                  this.setCropper(instance);
-                }}
-              />
+              <AvaUpload />
             </Col>
-            <Col span={24}>
+            {/* <Col span={24}>
 
               <div style={{ width: "50%", float: "right" }} >
                 <h1>Preview</h1>
@@ -83,7 +59,7 @@ class Manage extends Component {
                   style={{ width: "100%", float: "left", height: "300px" }}
                 />
               </div>
-            </Col>
+            </Col> */}
           </Row>
         </div>
       </>
