@@ -5,6 +5,9 @@ const threadModel = require("../../data/threadModel.js");
 const idsModel = require("../../data/idsModel.js");
 const fn = require("../../module/fn");
 const usersModel = require('../../data/usersModel.js');
+const path = require("path");
+const fs = require("fs")
+const mime = require("mime-types")
 
 userRouter
   .post("/getInfo", async (ctx, next) => {
@@ -36,6 +39,26 @@ userRouter
     const { user } = ctx;
     await usersModel.updateUserInfo(user.uid, username, description)
     ctx.body = { text: "132" }
+  })
+  .post("/uploadAvator", async (ctx, next) => {
+    const { user } = ctx;
+    const files = ctx.request.body.files || {};
+    const file = files.file;
+    let ext = fn.getFileType(file.name);
+    const filePath = path.join(__dirname, '../../resource/avator') + `/${user.uid}.png`;
+    const reader = fs.createReadStream(file.path);
+    const writer = fs.createWriteStream(filePath);
+    reader.pipe(writer);
+    ctx.body = { status: "success", msg: `${user.uid}` }
+  })
+  //https://blog.csdn.net/lihefei_coder/article/details/105435358
+  .get("/avator/:uid", async (ctx, next) => {
+    const { uid } = ctx.params;
+    const filePath = path.join(__dirname, '../../resource/avator') + `/${uid}.png`;
+    const file = fs.readFileSync(filePath);
+    let mimeType = mime.lookup(filePath);
+    ctx.set("content-type", mimeType);
+    ctx.body = file;
   })
 
 module.exports = userRouter;

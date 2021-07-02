@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, Input, Button } from 'antd';
 import { makeHttpQuery } from '../../utils/fn';
-import AvaUpload from './AvaUpload';
 
 class Manage extends Component {
   constructor() {
@@ -47,19 +46,6 @@ class Manage extends Component {
                 </Col>
               </Row>
             </Col>
-            <Col span={16}>
-              <AvaUpload />
-            </Col>
-            {/* <Col span={24}>
-
-              <div style={{ width: "50%", float: "right" }} >
-                <h1>Preview</h1>
-                <div
-                  className="uploadCrop"
-                  style={{ width: "100%", float: "left", height: "300px" }}
-                />
-              </div>
-            </Col> */}
           </Row>
         </div>
       </>

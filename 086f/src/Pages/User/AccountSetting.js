@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Input, Button, Collapse } from 'antd';
 import { makeHttpQuery } from '../../utils/fn';
 import { CaretRightOutlined } from "@ant-design/icons";
+import AvaUpload from './AvaUpload';
 
 class AccountSetting extends Component {
   constructor() {
@@ -56,24 +57,9 @@ class AccountSetting extends Component {
                 </Col>
               </Row>
             </Col>
-            {/* <Col span={12} style={{ paddingRight: 0 }}>
-              <Collapse
-                bordered={false}
-                defaultActiveKey={['1']}
-                expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
-                className="site-collapse-custom-collapse"
-              >
-                <Collapse.Panel header="昵称" key="1" className="site-collapse-custom-panel">
-                  <p>{text}</p>
-                </Collapse.Panel>
-                <Collapse.Panel header="头像" key="2" className="site-collapse-custom-panel">
-                  <p>{text}</p>
-                </Collapse.Panel>
-                <Collapse.Panel header="密码" key="3" className="site-collapse-custom-panel">
-                  <p>{text}</p>
-                </Collapse.Panel>
-              </Collapse>
-            </Col> */}
+            <Col span={12} style={{ paddingRight: 0 }}>
+              <AvaUpload />
+            </Col>
           </Row>
         </div>
       </>
