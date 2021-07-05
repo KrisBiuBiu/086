@@ -12,7 +12,7 @@ async function main(ctx, next) {
     return next()
   } else {
     let token = ctx.header.authorization;  // Get the token carried in the request
-    if (token === "undefined") {
+    if (token === "undefined" || !token) {
       ctx.user = {}
     } else {
       let userInfo = await verify(token, secret);
