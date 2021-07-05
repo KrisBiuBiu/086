@@ -2,6 +2,7 @@ const Router = require('koa-router');
 const router = new Router();
 const routers = require('../requireFolder')(__dirname);
 const homeRouter = routers.home;
+const apiRouter = routers.api;
 const loginRouter = routers.login;
 const registerRouter = routers.register;
 const signRouter = routers.sign;
@@ -14,6 +15,7 @@ const controlRouter = routers.control;
 const userRouter = routers.user;
 
 router.use('/', homeRouter.routes(), homeRouter.allowedMethods());
+router.use('/api', apiRouter.routes(), apiRouter.allowedMethods());
 router.use('/login', loginRouter.routes(), loginRouter.allowedMethods());
 router.use('/register', registerRouter.routes(), registerRouter.allowedMethods());
 router.use('/sign', signRouter.routes(), signRouter.allowedMethods());

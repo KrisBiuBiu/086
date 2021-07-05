@@ -73,9 +73,8 @@ class Content extends Component {
 
     return (
       <>
-        <Layout.Content className="site-layout container-fluid" style={{ margin: '64px 16px 0', overflow: 'initial' }}>
-          <div className="site-layout-background" style={{ padding: 24, textAlign: 'center' }}>
-
+        <Layout.Content className="site-layout container-fluid" style={{ margin: '80px 16px 0', overflow: 'initial' }}>
+          <div className="site-layout-background" style={{ padding: 0 }}>
             <Switch>
               <Route exact path="/">
                 <Home />
