@@ -4,7 +4,8 @@ import {
   Route,
 } from "react-router-dom";
 import { Layout } from 'antd';
-import Plate from "../pages/Plate";
+import PlateSetting from "../pages/Plate/PlateSetting.js";
+import PlateCategory from "../pages/Plate/PlateCategory.js";
 
 class Content extends Component {
 
@@ -79,8 +80,11 @@ class Content extends Component {
               <Route exact path="/">
                 <Home />
               </Route>
-              <Route exact path="/plateManagement">
-                <Plate />
+              <Route exact path="/plateCategory">
+                <PlateCategory />
+              </Route>
+              <Route exact path="/plateSetting">
+                <PlateSetting />
               </Route>
               {/* <Route path="/thread/:id" render={(props) => <Thread {...props} />}>
             </Route> */}

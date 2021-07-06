@@ -1,11 +1,11 @@
 const Router = require('koa-router');
 const userRouter = new Router();
+const path = require("path");
 const jwt = require("jsonwebtoken");
 const threadModel = require("../../data/threadModel.js");
 const idsModel = require("../../data/idsModel.js");
-const fn = require("../../module/fn");
+const fn = require(path.join(__dirname, `../../utils/fn`));
 const usersModel = require('../../data/usersModel.js');
-const path = require("path");
 const fs = require("fs")
 const mime = require("mime-types")
 

@@ -25,6 +25,10 @@ const plateSchema = new Schema({
     type: Number,
     default: 0
   },
+  inUse: {
+    type: Number,
+    default: 1
+  },
   createTime: {
     type: Date,
     default: Date.now,

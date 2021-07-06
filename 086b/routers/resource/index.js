@@ -1,10 +1,10 @@
 const Router = require('koa-router');
 const resourceRouter = new Router();
+const path = require("path");
 const filesModel = require("../../data/filesModel.js");
 const idsModel = require("../../data/idsModel.js");
-const fn = require("../../module/fn");
+const fn = require(path.join(__dirname, `../../utils/fn`));
 const fs = require("fs");
-const path = require("path");
 
 resourceRouter
   .post("/upload", async (ctx, next) => {

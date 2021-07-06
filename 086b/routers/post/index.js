@@ -1,9 +1,10 @@
 const Router = require('koa-router');
 const postRouter = new Router();
+const path = require("path");
 const jwt = require("jsonwebtoken");
 const threadModel = require("../../data/threadModel.js");
 const idsModel = require("../../data/idsModel.js");
-const fn = require("../../module/fn");
+const fn = require(path.join(__dirname, `../../utils/fn`));
 
 postRouter
   .post("/thread", async (ctx, next) => {

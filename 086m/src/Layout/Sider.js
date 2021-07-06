@@ -34,9 +34,14 @@ class Sider extends Component {
           }}>
           <div className="logo" />
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-            <Menu.Item key="1" icon={<PieChartOutlined />}>
-              <Link to="/plateManagement">Plate Management</Link>
-            </Menu.Item>
+            <SubMenu key="1" icon={<UserOutlined />} title="Plate Management">
+              <Menu.Item key="11">
+                <Link to="/plateCategory">Category Setting</Link>
+              </Menu.Item>
+              <Menu.Item key="12">
+                <Link to="/plateSetting">Plate Setting</Link>
+              </Menu.Item>
+            </SubMenu>
             <Menu.Item key="2" icon={<DesktopOutlined />}>
               Option 2
             </Menu.Item>
