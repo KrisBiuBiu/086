@@ -5,7 +5,6 @@ import {
 import { Layout, Menu } from 'antd';
 import {
   DesktopOutlined,
-  PieChartOutlined,
   FileOutlined,
   TeamOutlined,
   UserOutlined,
@@ -34,14 +33,9 @@ class Sider extends Component {
           }}>
           <div className="logo" />
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-            <SubMenu key="1" icon={<UserOutlined />} title="Plate Management">
-              <Menu.Item key="11">
-                <Link to="/plateCategory">Category Setting</Link>
-              </Menu.Item>
-              <Menu.Item key="12">
-                <Link to="/plateSetting">Plate Setting</Link>
-              </Menu.Item>
-            </SubMenu>
+            <Menu.Item key="12" icon={<UserOutlined />} >
+              <Link to="/plateSetting">Plate Setting</Link>
+            </Menu.Item>
             <Menu.Item key="2" icon={<DesktopOutlined />}>
               Option 2
             </Menu.Item>

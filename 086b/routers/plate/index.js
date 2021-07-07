@@ -5,6 +5,7 @@ const plateModel = require("../../data/plateModel.js");
 const fn = require(path.join(__dirname, `../../utils/fn`));
 const fs = require("fs");
 const idsModel = require('../../data/idsModel.js');
+const categoryModel = require('../../data/categoryModel.js');
 const mime = require("mime-types")
 
 plateRouter
@@ -29,6 +30,10 @@ plateRouter
   .post("/plate", async (ctx, next) => {
     const { name, description, base64Url } = ctx.request.body;
     ctx.body = { msg: "创建成功" };
+  })
+  .get("/categorys", async (ctx, next) => {
+    const res = await categoryModel.getPlateCategorys();
+    ctx.body = { list: res }
   })
   .get("/icon/:pid", async (ctx, next) => {
     const { pid } = ctx.params;

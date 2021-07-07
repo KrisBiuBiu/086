@@ -9,6 +9,9 @@ const plateSchema = new Schema({
     type: Number,
     required: true,
   },
+  cid: {
+    type: Number,
+  },
   name: {
     type: String,
     required: true,

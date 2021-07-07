@@ -53,3 +53,21 @@ code {
 .uploadCrop {
   overflow: hidden;
 }
+
+.detailed-forum-latest-thread {
+  /* padding-left: 0.5rem; */
+  height: 16px;
+  position: relative;
+  word-break: break-word;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  padding-right: 30px;
+}
+
+.detailed-forum-latest-thread a {
+  font-size: 10px;
+  font-style: oblique;
+  color: #3494da;
+}

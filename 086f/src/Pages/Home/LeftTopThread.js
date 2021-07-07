@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Card, List, Avatar, Space, Popover } from 'antd';
 import { MessageOutlined, LikeOutlined, StarOutlined, EyeOutlined } from '@ant-design/icons';
 import AvatarPopCard from '../../Components/AvatarPopCard'
-import { makeHttpQuery, removeHTMLTagsSubString } from '../../utils/fn';
+import { makeHttpQuery, removeHTMLTagsSubString, makeHttpRequest } from '../../utils/fn';
 import {
   Link
 } from "react-router-dom";
@@ -11,17 +11,17 @@ class LeftTopThread extends Component {
   constructor() {
     super();
     this.state = {
-      topThreadList: [],
+      categoryList: [],
     };
   }
 
   async componentDidMount() {
-    await this.getTopThreadList()
+    await this.getPlateCategoryList()
   }
 
-  getTopThreadList = async () => {
-    const res = await makeHttpQuery("/post/topThreadList", {});
-    this.setState({ topThreadList: res.data.list })
+  getPlateCategoryList = async () => {
+    const res = await makeHttpRequest("get", "/plate/categorys", {});
+    this.setState({ categoryList: res.data.list })
   }
 
   onChange = (a, b, c) => {
@@ -41,7 +41,7 @@ class LeftTopThread extends Component {
           'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
       });
     }
-    const { topThreadList } = this.state;
+    const { categoryList } = this.state;
 
     const IconText = ({ icon, text }) => (
       <Space>
@@ -50,57 +50,108 @@ class LeftTopThread extends Component {
       </Space>
     );
 
-    console.log(topThreadList)
+    const groupList = [
+      {
+        name: "学术板块",
+        plates: [
+          {
+            plateName: "知识",
+            pid: 11,
+            description: "测试"
+          },
+          {
+            plateName: "学历",
+            pid: 12,
+            description: "测试"
+          },
+          {
+            plateName: "知识",
+            pid: 12,
+            description: "测试"
+          },
+          {
+            plateName: "学历",
+            pid: 11,
+            description: "测试"
+          }
+        ]
+      },
+      {
+        name: "普通板块",
+        plates: [
+          {
+            plateName: "聊点什么",
+            pid: 10,
+            description: "测试"
+          },
+          {
+            plateName: "说点什么",
+            pid: 11,
+            description: "测试"
+          }
+        ],
+      }
+    ];
 
     return (
       <div>
-        <Card size="small" title="Top Thread card" extra={<span>More</span>} style={{ width: "100%" }}>
-          <List
-            itemLayout="vertical"
-            size="large"
-            dataSource={topThreadList}
-            renderItem={item => (
-              <List.Item
-                key={item.title}
-                actions={[
-                  <IconText icon={EyeOutlined} text={item.viewCount} key="list-vertical-star-o" />,
-                  <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
-                ]}
-              >
-                <List.Item.Meta
-                  avatar={
-                    <div>
-                      <div style={{ float: "left" }}>
-                        <Popover placement="bottomLeft" content={<AvatarPopCard />} arrowPointAtCenter trigger="click" style={{ padding: 0 }}>
-                          <Avatar style={{ backgroundColor: "#7265e6", verticalAlign: 'middle' }} size={25}>
-                            {"Kris"}
-                          </Avatar>
-                        </Popover>
-                      </div>
-                      <div style={{ marginLeft: "30px", position: "relative" }}>
-                        <h4 style={{ height: "20px", marginBottom: "0", lineHeight: "25px" }}>
-                          Kris
-                        </h4>
-                      </div>
-                    </div>
+        {
+          categoryList.map((category) => {
+            return (
+              <Card size="small" title={category.name} extra={<span>More</span>} style={{ width: "100%" }}>
+                <List
+                  itemLayout="vertical"
+                  size="large"
+                  grid={{ gutter: 16, column: 2 }}
+                  dataSource={category.plateArr}
+                  renderItem={plate => (
+                    <List.Item>
+                      <Card
+                        style={{ width: "100%" }}
+                        bodyStyle={{ padding: "10px" }}
+                        bordered={false}
+                      >
+                        <div style={{ display: "flex" }}>
+                          <div style={{ flex: 2, marginRight: "10px" }}>
+                            <img style={{ width: "100%" }} src={`http://localhost:5001/plate/icon/${plate.pid}`} />
+                          </div>
+                          <div style={{ flex: 7 }}>
+                            <p style={{ marginBottom: "2px" }}>
+                              <div style={{ display: "flex", }}>
+                                <div style={{ flex: 5, fontWeight: "bold", }}>
+                                  {plate.name}
+                                </div>
+                                <div style={{ flex: 3, textAlign: "end" }}>
+                                  贴数：66500
+                                </div>
+                              </div>
+
+                            </p>
+                            <p style={{ fontSize: "10px", marginBottom: "2px", color: "#afafaf" }}>
+                              {plate.description}
+                            </p>
+                            <p style={{ fontSize: "10px", marginBottom: "2px" }}>
+                              <div style={{ display: "flex" }}>
+                                <div style={{ flex: 5 }}>
+                                  <a href="/t/85856" title="HORIBA公司D500型气体质量流量控制器MFC拆解鉴赏">HORIBA公司D500型气体质量流量控制器MFC拆解鉴赏</a>
+                                </div>
+                                <div style={{ flex: 3, textAlign: "end" }}>
+                                  <span data-type="nkcTimestamp" data-time="1613736289197" data-time-type="fromNow" title="2021/02/19 20:04:49">4个月17天前</span>
+                                </div>
+                              </div>
+                            </p>
+                          </div>
+                        </div>
+                      </Card>
+                    </List.Item>
+                  )
                   }
-                  style={{ marginBottom: "10px" }}
                 />
-                <div>
-                  <Link to={`/thread/${item.tid}`}>
-                    <h3 style={{ fontWeight: "600" }}>
-                      {item.title}
-                    </h3>
-                  </Link>
-                </div>
-                <p>
-                  {removeHTMLTagsSubString(item.content, 100, true)}
-                </p>
-              </List.Item>
-            )}
-          />
-        </Card>
-      </div>
+              </Card >
+            )
+          })
+        }
+      </div >
     );
   }
 }
@@ -110,3 +161,51 @@ LeftTopThread.propTypes = {
 };
 
 export default LeftTopThread;
+
+
+{/* <Card size="small" title="Top Thread card" extra={<span>More</span>} style={{ width: "100%" }}>
+<List
+  itemLayout="vertical"
+  size="large"
+  dataSource={topThreadList}
+  renderItem={item => (
+    <List.Item
+      key={item.title}
+      actions={[
+        <IconText icon={EyeOutlined} text={item.viewCount} key="list-vertical-star-o" />,
+        <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
+      ]}
+    >
+      <List.Item.Meta
+        avatar={
+          <div>
+            <div style={{ float: "left" }}>
+              <Popover placement="bottomLeft" content={<AvatarPopCard />} arrowPointAtCenter trigger="click" style={{ padding: 0 }}>
+                <Avatar style={{ backgroundColor: "#7265e6", verticalAlign: 'middle' }} size={25}>
+                  {"Kris"}
+                </Avatar>
+              </Popover>
+            </div>
+            <div style={{ marginLeft: "30px", position: "relative" }}>
+              <h4 style={{ height: "20px", marginBottom: "0", lineHeight: "25px" }}>
+                Kris
+              </h4>
+            </div>
+          </div>
+        }
+        style={{ marginBottom: "10px" }}
+      />
+      <div>
+        <Link to={`/thread/${item.tid}`}>
+          <h3 style={{ fontWeight: "600" }}>
+            {item.title}
+          </h3>
+        </Link>
+      </div>
+      <p>
+        {removeHTMLTagsSubString(item.content, 100, true)}
+      </p>
+    </List.Item>
+  )}
+/>
+</Card> */}

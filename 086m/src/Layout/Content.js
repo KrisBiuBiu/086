@@ -5,7 +5,6 @@ import {
 } from "react-router-dom";
 import { Layout } from 'antd';
 import PlateSetting from "../pages/Plate/PlateSetting.js";
-import PlateCategory from "../pages/Plate/PlateCategory.js";
 
 class Content extends Component {
 
@@ -79,9 +78,6 @@ class Content extends Component {
             <Switch>
               <Route exact path="/">
                 <Home />
-              </Route>
-              <Route exact path="/plateCategory">
-                <PlateCategory />
               </Route>
               <Route exact path="/plateSetting">
                 <PlateSetting />

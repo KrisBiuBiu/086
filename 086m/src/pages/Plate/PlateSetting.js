@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { Row, Col, Tag, Avatar, Form, Input, Button, Checkbox, Select, Tabs, Upload, Card } from 'antd';
-import PlateCategoryTags from './Component/PlateCategoryTags';
-import { makeHttpQuery, makeHttpRequest } from '../../utils/fn';
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { Row, Col, Input, Button, Tabs, Upload, Card, Collapse, Modal, } from 'antd';
+import { makeHttpRequest } from '../../utils/fn';
+import { PlusOutlined, CaretRightOutlined } from '@ant-design/icons';
 import ImgCrop from 'antd-img-crop';
-import cookies from '../../utils/cookies';
 
 class PlateSetting extends Component {
   constructor() {
@@ -13,21 +11,24 @@ class PlateSetting extends Component {
       plateName: "", // pass 密码登录；code 验证码登录
       plateDescription: "",
       plateIconBase64Url: "",
-      plateList: []
+      plateCategoryList: [],
+      addCategoryModalVisible: false,
+      categoryName: "",
+      currentCid: ""
     };
   }
 
   async componentDidMount() {
-    // this.setState({ tid: this.props.match.params.id });
-    await this.getThreadInfo()
+    await this.getPlateCategory()
   }
 
-  getThreadInfo = async () => {
-    const res = await makeHttpRequest("get", "/api/plates", {});
-    console.log(res)
-    this.setState({ plateList: res.data.list })
-    // this.setState({ thread: res.data.thread })
-    // console.log(res)
+  getPlateCategory = async () => {
+    const res = await makeHttpRequest("get", "/api/plate/categorys", {});
+    this.setState({ plateCategoryList: res.data.list });
+    const { list } = res.data;
+    if (list.length > 0) {
+      this.setState({ currentCid: list[0].cid })
+    }
   }
 
   handleInputChange = (event, type) => {
@@ -38,19 +39,13 @@ class PlateSetting extends Component {
     this.setState({ [type]: event.target.value })
   }
 
-  addNewThread = async () => {
-    const { plateName, plateDescription } = this.state;
-    console.log(plateName, plateDescription)
-    const res = await makeHttpQuery("/plate/create", { name: plateName, description: plateDescription });
-    console.log(res)
-  }
-
   createNewPlate = async () => {
-    const { plateName, plateDescription, plateIconBase64Url } = this.state;
+    const { plateName, plateDescription, plateIconBase64Url, currentCid } = this.state;
     const res = await makeHttpRequest("post", "/api/plate", {
       name: plateName,
       description: plateDescription,
-      base64Url: plateIconBase64Url
+      base64Url: plateIconBase64Url,
+      cid: parseInt(currentCid)
     });
     console.log(res)
   }
@@ -66,8 +61,29 @@ class PlateSetting extends Component {
     })
   }
 
+  handleTabsChange = (event) => {
+    this.setState({ currentCid: event })
+  }
+
+  openAddCategoryModal = () => {
+    this.setState({ addCategoryModalVisible: true })
+  }
+
+  closeAddCategoryModal = () => {
+    this.setState({ addCategoryModalVisible: false })
+  }
+
+  createCategory = async () => {
+    const { categoryName } = this.state;
+    if (!categoryName) return;
+    console.log(categoryName)
+    const res = await makeHttpRequest("post", "/api/plate/category", { name: categoryName });
+    if (!res) return;
+    this.closeAddCategoryModal();
+  }
+
   render() {
-    const { plateName, plateDescription, plateIconBase64Url, plateList } = this.state;
+    const { plateName, plateDescription, plateIconBase64Url, plateCategoryList, addCategoryModalVisible, categoryName } = this.state;
     const uploadPlateIconProps = {
       name: "avatar",
       listType: "picture-card",
@@ -86,83 +102,111 @@ class PlateSetting extends Component {
         <div>
           {/* 功能切换 */}
           <div>
-            <Tabs defaultActiveKey="1" centered>
-              <Tabs.TabPane tab="板块列表" key="1">
-                {/* 板块列表 */}
-                <div style={{ marginTop: "20px" }}>
-                  <Row>
-                    {
-                      plateList.map((plate) => {
-                        return (
-                          <Col span={6}>
+            <Tabs onChange={this.handleTabsChange} tabBarExtraContent={<Button onClick={this.openAddCategoryModal}>添加分类</Button>}>
+              {
+                plateCategoryList.map((category) => {
+                  return (
 
-                            <Card
-                              hoverable
-                              style={{ width: 240 }}
-                              bodyStyle={{ padding: "10px" }}
-                            >
-                              <div style={{ display: "flex" }}>
-                                <div style={{ flex: 3, marginRight: "10px" }}>
-                                  <img style={{ width: "100%" }} src={`http://localhost:5001/plate/icon/${plate.pid}`} />
-                                </div>
-                                <div style={{ flex: 5 }}>
-                                  <p style={{ textAlign: "center", fontWeight: "bold" }}>
-                                    {plate.name}
-                                  </p>
-                                  <p style={{ fontSize: "10px", textAlign: "center" }}>
-                                    {plate.description}
-                                  </p>
-                                </div>
-                              </div>
-                            </Card>
-                          </Col>
-                        )
-                      })
-                    }
-                  </Row>
-                </div>
-              </Tabs.TabPane>
-              <Tabs.TabPane tab="板块设置" key="2">
-                {/* 板块分类 */}
-                <div style={{ background: "#fff", padding: "20px" }}>
-                  <PlateCategoryTags />
-                </div>
-                {/* 添加板块 */}
-                <div style={{ background: "#fff", padding: "20px", marginTop: "20px" }}>
-                  <Row style={{ margin: "5px 0px" }} gutter={[8, 24]}>
-                    <Col span={12}>
-                      <Col span={24}>
-                        <div>
-                          名称：
-                        </div>
-                        <Input value={plateName} onChange={(event) => this.handleInputChange(event, "plateName")} />
-                      </Col>
-                      <Col span={24}>
-                        <div>
-                          介绍：
-                        </div>
-                        <Input value={plateDescription} onChange={(event) => this.handleInputChange(event, "plateDescription")} />
-                      </Col>
-                      <Col span={24}>
-                        <ImgCrop rotate>
-                          <Upload
-                            {...uploadPlateIconProps}
-                          >
-                            {plateIconBase64Url ? <img src={plateIconBase64Url} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-                          </Upload>
-                        </ImgCrop>
-                      </Col>
-                    </Col>
-                    <Col span={24}>
-                      <Button type="primary" onClick={this.createNewPlate}>
-                        提交
-                      </Button>
-                    </Col>
-                  </Row>
-                </div>
-              </Tabs.TabPane>
+                    <Tabs.TabPane tab={category.name} key={category.cid}>
+                      {/* 板块设置 */}
+                      <div >
+                        <Collapse
+                          defaultActiveKey={['1']}
+                          expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
+                          expandIconPosition="right"
+                          accordion
+                        >
+                          <Collapse.Panel header="添加板块" key={`collapse-panel-${category.cid}`} >
+                            <Row gutter={[8, 24]}>
+                              <Col span={8} style={{ margin: "auto" }}>
+                                <Col span={24}>
+                                  <div>
+                                    名称：
+                                  </div>
+                                  <Input value={plateName} onChange={(event) => this.handleInputChange(event, "plateName")} />
+                                </Col>
+                                <Col span={24}>
+                                  <div>
+                                    介绍：
+                                  </div>
+                                  <Input value={plateDescription} onChange={(event) => this.handleInputChange(event, "plateDescription")} />
+                                </Col>
+                              </Col>
+                              <Col span={8} style={{ margin: "auto" }}>
+                                <Col span={24} style={{ textAlign: "center" }}>
+                                  <ImgCrop rotate>
+                                    <Upload
+                                      {...uploadPlateIconProps}
+                                    >
+                                      {plateIconBase64Url ? <img src={plateIconBase64Url} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+                                    </Upload>
+                                  </ImgCrop>
+                                </Col>
+                              </Col>
+                              <Col span={8}>
+                                <Button type="primary" onClick={this.createNewPlate} style={{ position: "absolute", bottom: "0px" }}>
+                                  提交
+                                </Button>
+                              </Col>
+                            </Row>
+                          </Collapse.Panel>
+                          <Collapse.Panel header="修改分类" key="2" >
+                            <p>text</p>
+                          </Collapse.Panel>
+                        </Collapse>
+                      </div>
+                      {/* 板块列表 */}
+                      <div style={{ marginTop: "20px" }}>
+                        <Row>
+                          {
+                            category.plateArr.map((plate) => {
+                              return (
+                                <Col span={6} key={`col-card-${plate.pid}`}>
+                                  <Card
+                                    hoverable
+                                    style={{ width: 240 }}
+                                    bodyStyle={{ padding: "10px" }}
+                                    key={`card-${plate.pid}`}
+                                  >
+                                    <div style={{ display: "flex" }}>
+                                      <div style={{ flex: 3, marginRight: "10px" }}>
+                                        <img style={{ width: "100%" }} src={`http://localhost:5001/plate/icon/${plate.pid}`} alt="123" />
+                                      </div>
+                                      <div style={{ flex: 5 }}>
+                                        <p style={{ textAlign: "center", fontWeight: "bold" }}>
+                                          {plate.name}
+                                        </p>
+                                        <p style={{ fontSize: "10px", textAlign: "center" }}>
+                                          {plate.description}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </Card>
+                                </Col>
+                              )
+                            })
+                          }
+                        </Row>
+                      </div>
+                    </Tabs.TabPane>
+                  )
+                })
+              }
             </Tabs>
           </div>
+          <Modal
+            title="Modal"
+            visible={addCategoryModalVisible}
+            onOk={this.createCategory}
+            onCancel={this.closeAddCategoryModal}
+            okText="提交"
+            cancelText="取消"
+          >
+            <div>
+              名称：
+            </div>
+            <Input value={categoryName} onChange={(event) => this.handleInputChange(event, "categoryName")} />
+          </Modal>
         </div>
       </>
     );

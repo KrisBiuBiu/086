@@ -47,3 +47,11 @@ code {
   width: 128px;
   height: 128px;
 }
+
+.ant-collapse-icon-position-right > .ant-collapse-item > .ant-collapse-header {
+  padding:5px !important
+}
+
+.ant-collapse>.ant-collapse-item {
+  border-bottom: none;
+}
