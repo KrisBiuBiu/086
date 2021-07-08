@@ -50,49 +50,6 @@ class LeftTopThread extends Component {
       </Space>
     );
 
-    const groupList = [
-      {
-        name: "学术板块",
-        plates: [
-          {
-            plateName: "知识",
-            pid: 11,
-            description: "测试"
-          },
-          {
-            plateName: "学历",
-            pid: 12,
-            description: "测试"
-          },
-          {
-            plateName: "知识",
-            pid: 12,
-            description: "测试"
-          },
-          {
-            plateName: "学历",
-            pid: 11,
-            description: "测试"
-          }
-        ]
-      },
-      {
-        name: "普通板块",
-        plates: [
-          {
-            plateName: "聊点什么",
-            pid: 10,
-            description: "测试"
-          },
-          {
-            plateName: "说点什么",
-            pid: 11,
-            description: "测试"
-          }
-        ],
-      }
-    ];
-
     return (
       <div>
         {
@@ -119,7 +76,9 @@ class LeftTopThread extends Component {
                             <p style={{ marginBottom: "2px" }}>
                               <div style={{ display: "flex", }}>
                                 <div style={{ flex: 5, fontWeight: "bold", }}>
-                                  {plate.name}
+                                  <Link to={`/plate/${plate.pid}`}>
+                                    {plate.name}
+                                  </Link>
                                 </div>
                                 <div style={{ flex: 3, textAlign: "end" }}>
                                   贴数：66500

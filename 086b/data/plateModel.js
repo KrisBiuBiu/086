@@ -50,4 +50,11 @@ const plateSchema = new Schema({
 });
 
 
+plateSchema.statics.threadCountPlusOne = async (pids) => {
+  const plateModel = mongoose.model('plate');
+  for (let pid of pids) {
+    await plateModel.updateOne({ pid }, { $inc: { threadCount: 1 } });
+  }
+}
+
 module.exports = mongoose.model('plate', plateSchema);

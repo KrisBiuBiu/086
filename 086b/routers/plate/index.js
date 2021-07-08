@@ -43,5 +43,10 @@ plateRouter
     ctx.set("content-type", mimeType);
     ctx.body = file;
   })
+  .get("/info/:pid", async (ctx, next) => {
+    const { pid } = ctx.params;
+    const res = await plateModel.findOne({ pid }).lean();
+    ctx.body = { info: res };
+  })
 
 module.exports = plateRouter;

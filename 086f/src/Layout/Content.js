@@ -9,6 +9,7 @@ import Manage from "../Pages/Manage/Index.js";
 import Editor from "../Pages/Editor/Index.js";
 import User from "../Pages/User/Index.js";
 import Thread from "../Pages/Thread/Index.js";
+import Plate from "../Pages/Plate/Index.js";
 
 class Content extends Component {
 
@@ -48,6 +49,8 @@ class Content extends Component {
             </Route>
             <Route path="/user">
               <User />
+            </Route>
+            <Route path="/plate/:pid" render={(props) => <Plate {...props} />}>
             </Route>
             <Route path="/thread/:id" render={(props) => <Thread {...props} />}>
             </Route>

@@ -4,6 +4,7 @@ const path = require("path");
 const jwt = require("jsonwebtoken");
 const threadModel = require("../../data/threadModel.js");
 const idsModel = require("../../data/idsModel.js");
+const plateModel = require("../../data/plateModel");
 const fn = require(path.join(__dirname, `../../utils/fn`));
 
 postRouter
@@ -17,6 +18,7 @@ postRouter
       content,
       plates: selectedPlates
     });
+    await plateModel.threadCountPlusOne(selectedPlates);
     await thread.save();
     // 检查手机号
     // const mobileRegistered = await usersModel.checkMobileRegistered(mobile);
