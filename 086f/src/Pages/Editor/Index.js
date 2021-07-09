@@ -65,15 +65,18 @@ class Editor extends Component {
               <div>
                 板块：
               </div>
-              {plates.map(tag => (
-                <CheckableTag
-                  key={tag.pid}
-                  checked={selectedPlates.indexOf(tag.pid) > -1}
-                  onChange={checked => this.handlePlateChange(tag.pid, checked)}
-                >
-                  {tag.name}
-                </CheckableTag>
-              ))}
+              <div>
+                {plates.map(tag => (
+                  <CheckableTag
+                    key={tag.pid}
+                    checked={selectedPlates.indexOf(tag.pid) > -1}
+                    onChange={checked => this.handlePlateChange(tag.pid, checked)}
+                    style={{ border: "1px solid #000" }}
+                  >
+                    {tag.name}
+                  </CheckableTag>
+                ))}
+              </div>
             </Col>
             <Col span={24} style={{ marginTop: "20px" }}>
               <div>

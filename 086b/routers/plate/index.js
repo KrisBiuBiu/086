@@ -6,7 +6,8 @@ const fn = require(path.join(__dirname, `../../utils/fn`));
 const fs = require("fs");
 const idsModel = require('../../data/idsModel.js');
 const categoryModel = require('../../data/categoryModel.js');
-const mime = require("mime-types")
+const mime = require("mime-types");
+const threadModel = require('../../data/threadModel.js');
 
 plateRouter
   .post("/create", async (ctx, next) => {
@@ -47,6 +48,11 @@ plateRouter
     const { pid } = ctx.params;
     const res = await plateModel.findOne({ pid }).lean();
     ctx.body = { info: res };
+  })
+  .get("/threads/:pid", async (ctx, next) => {
+    const { pid } = ctx.params;
+    const res = await threadModel.find({ plates: { $all: [parseInt(pid)] } }).lean();
+    ctx.body = { list: res }
   })
 
 module.exports = plateRouter;

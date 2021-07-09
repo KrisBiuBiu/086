@@ -50,9 +50,9 @@ class Content extends Component {
             <Route path="/user">
               <User />
             </Route>
-            <Route path="/plate/:pid" render={(props) => <Plate {...props} />}>
+            <Route path="/plate/:pid" render={(props) => <Plate {...props} key={props.location.pathname} />}>
             </Route>
-            <Route path="/thread/:id" render={(props) => <Thread {...props} />}>
+            <Route path="/thread/:id" render={(props) => <Thread {...props} key={props.location.pathname} />}>
             </Route>
           </Switch>
         </Layout.Content>
