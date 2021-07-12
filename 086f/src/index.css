@@ -71,3 +71,25 @@ code {
   font-style: oblique;
   color: #3494da;
 }
+
+.threadCover .ant-upload.ant-upload-select-picture-card {
+  width: 200px !important;
+  height: 150px !important
+}
+
+.threadCover .ant-upload.ant-upload-select-picture-card img{
+  height:inherit
+}
+
+.threadCover .ant-upload-picture-card-wrapper{
+  width: unset;
+}
+
+.threadCover .ant-btn {
+  border: none;
+}
+
+.editorTitle {
+  font-size: 16px;
+  font-weight: bold;
+}

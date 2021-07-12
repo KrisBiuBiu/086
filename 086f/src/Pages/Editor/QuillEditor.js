@@ -10,7 +10,7 @@ class QuillEditor extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange (event) {
+  handleChange(event) {
     const { inputFunc, inputType } = this.props;
     inputFunc(inputType, event);
   }
@@ -78,7 +78,7 @@ class QuillEditor extends React.Component {
         value={renderText}
         onChange={this.handleChange}
         style={renderStyle || {
-          height: '200px', width: '100%', display: 'inline-block', fontFamily: 'Calibri',
+          height: '400px', width: '100%', display: 'inline-block', fontFamily: 'Calibri',
         }}
         modules={{
           toolbar: {
