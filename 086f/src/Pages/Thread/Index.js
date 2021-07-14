@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { Row, Col, Tag, Avatar } from 'antd';
 import { makeHttpQuery } from '../../utils/fn';
+import PostEditor from './PostEditor';
 
 class Thread extends Component {
   constructor() {
     super();
     this.state = {
-      thread: {}
+      thread: {},
+      postContent: ""
     };
   }
 
@@ -21,12 +23,16 @@ class Thread extends Component {
     console.log(res)
   }
 
+  editorInputChange = (type, inputText) => {
+    this.setState({ [type]: inputText });
+  }
+
   render() {
-    const { thread } = this.state;
+    const { thread, postContent } = this.state;
     return (
       <>
-        <div style={{ marginTop: "10px", background: "#fff" }}>
-          <Row style={{ padding: "20px" }} gutter={[8, 24]}>
+        <div style={{ marginTop: "10px" }}>
+          <Row style={{ padding: "20px", background: "#fff" }} gutter={[8, 24]}>
             <Col span={24}>
               <Tag color="magenta">magenta</Tag>
               <Tag color="red">red</Tag>
@@ -54,6 +60,14 @@ class Thread extends Component {
             </Col>
             <Col span={24}>
               <div key="2" dangerouslySetInnerHTML={{ __html: thread.content ? thread.content : "" }} />
+            </Col>
+          </Row>
+          <Row style={{ marginTop: "20px", padding: "20px", background: "#fff" }} gutter={[8, 24]}>
+            <Col span={24}>
+              <PostEditor
+                inputFunc={this.editorInputChange}
+                inputType="postContent"
+                renderText={postContent} />
             </Col>
           </Row>
         </div>

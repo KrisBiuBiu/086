@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
   Link
 } from "react-router-dom";
-import { Row, Col, Input, Button, List, Popover, Avatar, Card } from 'antd';
+import moment from "moment";
+import { Row, Col, Input, Button, List, Popover, Avatar, Card, Space } from 'antd';
 import { MessageOutlined, LikeOutlined, StarOutlined, EyeOutlined } from '@ant-design/icons';
 import { makeHttpQuery, makeHttpRequest, removeHTMLTagsSubString } from '../../utils/fn';
 import PlateCard from './PlateCard';
@@ -58,6 +59,12 @@ class Plate extends Component {
 
   render() {
     const { plateName, plateDescription, plateInfo, plateThreads, plateCategory } = this.state;
+    const IconText = ({ icon, text }) => (
+      <Space>
+        {React.createElement(icon)}
+        {text}
+      </Space>
+    );
     return (
       <>
         <div style={{ marginTop: "10px" }}>
@@ -170,9 +177,33 @@ class Plate extends Component {
                             </h3>
                           </Link>
                         </div>
-                        <p>
-                          {removeHTMLTagsSubString(item.content, 100, true)}
-                        </p>
+                        <div style={{ display: "flex" }}>
+                          {
+                            item.cover ? (
+                              <div style={{ flex: 1 }}>
+                                <img src={`http://localhost:5001/post/threadCover/${item.tid}`} style={{ width: "100%" }}></img>
+                              </div>
+                            ) : null
+                          }
+                          <div style={{ flex: 5 }}>
+
+                            <p>
+                              {removeHTMLTagsSubString(item.content, 100, true)}
+                            </p>
+                          </div>
+                        </div>
+                        <div style={{ display: "flex" }}>
+                          <div style={{ flex: 7 }}>
+                            <span>
+                              <IconText icon={EyeOutlined} text={item.viewCount} key="list-vertical-star-o" />
+                            </span>
+                          </div>
+                          <div style={{ flex: 2, textAlign: "end" }}>
+                            {
+                              moment(new Date(item.lastTime)).format('MM-DD HH:mm')
+                            }
+                          </div>
+                        </div>
                       </List.Item>
                     )}
                   />

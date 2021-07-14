@@ -29,6 +29,10 @@ const threadSchema = new Schema({
     type: Number,
     default: 0
   },
+  cover: {
+    type: Boolean,
+    default: false
+  },
   createTime: {
     type: Date,
     default: Date.now,
