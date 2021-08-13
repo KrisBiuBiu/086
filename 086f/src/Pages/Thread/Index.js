@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Tag, Avatar } from 'antd';
+import { Row, Col, Tag, Avatar, Button, message } from 'antd';
 import { makeHttpQuery } from '../../utils/fn';
 import PostEditor from './PostEditor';
 
@@ -25,6 +25,19 @@ class Thread extends Component {
 
   editorInputChange = (type, inputText) => {
     this.setState({ [type]: inputText });
+  }
+
+  postOneComment = async () => {
+    const { postContent } = this.state;
+    if (!postContent || postContent.length < 5) {
+      message.warning("请最少输入五个字符", 3);
+      return;
+    }
+    const res = await makeHttpQuery("/post/comment", {
+      content: postContent,
+      tid: this.props.match.params.id
+    });
+    console.log(res)
   }
 
   render() {
@@ -68,6 +81,11 @@ class Thread extends Component {
                 inputFunc={this.editorInputChange}
                 inputType="postContent"
                 renderText={postContent} />
+            </Col>
+            <Col>
+              <Button onClick={this.postOneComment}>
+                发表
+              </Button>
             </Col>
           </Row>
         </div>

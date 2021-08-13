@@ -57,6 +57,10 @@ postRouter
     const thread = await threadModel.findOne({ tid });
     ctx.body = { thread: thread }
   })
+  .post("/comment", async (ctx, next) => {
+    const { content, tid } = ctx.request.body;
+    ctx.body = { msg: "123" }
+  })
   .get("/threadCover/:tid", async (ctx, next) => {
     const { tid } = ctx.params;
     const filePath = path.join(__dirname, '../../resource/threadCover') + `/${tid}.png`;
