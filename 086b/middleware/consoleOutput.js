@@ -19,8 +19,7 @@ async function main(ctx, next) {
   } else {
     funcNames = `none`
   }
-
-  console.log(`\x1b[37m[${moment().format('YYYY/MM/DD HH:mm:ss')}] \x1b[37m-- \x1b[33m${node_env} \x1b[37m-- \x1b[34m${ctx.path} \x1b[37m-- \x1b[35m${funcNames} \x1b[36m${username} \x1b[32m<${processTime}ms>`)
+  console.log(`\x1b[37m[${moment().format('YYYY/MM/DD HH:mm:ss')}] \x1b[37m-- \x1b[33m${node_env} \x1b[37m-- \x1b[34m${ctx.method} \x1b[34m${ctx.path} \x1b[37m-- \x1b[35m${funcNames} \x1b[36m${username} \x1b[32m<${processTime}ms>`)
 }
 
 module.exports = main;

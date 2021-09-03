@@ -38,7 +38,11 @@ plateRouter
   })
   .get("/icon/:pid", async (ctx, next) => {
     const { pid } = ctx.params;
-    const filePath = path.join(__dirname, '../../resource/plateIcon') + `/${pid}.png`;
+    let filePath = path.join(__dirname, '../../resource/plateIcon') + `/${pid}.png`;
+    const fileExists = fs.existsSync(filePath);
+    if (!fileExists) {
+      filePath = path.join(__dirname, '../../resource/plateIcon') + `/default.png`;
+    }
     const file = fs.readFileSync(filePath);
     let mimeType = mime.lookup(filePath);
     ctx.set("content-type", mimeType);

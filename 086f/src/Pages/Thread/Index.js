@@ -1,26 +1,33 @@
 import React, { Component } from 'react';
-import { Row, Col, Tag, Avatar, Button, message } from 'antd';
-import { makeHttpQuery } from '../../utils/fn';
+import { Row, Col, Tag, Avatar, Button, message, List } from 'antd';
+import { makeHttpQuery, makeHttpRequest, removeHTMLTagsSubString } from '../../utils/fn';
 import PostEditor from './PostEditor';
+import moment from 'moment';
 
 class Thread extends Component {
   constructor() {
     super();
     this.state = {
       thread: {},
-      postContent: ""
+      postContent: "",
+      comments: []
     };
   }
 
   async componentDidMount() {
     this.setState({ tid: this.props.match.params.id });
     await this.getThreadInfo(this.props.match.params.id)
+    await this.getComments(this.props.match.params.id)
   }
 
   getThreadInfo = async (tid) => {
-    const res = await makeHttpQuery("/post/oneThread", { tid });
+    const res = await makeHttpRequest("get", `/post/thread/${tid}`, { tid });
     this.setState({ thread: res.data.thread })
-    console.log(res)
+  }
+
+  getComments = async (tid) => {
+    const res = await makeHttpRequest("get", `/post/thread/${tid}/comments`, {});
+    this.setState({ comments: res.data.comments })
   }
 
   editorInputChange = (type, inputText) => {
@@ -29,6 +36,7 @@ class Thread extends Component {
 
   postOneComment = async () => {
     const { postContent } = this.state;
+    console.log(postContent)
     if (!postContent || postContent.length < 5) {
       message.warning("请最少输入五个字符", 3);
       return;
@@ -38,10 +46,12 @@ class Thread extends Component {
       tid: this.props.match.params.id
     });
     console.log(res)
+    await this.getThreadInfo(this.props.match.params.id)
   }
 
   render() {
-    const { thread, postContent } = this.state;
+    const { thread,
+      postContent, comments } = this.state;
     return (
       <>
         <div style={{ marginTop: "10px" }}>
@@ -87,6 +97,57 @@ class Thread extends Component {
                 发表
               </Button>
             </Col>
+          </Row>
+          <Row style={{ marginTop: "20px", padding: "20px", background: "#fff" }} gutter={[8, 24]}>
+            全部评论{comments.length}条
+          </Row>
+          <Row style={{ marginTop: "20px", padding: "20px", background: "#fff" }} gutter={[8, 24]}>
+
+            <List
+              itemLayout="vertical"
+              size="large"
+              style={{ width: "100%" }}
+              dataSource={comments}
+              renderItem={comment => (
+                <List.Item
+                  key={`comment-${comment.commentId}`}
+                >
+                  <List.Item.Meta
+                    avatar={
+                      <div>
+                        <div style={{ float: "left" }}>
+                          <Avatar style={{ backgroundColor: "#7265e6", verticalAlign: 'middle' }} size={25}>
+                            {"Kris"}
+                          </Avatar>
+                        </div>
+                        <div style={{ marginLeft: "30px", position: "relative" }}>
+                          <h4 style={{ height: "20px", marginBottom: "0", lineHeight: "25px" }}>
+                            Kris
+                          </h4>
+                        </div>
+                      </div>
+                    }
+                    style={{ marginBottom: "10px" }}
+                  />
+                  <div style={{ display: "flex" }}>
+                    <div style={{ width: "100%" }} dangerouslySetInnerHTML={{ __html: comment.content ? comment.content : "" }}>
+                    </div>
+                  </div>
+                  <div style={{ display: "flex" }}>
+                    <div style={{ flex: 2 }}>
+                      {
+                        moment(new Date(comment.createTime)).format('MM-DD HH:mm')
+                      }
+                    </div>
+                    <div style={{ flex: 7, textAlign: "end" }}>
+                      <span>
+                        {/* <IconText icon={EyeOutlined} text={6} key="list-vertical-star-o" /> */}
+                      </span>
+                    </div>
+                  </div>
+                </List.Item>
+              )}
+            />
           </Row>
         </div>
       </>

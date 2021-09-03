@@ -15,6 +15,7 @@ export const makeHttpRequest = async (method, path, option) => {
     })
     return res;
   } catch (err) {
+    console.log(err)
     console.error(err.response.status, err.response.data);
     message.error(`${err.response.status}: ${err.response.data}`, 6);
     return false;

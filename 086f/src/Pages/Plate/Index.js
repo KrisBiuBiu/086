@@ -146,10 +146,6 @@ class Plate extends Component {
                     renderItem={item => (
                       <List.Item
                         key={item.title}
-                      // actions={[
-                      //   <IconText icon={EyeOutlined} text={item.viewCount} key="list-vertical-star-o" />,
-                      //   <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
-                      // ]}
                       >
                         <List.Item.Meta
                           avatar={

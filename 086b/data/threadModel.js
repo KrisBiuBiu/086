@@ -29,6 +29,10 @@ const threadSchema = new Schema({
     type: Number,
     default: 0
   },
+  commentCount: {
+    type: Number,
+    default: 0
+  },
   cover: {
     type: Boolean,
     default: false
@@ -69,6 +73,11 @@ threadSchema.statics.updateLastLoginTimeStamp = async (uid) => {
 threadSchema.statics.viewCountPlusOne = async (tid) => {
   const threadModel = mongoose.model('thread');
   await threadModel.updateOne({ tid }, { $inc: { viewCount: 1 } })
+}
+
+threadSchema.statics.commentCountPlusOne = async (tid) => {
+  const threadModel = mongoose.model('thread');
+  await threadModel.updateOne({ tid }, { $inc: { commentCount: 1 } })
 }
 
 module.exports = mongoose.model('thread', threadSchema);
