@@ -4,18 +4,46 @@ const path = require("path");
 const jwt = require("jsonwebtoken");
 const usersModel = require("../../data/usersModel.js");
 const idsModel = require("../../data/idsModel.js");
+const smsCodeModel = require('../../data/smsCodeModel.js');
 const fn = require(path.join(__dirname, `../../utils/fn`));
+const regular = require(path.join(__dirname, `../../configuration/regular`));
 
 signRouter
   .get("/login", async (ctx, next) => {
     console.log(ctx.request);
     ctx.body = { "user": "123" }
   })
-  .post("/login", async (ctx, next) => {
+  .post("/smsCode", async (ctx, next) => {
     const { mobile } = ctx.request.body;
-    // 检查手机号
+    // 检验是否在一分钟之内发送过验证码
+    const ifCodeSent = await smsCodeModel.checkSmsCodeSent(mobile);
+    if (ifCodeSent) {
+      ctx.throw(400, "一分钟内只可发送一次验证码");
+    }
+    // 生成验证码以及记录
+    let smsCode = fn.sixRandom();
+    console.log(smsCode, typeof (smsCode))
+    const smsCodeData = new smsCodeModel({
+      smsCode,
+      mobile
+    })
+    await smsCodeData.save();
+    // 返回验证码
+
+    ctx.body = { "status": "success" }
+  })
+  .post("/loginWithSmsCode", async (ctx, next) => {
+    const { mobile, smsCode } = ctx.request.body;
+
+    // 校验手机号
+    if (!mobile || regular.mobileReg.test(mobile)) ctx.throw(400, "手机号码格式不正确")
     const mobileRegistered = await usersModel.checkMobileRegistered(mobile);
     if (!mobileRegistered) ctx.throw(401, "手机号不存在");
+
+    // 校验6位数字验证码
+    if (!smsCode || regular.smsCodeReg.test(smsCode)) ctx.throw(400, "验证码格式不正确");
+
+
     // 获取uid
     let uid = await usersModel.getUid(mobile);
     // 更新用户最后登录时间

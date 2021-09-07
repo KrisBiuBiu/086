@@ -45,8 +45,8 @@ class Thread extends Component {
       content: postContent,
       tid: this.props.match.params.id
     });
-    console.log(res)
-    await this.getThreadInfo(this.props.match.params.id)
+    await this.getThreadInfo(this.props.match.params.id);
+    await this.getComments(this.props.match.params.id)
   }
 
   render() {
@@ -101,7 +101,7 @@ class Thread extends Component {
           <Row style={{ marginTop: "20px", padding: "20px", background: "#fff" }} gutter={[8, 24]}>
             全部评论{comments.length}条
           </Row>
-          <Row style={{ marginTop: "20px", padding: "20px", background: "#fff" }} gutter={[8, 24]}>
+          <Row style={{ marginTop: "20px", padding: "20px", background: "#fff" }} gutter={[8, 24]} className="comment-list">
 
             <List
               itemLayout="vertical"
@@ -129,11 +129,11 @@ class Thread extends Component {
                     }
                     style={{ marginBottom: "10px" }}
                   />
-                  <div style={{ display: "flex" }}>
+                  <div style={{ display: "flex", paddingLeft: "30px" }}>
                     <div style={{ width: "100%" }} dangerouslySetInnerHTML={{ __html: comment.content ? comment.content : "" }}>
                     </div>
                   </div>
-                  <div style={{ display: "flex" }}>
+                  <div style={{ display: "flex" }} className="comment-item-button-area">
                     <div style={{ flex: 2 }}>
                       {
                         moment(new Date(comment.createTime)).format('MM-DD HH:mm')

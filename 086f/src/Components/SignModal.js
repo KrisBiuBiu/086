@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Button, Input, Select, Row, Col, Tooltip, Divider } from 'antd';
+import { Button, Input, Select, Row, Col, Tooltip, Divider, message } from 'antd';
 import { SearchOutlined } from "@ant-design/icons";
 import {
-  makeHttpQuery,
+  makeHttpQuery, makeHttpRequest,
 } from '../utils/fn';
 import cookies from '../utils/cookies';
+import regular from '../configuration/regular';
 
 class SignModal extends Component {
   constructor() {
@@ -14,6 +15,7 @@ class SignModal extends Component {
       modalType: "login",
       mobile: "",
       password: "",
+      smsCode: "",
       count: 60,
       liked: true,
     };
@@ -27,7 +29,7 @@ class SignModal extends Component {
     this.setState({ modalType: type })
   }
 
-  verificationCodeCountDown () {
+  smsCodeCountDown() {
     const { count } = this.state;
     if (count === 1) {
       this.setState({
@@ -39,21 +41,43 @@ class SignModal extends Component {
         count: count - 1,
         liked: false,
       });
-      setTimeout(this.verificationCodeCountDown.bind(this), 1000);
+      setTimeout(this.smsCodeCountDown.bind(this), 1000);
     }
   }
 
-  sendVerificationCode = () => {
-    const { liked } = this.state;
+  sendSmsCode = async () => {
+    const { liked, mobile } = this.state;
     if (!liked) {
       return;
     }
-    this.verificationCodeCountDown();
+    if (!regular.mobileReg.test(mobile)) {
+      message.error("请输入正确的手机号码", 3);
+      return;
+    }
+    await makeHttpRequest("post", `/sign/smsCode`, { mobile });
+    this.smsCodeCountDown();
   };
 
-  userLogin = async () => {
+  userLoginWithPassWord = async () => {
     const { mobile, password } = this.state;
     const res = await makeHttpQuery("/sign/login", { mobile });
+    const date = new Date();
+    date.setTime(date.getTime() + (48 * 60 * 60 * 1000));
+    cookies.set('token', res.data.token, { path: '/', expires: date });
+    window.location.replace("/")
+  }
+
+  userLoginWithSmsCode = async () => {
+    const { mobile, smsCode } = this.state;
+    if (!mobile || !regular.mobileReg.test(mobile)) {
+      message.error("请输入正确的手机号码", 3)
+      return;
+    }
+    if (!smsCode || !regular.smsCodeReg.test(smsCode)) {
+      message.error("请输入正确的6位数字验证码", 3);
+      return;
+    }
+    const res = await makeHttpRequest("post", "/sign/loginWithSmsCode", { mobile, smsCode });
     const date = new Date();
     date.setTime(date.getTime() + (48 * 60 * 60 * 1000));
     cookies.set('token', res.data.token, { path: '/', expires: date });
@@ -70,7 +94,7 @@ class SignModal extends Component {
     this.setState({ [type]: event.target.value })
   }
 
-  render () {
+  render() {
     const {
       signInMethod,
       modalType,
@@ -100,10 +124,12 @@ class SignModal extends Component {
                       ) : (
                         <Row>
                           <Col span={12}>
-                            <Input style={{ width: '100%' }} placeholder="验证码" />
+                            <Input style={{ width: '100%' }}
+                              placeholder="验证码"
+                              onChange={(event) => this.handleInputChange(event, "smsCode")} maxLength={6} />
                           </Col>
                           <Col span={12} style={{ textAlign: "end" }}>
-                            <Button style={{ width: "70%" }} onClick={() => this.sendVerificationCode()} disabled={!this.state.liked}>
+                            <Button style={{ width: "70%" }} onClick={() => this.sendSmsCode()} disabled={!this.state.liked}>
                               {
                                 this.state.liked
                                   ? '获取验证码'
@@ -125,7 +151,15 @@ class SignModal extends Component {
                     }
                   </Col>
                   <Col span={24} style={{ marginBottom: "60px" }}>
-                    <Button type="primary" style={{ width: "100%" }} onClick={() => this.userLogin()}>登陆</Button>
+                    {
+                      signInMethod === "pass" ? (
+
+                        <Button type="primary" style={{ width: "100%" }} onClick={() => this.userLoginWithPassWord()}>登录</Button>
+                      ) : (
+
+                        <Button type="primary" style={{ width: "100%" }} onClick={() => this.userLoginWithSmsCode()}>登录</Button>
+                      )
+                    }
                   </Col>
                   <Col span={24} style={{ textAlign: "center", marginBottom: "30px" }}>
                     <Tooltip title="search">
@@ -166,7 +200,7 @@ class SignModal extends Component {
                             <Input style={{ width: '100%' }} placeholder="验证码" />
                           </Col>
                           <Col span={12} style={{ textAlign: "end" }}>
-                            <Button style={{ width: "70%" }} onClick={() => this.sendVerificationCode()} disabled={!this.state.liked}>
+                            <Button style={{ width: "70%" }} onClick={() => this.sendSmsCode()} disabled={!this.state.liked}>
                               {
                                 this.state.liked
                                   ? '获取验证码'

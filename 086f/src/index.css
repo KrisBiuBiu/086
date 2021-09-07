@@ -103,3 +103,18 @@ code {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
+
+.comment-list .ant-list-lg .ant-list-item {
+  padding: 10px 0px 0px 0px !important;
+  border: unset !important;
+}
+
+.comment-list .comment-item-button-area {
+  margin-left: 30px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed #e0e0e0;
+}
+
+.comment-list .ant-list-split .ant-list-item:last-child .comment-item-button-area {
+  border-bottom: unset !important;
+}
