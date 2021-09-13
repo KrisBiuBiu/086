@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import { Row, Col, Carousel, Card } from 'antd';
+import {
+  Row, Col, Carousel, Card,
+} from 'antd';
 
 class HomeCarousel extends Component {
   onChange = (a, b, c) => {
     console.log(a, b, c);
   }
 
-  render () {
+  render() {
     const contentStyle = {
       height: '260px',
       color: '#fff',
@@ -15,7 +17,7 @@ class HomeCarousel extends Component {
       background: '#364d79',
     };
     return (
-      <Card bodyStyle={{ padding: "10px" }}>
+      <Card bodyStyle={{ padding: '10px' }}>
         <Row gutter={8}>
           <Col span={12}>
             <div>

@@ -14,22 +14,22 @@ const smsCodeSchema = new Schema({
   },
   createTime: {
     type: Date,
-    default: moment().toDate().toISOString(),
+    default: () => Date.now(),
     index: 1
   },
   createTimeStamp: {
     type: String,
-    default: (new Date()).getTime(),
+    default: () => Date.now(),
     index: 1
   },
   expirationTime: {
     type: Date,
-    default: moment().add(60, 's').toDate().toISOString(),
+    default: () => Date.now() + 60 * 1000,
     index: 1
   },
   expirationTimeStamp: {
     type: String,
-    default: (new Date()).getTime(),
+    default: () => Date.now() + 60 * 1000,
     index: 1
   }
 }, {
@@ -53,11 +53,26 @@ smsCodeSchema.statics.checkSmsCodeSent = async (mobile) => {
 smsCodeSchema.statics.checkSmsCodeSent = async (mobile, smsCode) => {
   const smsCodeModel = mongoose.model('smsCode');
   const smsCodeRes = await smsCodeModel.findOne({ mobile, expirationTime: { "$gt": new Date() } }).lean();
-  if (smsCodeRes.length > 0) {
-    return true
-  } else {
+  if (!smsCodeRes) {
     return false
+  } else {
+    return true
   }
+}
+
+smsCodeSchema.statics.checkSmsCodeExpired = async (mobile, smsCode) => {
+  const smsCodeModel = mongoose.model('smsCode');
+  const smsCodeRes = await smsCodeModel.findOne({ mobile, smsCode, expirationTime: { "$gt": new Date() } }).lean();
+  if (!smsCodeRes) {
+    return false
+  } else {
+    return true
+  }
+}
+
+smsCodeSchema.statics.expireSmsCode = async (smsCode) => {
+  const smsCodeModel = mongoose.model('smsCode');
+  await smsCodeModel.updateOne({ smsCode }, { $set: { expirationTime: Date.now(), expirationTimeStamp: Date.now() } });
 }
 
 module.exports = mongoose.model('smsCode', smsCodeSchema);

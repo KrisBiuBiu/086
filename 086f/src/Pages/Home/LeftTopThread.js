@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
-import { Card, List, Avatar, Space, Popover } from 'antd';
-import { MessageOutlined, LikeOutlined, StarOutlined, EyeOutlined } from '@ant-design/icons';
-import AvatarPopCard from '../../Components/AvatarPopCard'
-import { makeHttpQuery, removeHTMLTagsSubString, makeHttpRequest } from '../../utils/fn';
 import {
-  Link
-} from "react-router-dom";
+  Card, List, Avatar, Space, Popover,
+} from 'antd';
+import {
+  MessageOutlined, LikeOutlined, StarOutlined, EyeOutlined,
+} from '@ant-design/icons';
+import {
+  Link,
+} from 'react-router-dom';
+import AvatarPopCard from '../../Components/AvatarPopCard';
+import { makeHttpQuery, removeHTMLTagsSubString, makeHttpRequest } from '../../utils/fn';
 
 class LeftTopThread extends Component {
   constructor() {
@@ -16,12 +20,12 @@ class LeftTopThread extends Component {
   }
 
   async componentDidMount() {
-    await this.getPlateCategoryList()
+    await this.getPlateCategoryList();
   }
 
   getPlateCategoryList = async () => {
-    const res = await makeHttpRequest("get", "/plate/categorys", {});
-    this.setState({ categoryList: res.data.list })
+    const res = await makeHttpRequest('get', '/plate/categorys', {});
+    this.setState({ categoryList: res.data.list });
   }
 
   onChange = (a, b, c) => {
@@ -53,64 +57,61 @@ class LeftTopThread extends Component {
     return (
       <div>
         {
-          categoryList.map((category) => {
-            return (
-              <Card size="small" title={category.name} extra={<span>More</span>} style={{ width: "100%" }}>
-                <List
-                  itemLayout="vertical"
-                  size="large"
-                  grid={{ gutter: 16, column: 2 }}
-                  dataSource={category.plateArr}
-                  renderItem={plate => (
-                    <List.Item>
-                      <Card
-                        style={{ width: "100%" }}
-                        bodyStyle={{ padding: "10px" }}
-                        bordered={false}
-                      >
-                        <div style={{ display: "flex" }}>
-                          <div style={{ flex: 2, marginRight: "10px" }}>
-                            <img style={{ width: "100%" }} src={`http://localhost:5001/plate/icon/${plate.pid}`} />
-                          </div>
-                          <div style={{ flex: 7 }}>
-                            <p style={{ marginBottom: "2px" }}>
-                              <div style={{ display: "flex", }}>
-                                <div style={{ flex: 5, fontWeight: "bold", }}>
-                                  <Link to={`/plate/${plate.pid}`}>
-                                    {plate.name}
-                                  </Link>
-                                </div>
-                                <div style={{ flex: 3, textAlign: "end" }}>
-                                  贴数：66500
-                                </div>
-                              </div>
-
-                            </p>
-                            <p style={{ fontSize: "10px", marginBottom: "2px", color: "#afafaf" }}>
-                              {plate.description}
-                            </p>
-                            <p style={{ fontSize: "10px", marginBottom: "2px" }}>
-                              <div style={{ display: "flex" }}>
-                                <div style={{ flex: 5 }}>
-                                  <a href="/t/85856" title="HORIBA公司D500型气体质量流量控制器MFC拆解鉴赏">HORIBA公司D500型气体质量流量控制器MFC拆解鉴赏</a>
-                                </div>
-                                <div style={{ flex: 3, textAlign: "end" }}>
-                                  <span data-type="nkcTimestamp" data-time="1613736289197" data-time-type="fromNow" title="2021/02/19 20:04:49">4个月17天前</span>
-                                </div>
-                              </div>
-                            </p>
-                          </div>
+          categoryList.map((category) => (
+            <Card size="small" title={category.name} extra={<span>More</span>} style={{ width: '100%' }}>
+              <List
+                itemLayout="vertical"
+                size="large"
+                grid={{ gutter: 16, column: 2 }}
+                dataSource={category.plateArr}
+                renderItem={(plate) => (
+                  <List.Item>
+                    <Card
+                      style={{ width: '100%' }}
+                      bodyStyle={{ padding: '10px' }}
+                      bordered={false}
+                    >
+                      <div style={{ display: 'flex' }}>
+                        <div style={{ flex: 2, marginRight: '10px' }}>
+                          <img style={{ width: '100%' }} src={`http://localhost:5001/plate/icon/${plate.pid}`} />
                         </div>
-                      </Card>
-                    </List.Item>
-                  )
-                  }
-                />
-              </Card >
-            )
-          })
+                        <div style={{ flex: 7 }}>
+                          <p style={{ marginBottom: '2px' }}>
+                            <div style={{ display: 'flex' }}>
+                              <div style={{ flex: 5, fontWeight: 'bold' }}>
+                                <Link to={`/plate/${plate.pid}`}>
+                                  {plate.name}
+                                </Link>
+                              </div>
+                              <div style={{ flex: 3, textAlign: 'end' }}>
+                                贴数：66500
+                              </div>
+                            </div>
+
+                          </p>
+                          <p style={{ fontSize: '10px', marginBottom: '2px', color: '#afafaf' }}>
+                            {plate.description}
+                          </p>
+                          <p style={{ fontSize: '10px', marginBottom: '2px' }}>
+                            <div style={{ display: 'flex' }}>
+                              <div style={{ flex: 5 }}>
+                                <a href="/t/85856" title="HORIBA公司D500型气体质量流量控制器MFC拆解鉴赏">HORIBA公司D500型气体质量流量控制器MFC拆解鉴赏</a>
+                              </div>
+                              <div style={{ flex: 3, textAlign: 'end' }}>
+                                <span data-type="nkcTimestamp" data-time="1613736289197" data-time-type="fromNow" title="2021/02/19 20:04:49">4个月17天前</span>
+                              </div>
+                            </div>
+                          </p>
+                        </div>
+                      </div>
+                    </Card>
+                  </List.Item>
+                )}
+              />
+            </Card>
+          ))
         }
-      </div >
+      </div>
     );
   }
 }
@@ -121,8 +122,7 @@ LeftTopThread.propTypes = {
 
 export default LeftTopThread;
 
-
-{/* <Card size="small" title="Top Thread card" extra={<span>More</span>} style={{ width: "100%" }}>
+{ /* <Card size="small" title="Top Thread card" extra={<span>More</span>} style={{ width: "100%" }}>
 <List
   itemLayout="vertical"
   size="large"
@@ -167,4 +167,4 @@ export default LeftTopThread;
     </List.Item>
   )}
 />
-</Card> */}
+</Card> */ }

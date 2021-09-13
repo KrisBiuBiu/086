@@ -3,7 +3,7 @@ import { message } from 'antd';
 import cookies from './cookies';
 
 export const makeHttpRequest = async (method, path, option) => {
-  let hostname = `http://${window.location.hostname}:5001`;
+  const hostname = `http://${window.location.hostname}:5001`;
   // url
   const url = hostname + path;
   let res;
@@ -11,20 +11,23 @@ export const makeHttpRequest = async (method, path, option) => {
     res = await Axios({
       method,
       url,
-      data: option
-    })
+      data: option,
+    });
     return res;
   } catch (err) {
-    console.log(err)
-    console.error(err.response.status, err.response.data);
-    message.error(`${err.response.status}: ${err.response.data}`, 6);
-    return false;
+    if (err.response) {
+      message.error(`${err.response.status}: ${err.response.data}`, 6);
+      throw (err.response.status, err.response.data);
+    } else {
+      message.error(`${err.toJSON().message}`, 6);
+      throw (err.toJSON().message);
+    }
+    // return false;
   }
-}
+};
 
 export const makeHttpQuery = async (path, option) => {
-
-  let hostname = `http://${window.location.hostname}:5001`;
+  const hostname = `http://${window.location.hostname}:5001`;
   // url
   const url = hostname + path;
   let res;
@@ -36,17 +39,18 @@ export const makeHttpQuery = async (path, option) => {
     });
     return res;
   } catch (err) {
-    console.log(err)
+    message.error(`${res.data.error.code}: ${res.data.error.message}`, 6);
+    throw (res.data.error);
   }
 };
 
 export const removeHTMLTagsSubString = (hText, num, ifSuffix) => {
-  let str = hText.replace(/<[^>]+>/g, "");
+  let str = hText.replace(/<[^>]+>/g, '');
   if (num) {
-    str = str.substr(0, num)
-  };
-  if (ifSuffix) {
-    str = str + "...";
+    str = str.substr(0, num);
   }
-  return str
-}
+  if (ifSuffix) {
+    str += '...';
+  }
+  return str;
+};

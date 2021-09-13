@@ -81,3 +81,60 @@ https://segmentfault.com/a/1190000021634460
 node 10.16.3
 mongodb 3.4.1
 https://segmentfault.com/a/1190000021634460
+
+### 配置Eslint
+
+npm install --save-dev eslint-config-airbnb eslint-plugin-import eslint-plugin-react eslint-plugin-jsx-a11y
+
+根目录文件 .eslintrc
+
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true
+  },
+  "globals": {
+    "_": true
+  },
+  "parser": "babel-eslint",
+  "extends": [
+    "airbnb"
+  ],
+  "rules": {
+    "no-debugger": "error",
+    "react/prefer-stateless-function": 0,
+    "react/jsx-filename-extension": "off",
+    "react/forbid-prop-types": [
+      0,
+      {
+        "forbid": [
+          "any"
+        ]
+      }
+    ],
+    "no-unused-vars": 0,
+    "no-useless-constructor": 0,
+    "no-console": 0,
+    "no-shadow": 0,
+    "no-underscore-dangle": 0,
+    "no-param-reassign": 0,
+    "import/no-extraneous-dependencies": 0,
+    "jsx-a11y/label-has-associated-control": 0,
+    "react/jsx-props-no-spreading": [
+      "error",
+      {
+        "custom": "ignore"
+      }
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": [
+          "src"
+        ]
+      }
+    }
+  }
+}

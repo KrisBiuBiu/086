@@ -35,9 +35,9 @@ class QuillEditor extends React.Component {
       const formData = new FormData();
       formData.append('file', file);
       const res = await this.uploadFile(formData);
-      console.log(res)
+      console.log(res);
       const range = this.quillEditor.getSelection();
-      const filename = res.data.filename;
+      const { filename } = res.data;
       const imgSrc = `http://${window.location.hostname}:5001/statics/${filename}`;
 
       // this part the image is inserted
@@ -46,25 +46,24 @@ class QuillEditor extends React.Component {
     };
   }
 
-
   render = () => {
     const { renderText, renderModules, renderStyle } = this.props;
     let toolbarContainer = [
-      ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+      ['bold', 'italic', 'underline', 'strike'], // toggled buttons
       ['blockquote', 'code-block'],
 
-      [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-      [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
-      [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
-      [{ 'direction': 'rtl' }],                         // text direction
+      [{ header: 1 }, { header: 2 }], // custom button values
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
+      [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
+      [{ direction: 'rtl' }], // text direction
 
-      [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
+      [{ header: [1, 2, 3, 4, 5, 6, false] }],
 
-      [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-      [{ 'font': [] }],
-      [{ 'align': [] }],
+      [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+      [{ font: [] }],
+      [{ align: [] }],
 
       ['clean'],
       ['image'],
@@ -94,6 +93,5 @@ class QuillEditor extends React.Component {
     );
   }
 }
-
 
 export default QuillEditor;

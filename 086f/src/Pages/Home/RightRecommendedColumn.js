@@ -6,8 +6,7 @@ class RightRecommendedColumn extends Component {
     console.log(a, b, c);
   }
 
-  render () {
-
+  render() {
     const data = [
       {
         title: 'Title 1',
@@ -31,7 +30,7 @@ class RightRecommendedColumn extends Component {
     return (
 
       <div>
-        <Card size="small" title="Recommended column" style={{ width: "100%" }}>
+        <Card size="small" title="Recommended column" style={{ width: '100%' }}>
           <List
             grid={{
               gutter: 16,
@@ -43,7 +42,7 @@ class RightRecommendedColumn extends Component {
               xxl: 3,
             }}
             dataSource={data}
-            renderItem={item => (
+            renderItem={(item) => (
               <List.Item>
                 <Card>Card content</Card>
               </List.Item>

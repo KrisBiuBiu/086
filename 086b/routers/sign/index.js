@@ -34,24 +34,35 @@ signRouter
   })
   .post("/loginWithSmsCode", async (ctx, next) => {
     const { mobile, smsCode } = ctx.request.body;
+    let uid;
 
-    // 校验手机号
-    if (!mobile || regular.mobileReg.test(mobile)) ctx.throw(400, "手机号码格式不正确")
+    // 校验手机号与验证码
+    if (!mobile || !regular.mobileReg.test(mobile)) ctx.throw(400, "手机号码格式不正确")
+    if (!smsCode || !regular.smsCodeReg.test(smsCode)) ctx.throw(400, "验证码格式不正确");
+    const smsCodeExpired = await smsCodeModel.checkSmsCodeExpired(mobile, smsCode);
+    if (!smsCodeExpired) ctx.throw(400, "验证码不正确或已过期");
+    await smsCodeModel.expireSmsCode(smsCode); // 将验证码置为失效
+
+    // 验证手机号是否存在， 如果不存在则注册新用户
     const mobileRegistered = await usersModel.checkMobileRegistered(mobile);
-    if (!mobileRegistered) ctx.throw(401, "手机号不存在");
+    if (!mobileRegistered) {
+      // 创建用户
+      uid = await idsModel.getNewId("uid");
+      const user = new usersModel({
+        uid,
+        mobile,
+      });
+      await user.save();
+    } else {
+      uid = await usersModel.getUid(mobile);
+      await usersModel.updateLastLoginTimeStamp(uid); // 更新用户最后登录时间
+    }
 
-    // 校验6位数字验证码
-    if (!smsCode || regular.smsCodeReg.test(smsCode)) ctx.throw(400, "验证码格式不正确");
-
-
-    // 获取uid
-    let uid = await usersModel.getUid(mobile);
-    // 更新用户最后登录时间
-    await usersModel.updateLastLoginTimeStamp(uid);
-    // 获取用户信息
-    const userInfo = await usersModel.getUserTokenInfo(uid);
+    // 返回token
+    const userInfo = await usersModel.getUserTokenInfo(uid); // 获取用户信息
+    console.log(userInfo)
     const secret = "react-koa-bookiezilla"; // 指定密钥，这是之后用来判断token合法性的标志
-    const token = jwt.sign(userInfo, secret); // 签发token
+    const token = jwt.sign(uid, secret); // 签发token
     ctx.body = { token }
   })
   .post("/register", async (ctx, next) => {
