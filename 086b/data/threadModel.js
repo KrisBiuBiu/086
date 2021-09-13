@@ -39,22 +39,22 @@ const threadSchema = new Schema({
   },
   createTime: {
     type: Date,
-    default: Date.now,
+    default: () => Date.now(),
     index: 1
   },
   createTimeStamp: {
     type: String,
-    default: (new Date()).getTime(),
+    default: () => Date.now(),
     index: 1
   },
   lastTime: {
     type: Date,
-    default: Date.now,
+    default: () => Date.now(),
     index: 1
   },
   lastTimeStamp: {
     type: String,
-    default: (new Date()).getTime(),
+    default: () => Date.now(),
     index: 1
   }
 }, {

@@ -30,23 +30,23 @@ const usersSchema = new Schema({
     type: String,
     default: ''
   },
-  lastLoginTime: {
-    type: Date,
-    default: "",
-  },
   registerTime: {
     type: Date,
-    default: Date.now,
+    default: () => Date.now(),
     index: 1
   },
   registerTimeStamp: {
     type: String,
-    default: (new Date()).getTime(),
+    default: () => Date.now(),
     index: 1
+  },
+  lastLoginTime: {
+    type: Date,
+    default: () => Date.now(),
   },
   lastLoginTimeStamp: {
     type: String,
-    default: (new Date()).getTime(),
+    default: () => Date.now(),
     index: 1
   }
 }, {
