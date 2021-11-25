@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const threadModel = require("../../data/threadModel.js");
 const idsModel = require("../../data/idsModel.js");
 const fn = require(path.join(__dirname, `../../utils/fn`));
-const usersModel = require('../../data/usersModel.js');
+const userModel = require('../../data/userModel.js');
 const fs = require("fs")
 const mime = require("mime-types")
 
@@ -22,14 +22,14 @@ userRouter
     });
     await thread.save();
     // 检查手机号
-    // const mobileRegistered = await usersModel.checkMobileRegistered(mobile);
+    // const mobileRegistered = await userModel.checkMobileRegistered(mobile);
     // if (!mobileRegistered) ctx.throw(401, "手机号不存在");
     // // 获取uid
-    // let uid = await usersModel.getUid(mobile);
+    // let uid = await userModel.getUid(mobile);
     // // 更新用户最后登录时间
-    // await usersModel.updateLastLoginTimeStamp(uid);
+    // await userModel.updateLastLoginTimeStamp(uid);
     // // 获取用户信息
-    // const userInfo = await usersModel.getUserTokenInfo(uid);
+    // const userInfo = await userModel.getUserTokenInfo(uid);
     // const secret = "react-koa-bookiezilla"; // 指定密钥，这是之后用来判断token合法性的标志
     // const token = jwt.sign(userInfo, secret); // 签发token
     ctx.body = { test: "123" }
@@ -37,7 +37,7 @@ userRouter
   .post("/updateInfo", async (ctx, next) => {
     const { username, description } = ctx.request.body;
     const { user } = ctx;
-    await usersModel.updateUserInfo(user.uid, username, description)
+    await userModel.updateUserInfo(user.uid, username, description)
     ctx.body = { text: "132" }
   })
   .post("/uploadAvator", async (ctx, next) => {

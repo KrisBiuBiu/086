@@ -45,7 +45,7 @@ const commentSchema = new Schema({
 
 commentSchema.statics.getComments = async (tid) => {
   const commentModel = mongoose.model("comment");
-  const userModel = mongoose.model("users");
+  const userModel = mongoose.model("user");
   let comments = await commentModel.find({ tid }).sort({ createTime: -1 }).lean();
   comments.map(async (comment) => {
     let user = await userModel.findOne({ uid: comment.uid }).lean();

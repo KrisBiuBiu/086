@@ -2,7 +2,7 @@ const Router = require('koa-router');
 const signRouter = new Router();
 const path = require("path");
 const jwt = require("jsonwebtoken");
-const usersModel = require("../../data/usersModel.js");
+const userModel = require("../../data/userModel.js");
 const idsModel = require("../../data/idsModel.js");
 const smsCodeModel = require('../../data/smsCodeModel.js');
 const fn = require(path.join(__dirname, `../../utils/fn`));
@@ -44,22 +44,22 @@ signRouter
     await smsCodeModel.expireSmsCode(smsCode); // 将验证码置为失效
 
     // 验证手机号是否存在， 如果不存在则注册新用户
-    const mobileRegistered = await usersModel.checkMobileRegistered(mobile);
+    const mobileRegistered = await userModel.checkMobileRegistered(mobile);
     if (!mobileRegistered) {
       // 创建用户
       uid = await idsModel.getNewId("uid");
-      const user = new usersModel({
+      const user = new userModel({
         uid,
         mobile,
       });
       await user.save();
     } else {
-      uid = await usersModel.getUid(mobile);
-      await usersModel.updateLastLoginTimeStamp(uid); // 更新用户最后登录时间
+      uid = await userModel.getUid(mobile);
+      await userModel.updateLastLoginTimeStamp(uid); // 更新用户最后登录时间
     }
 
     // 返回token
-    const userInfo = await usersModel.getUserTokenInfo(uid); // 获取用户信息
+    const userInfo = await userModel.getUserTokenInfo(uid); // 获取用户信息
     console.log(userInfo)
     const secret = "react-koa-bookiezilla"; // 指定密钥，这是之后用来判断token合法性的标志
     const token = jwt.sign(uid, secret); // 签发token
@@ -68,17 +68,17 @@ signRouter
   .post("/register", async (ctx, next) => {
     console.log(ctx);
     // 检测用户名和手机号是否已存在
-    const usernameExi = await usersModel.checkUsernameExists("username");
+    const usernameExi = await userModel.checkUsernameExists("username");
     if (usernameExi) {
       ctx.throw(404, "用户名已存在")
     }
-    const mobileExi = await usersModel.checkMobileRegistered(13547829667);
+    const mobileExi = await userModel.checkMobileRegistered(13547829667);
     if (mobileExi) {
       ctx.throw(404, "该手机号已被注册");
     }
     // 创建用户
     const uid = await idsModel.getNewId("uid");
-    const user = new usersModel({
+    const user = new userModel({
       uid,
       mobile: 13547829667,
     });
