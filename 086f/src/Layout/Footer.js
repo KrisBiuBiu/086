@@ -5,7 +5,7 @@ class Footer extends Component {
   render() {
     return (
       <>
-        <Layout.Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Layout.Footer>
+        <Layout.Footer style={{ textAlign: 'center', background: "#f7f7f7" }}>Ant Design ©2018 Created by Ant UED</Layout.Footer>
       </>
     );
   }
