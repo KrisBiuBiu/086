@@ -13,7 +13,8 @@ class Thread extends Component {
     this.state = {
       thread: {},
       postContent: "",
-      comments: []
+      comments: [],
+      commentSortType: ""
     };
   }
 
@@ -52,11 +53,25 @@ class Thread extends Component {
     await this.getComments(this.props.match.params.id)
   }
 
+  switchCommentType = (type) => {
+    this.setState({ commentSortType: type })
+  }
+
   render() {
-    const { thread,
-      postContent, comments } = this.state;
-    const IconText = ({ icon, text }) => (
+    const {
+      thread,
+      postContent,
+      comments,
+      commentSortType
+    } = this.state;
+    const ThreadIconText = ({ icon, text }) => (
       <Space size={2}>
+        {React.createElement(icon)}
+        {text}
+      </Space>
+    );
+    const ThreadOperationButton = ({ icon, text }) => (
+      <Space size={2} className="thread-operation-button">
         {React.createElement(icon)}
         {text}
       </Space>
@@ -75,10 +90,10 @@ class Thread extends Component {
                   </Col>
                   <Col span={12} style={{ textAlign: "end" }}>
                     <div style={{ display: "inline-block" }}>
-                      <IconText icon={EyeOutlined} text={"564"} />
+                      <ThreadIconText icon={EyeOutlined} text={"564"} />
                     </div>
                     <div style={{ display: "inline-block", marginLeft: "10px" }}>
-                      <IconText icon={CommentOutlined} text={"23"} />
+                      <ThreadIconText icon={CommentOutlined} text={"23"} />
                     </div>
                   </Col>
                 </Row>
@@ -102,53 +117,19 @@ class Thread extends Component {
                     </span>
                   </Space>
                 </Col>
-                {/* <Col span={24}>
-                  <div>
-                    <div style={{ float: "left" }}>
-                      <Avatar style={{ backgroundColor: "#7265e6", verticalAlign: 'middle' }} size={35}>
-                        {"Kris"}
-                      </Avatar>
-                    </div>
-                    <div style={{ marginLeft: "50px", position: "relative" }}>
-                      <h3 style={{ height: "20px", marginBottom: "0" }}>
-                        Kris
-                      </h3>
-                      <p style={{ fontSize: "12px", marginBottom: "0" }}>
-                        This is Description
-                      </p>
-                    </div>
-                  </div>
-                </Col> */}
                 <Col span={24}>
                   <div key="2" dangerouslySetInnerHTML={{ __html: thread.content ? thread.content : "" }} />
                 </Col>
                 <Col span={24} style={{ textAlign: "end" }}>
                   <Space size={16}>
                     <div>
-                      <Button
-                        // shape="circle"
-                        type="primary"
-                        icon={<LikeOutlined />}
-                        css={
-                          {
-                            backgroundColor: "#325438",
-                            borderColor: "#325438",
-                            "&:hover": {
-                              backgroundColor: "#325438",
-                              borderColor: "#325438"
-                            }
-                          }
-                        }
-                      />
+                      <ThreadOperationButton icon={LikeOutlined} text={"6"} />
                     </div>
                     <div>
-                      <IconText icon={LikeOutlined} text={"6"} />
+                      <ThreadOperationButton icon={StarOutlined} text={"收藏"} />
                     </div>
                     <div>
-                      <IconText icon={StarOutlined} text={"收藏"} />
-                    </div>
-                    <div>
-                      <IconText icon={ShareAltOutlined} text={"分享"} />
+                      <ThreadOperationButton icon={ShareAltOutlined} text={"分享"} />
                     </div>
                   </Space>
                 </Col>
@@ -169,53 +150,79 @@ class Thread extends Component {
               <Row style={{ marginTop: "20px", padding: "20px", background: "#fff" }} gutter={[8, 24]}>
                 全部评论{comments.length}条
               </Row>
-              <Row style={{ marginTop: "20px", padding: "20px", background: "#fff" }} gutter={[8, 24]} className="comment-list">
+              <Row style={{ marginTop: "20px", padding: "20px", background: "#fff", boxShadow: "0 0 3px rgb(0 0 0 / 10%)" }} gutter={[8, 24]} className="comment-list">
+                <div style={{ width: "100%" }}>
+                  <Row gutter={[8, 24]} style={{ width: "100%" }}>
+                    <Col span={12}>
+                      全部评论{comments.length}条
+                    </Col>
+                    <Col span={12} style={{ textAlign: "end" }}>
+                      <div className="comment-sort-box-panel">
+                        <span className={!commentSortType || commentSortType === "hot" ? "comment-sort-box-option comment-sort-box-option-active" : "comment-sort-box-option"} onClick={() => this.switchCommentType("hot")}>最热</span>
+                        {
+                          commentSortType && commentSortType === "last" ? (
 
-                <List
-                  itemLayout="vertical"
-                  size="large"
-                  style={{ width: "100%" }}
-                  dataSource={comments}
-                  renderItem={comment => (
-                    <List.Item
-                      key={`comment-${comment.commentId}`}
-                    >
-                      <List.Item.Meta
-                        avatar={
-                          <div>
-                            <div style={{ float: "left" }}>
-                              <Avatar style={{ backgroundColor: "#7265e6", verticalAlign: 'middle' }} size={25}>
-                                {"Kris"}
-                              </Avatar>
-                            </div>
-                            <div style={{ marginLeft: "30px", position: "relative" }}>
-                              <h4 style={{ height: "20px", marginBottom: "0", lineHeight: "25px" }}>
-                                Kris
-                              </h4>
-                            </div>
-                          </div>
+                            <span className={"comment-sort-box-option comment-sort-box-option-active comment-sort-box-option-right comment-sort-box-option-right-top"} onClick={() => this.switchCommentType("old")}>最新</span>
+                          ) : commentSortType && commentSortType === "old" ? (
+
+                            <span className={"comment-sort-box-option comment-sort-box-option-active comment-sort-box-option-right comment-sort-box-option-right-bottom"} onClick={() => this.switchCommentType("last")}>最早</span>
+                          ) : (
+                            <span className={"comment-sort-box-option comment-sort-box-option-right"} onClick={() => this.switchCommentType("last")}>最新</span>
+                          )
                         }
-                        style={{ marginBottom: "10px" }}
-                      />
-                      <div style={{ display: "flex", paddingLeft: "30px" }}>
-                        <div style={{ width: "100%" }} dangerouslySetInnerHTML={{ __html: comment.content ? comment.content : "" }}>
-                        </div>
+                        {/* <span className={commentSortType && commentSortType === "last"?"comment-sort-box-option comment-sort-box-option-active": "comment-sort-box-option"}"comment-sort-box-option comment-sort-box-option-active comment-sort-box-option-right" onClick={() => this.switchCommentType("hot")}>最新</span> */}
                       </div>
-                      <div style={{ display: "flex" }} className="comment-item-button-area">
-                        <div style={{ flex: 2 }}>
-                          {
-                            moment(new Date(comment.createTime)).format('MM-DD HH:mm')
+                    </Col>
+                  </Row>
+                </div>
+                <div>
+
+                  <List
+                    itemLayout="vertical"
+                    size="large"
+                    style={{ width: "100%" }}
+                    dataSource={comments}
+                    renderItem={comment => (
+                      <List.Item
+                        key={`comment-${comment.commentId}`}
+                      >
+                        <List.Item.Meta
+                          avatar={
+                            <div>
+                              <div style={{ float: "left" }}>
+                                <Avatar style={{ backgroundColor: "#7265e6", verticalAlign: 'middle' }} size={25}>
+                                  {"Kris"}
+                                </Avatar>
+                              </div>
+                              <div style={{ marginLeft: "30px", position: "relative" }}>
+                                <h4 style={{ height: "20px", marginBottom: "0", lineHeight: "25px" }}>
+                                  Kris
+                                </h4>
+                              </div>
+                            </div>
                           }
+                          style={{ marginBottom: "10px" }}
+                        />
+                        <div style={{ display: "flex", paddingLeft: "30px" }}>
+                          <div style={{ width: "100%" }} dangerouslySetInnerHTML={{ __html: comment.content ? comment.content : "" }}>
+                          </div>
                         </div>
-                        <div style={{ flex: 7, textAlign: "end" }}>
-                          <span>
-                            {/* <IconText icon={EyeOutlined} text={6} key="list-vertical-star-o" /> */}
-                          </span>
+                        <div style={{ display: "flex" }} className="comment-item-button-area">
+                          <div style={{ flex: 2 }}>
+                            {
+                              moment(new Date(comment.createTime)).format('MM-DD HH:mm')
+                            }
+                          </div>
+                          <div style={{ flex: 7, textAlign: "end" }}>
+                            <span>
+                              {/* <IconText icon={EyeOutlined} text={6} key="list-vertical-star-o" /> */}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    </List.Item>
-                  )}
-                />
+                      </List.Item>
+                    )}
+                  />
+                </div>
               </Row>
             </Col>
             <Col span={6}>
@@ -225,7 +232,7 @@ class Thread extends Component {
             </Col>
           </Row>
 
-        </div>
+        </div >
       </>
     );
   }
