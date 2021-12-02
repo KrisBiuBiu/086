@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Tag, Avatar, Button, message, List, Space } from 'antd';
 import { makeHttpQuery, makeHttpRequest, removeHTMLTagsSubString } from '../../utils/fn';
 import {
-  EyeOutlined, CommentOutlined, HeartOutlined, LikeOutlined, DislikeOutlined, ShareAltOutlined, StarOutlined
+  EyeOutlined, CommentOutlined, HeartOutlined, LikeOutlined, DislikeOutlined, ShareAltOutlined, StarOutlined, MessageOutlined, EllipsisOutlined
 } from '@ant-design/icons';
 import PostEditor from './PostEditor';
 import moment from 'moment';
@@ -147,11 +147,11 @@ class Thread extends Component {
                   </Button>
                 </Col>
               </Row>
-              <Row style={{ marginTop: "20px", padding: "20px", background: "#fff" }} gutter={[8, 24]}>
+              {/* <Row style={{ marginTop: "20px", padding: "20px", background: "#fff" }} gutter={[8, 24]}>
                 全部评论{comments.length}条
-              </Row>
-              <Row style={{ marginTop: "20px", padding: "20px", background: "#fff", boxShadow: "0 0 3px rgb(0 0 0 / 10%)" }} gutter={[8, 24]} className="comment-list">
-                <div style={{ width: "100%" }}>
+              </Row> */}
+              <Row style={{ marginTop: "20px", padding: "20px", background: "#fff", boxShadow: "0 0 3px rgb(0 0 0 / 10%)" }} gutter={[8, 0]} className="comment-list">
+                <div style={{ width: "100%", borderBottom: "1px solid #eee", paddingBottom: "10px" }}>
                   <Row gutter={[8, 24]} style={{ width: "100%" }}>
                     <Col span={12}>
                       全部评论{comments.length}条
@@ -170,14 +170,61 @@ class Thread extends Component {
                             <span className={"comment-sort-box-option comment-sort-box-option-right"} onClick={() => this.switchCommentType("last")}>最新</span>
                           )
                         }
-                        {/* <span className={commentSortType && commentSortType === "last"?"comment-sort-box-option comment-sort-box-option-active": "comment-sort-box-option"}"comment-sort-box-option comment-sort-box-option-active comment-sort-box-option-right" onClick={() => this.switchCommentType("hot")}>最新</span> */}
                       </div>
                     </Col>
                   </Row>
                 </div>
                 <div>
+                  {
+                    comments.map((comment) => {
+                      return (
+                        <div className="comment-single-box">
+                          <Space align="center" className="comment-single-box-avatar-column" size={0}>
+                            <Avatar style={{ backgroundColor: "#7265e6", verticalAlign: 'middle' }} size={25}>
+                              {"Kris"}
+                            </Avatar>
+                            <div style={{ paddingLeft: "5px" }}>
+                              Kris
+                            </div>
+                          </Space>
+                          <div className="comment-single-box-content-column">
+                            <div style={{ width: "100%" }} dangerouslySetInnerHTML={{ __html: comment.content ? comment.content : "" }}>
+                            </div>
+                          </div>
+                          <div style={{ display: "flex" }} className="comment-item-button-area">
+                            <div style={{ flex: 1 }}>
+                              <div>
+                                <span>发布于&nbsp;</span>
+                                <span>
+                                  {
+                                    moment(new Date(comment.createTime)).format('MM-DD')
+                                  }
+                                </span>
+                              </div>
+                            </div>
+                            <div style={{ flex: 1, textAlign: "end" }}>
+                              <Space size={16} align="end">
+                                <div className="comment-single-box-action-display-hide">
+                                  <ThreadOperationButton icon={MessageOutlined} text={"回复"} />
+                                </div>
+                                <div className="comment-single-box-action-display-hide">
+                                  <ThreadOperationButton icon={StarOutlined} text={"收藏"} />
+                                </div>
+                                <div>
+                                  <ThreadOperationButton icon={LikeOutlined} text={`${comment.commentId}`} />
+                                </div>
+                                <div>
+                                  <ThreadOperationButton icon={EllipsisOutlined} text={""} />
+                                </div>
+                              </Space>
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    })
+                  }
 
-                  <List
+                  {/* <List
                     itemLayout="vertical"
                     size="large"
                     style={{ width: "100%" }}
@@ -185,6 +232,7 @@ class Thread extends Component {
                     renderItem={comment => (
                       <List.Item
                         key={`comment-${comment.commentId}`}
+                        className="comment-single-box"
                       >
                         <List.Item.Meta
                           avatar={
@@ -208,20 +256,41 @@ class Thread extends Component {
                           </div>
                         </div>
                         <div style={{ display: "flex" }} className="comment-item-button-area">
-                          <div style={{ flex: 2 }}>
-                            {
-                              moment(new Date(comment.createTime)).format('MM-DD HH:mm')
-                            }
+                          <div style={{ flex: 1 }}>
+                            <div>
+                              <span>发布于&nbsp;</span>
+                              <span>
+                                {
+                                  moment(new Date(comment.createTime)).format('MM-DD')
+                                }
+                              </span>
+                            </div>
                           </div>
-                          <div style={{ flex: 7, textAlign: "end" }}>
-                            <span>
-                              {/* <IconText icon={EyeOutlined} text={6} key="list-vertical-star-o" /> */}
-                            </span>
+                          <div style={{ flex: 1, textAlign: "end" }}>
+                            <Space size={16} align="center">
+                              {
+                                comment.commentId === 10 ? (
+
+                                  <div >
+                                    <ThreadOperationButton icon={MessageOutlined} text={"回复"} />
+                                  </div>
+                                ) : null
+                              }
+                              <div className="comment-single-box-action-display-hide">
+                                <ThreadOperationButton icon={StarOutlined} text={"收藏"} />
+                              </div>
+                              <div>
+                                <ThreadOperationButton icon={LikeOutlined} text={`${comment.commentId}`} />
+                              </div>
+                              <div>
+                                <ThreadOperationButton icon={EllipsisOutlined} text={""} />
+                              </div>
+                            </Space>
                           </div>
                         </div>
                       </List.Item>
                     )}
-                  />
+                  /> */}
                 </div>
               </Row>
             </Col>
