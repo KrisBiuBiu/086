@@ -131,6 +131,50 @@ code {
   
 }
 
+/* comment */
+
+.box-panel-header {
+  font-size: 15px;
+  color: #777;
+  font-weight: 700;
+  box-sizing: border-box;
+  border-bottom: 1px solid #f4f4f4;
+  padding:5px 10px;
+}
+
+.side-thread-title-link {
+  float: right;
+  width: calc(100% - 25px);
+  max-height: 48px;
+  color: #333;
+  font-size: 14px;
+  line-height: 24px;
+  word-break: break-all;
+}
+
+.side-thread-title-link:hover{
+  text-decoration: underline;
+  color:#08979c;
+}
+
+.side-thread-title-hot {
+  display: inline-block;
+  float: left;
+  width: 3px;
+  height: 3px;
+  padding: 1px 5px 5px 0;
+}
+
+
+
+.item___2D6oK {
+  padding-bottom: 12px;
+  overflow: hidden;
+}
+
+
+
+
 /* thread */
 
 .thread-operation-button {

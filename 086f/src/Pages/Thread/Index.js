@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Tag, Avatar, Button, message, List, Space } from 'antd';
 import { makeHttpQuery, makeHttpRequest, removeHTMLTagsSubString } from '../../utils/fn';
 import {
-  EyeOutlined, CommentOutlined, HeartOutlined, LikeOutlined, DislikeOutlined, ShareAltOutlined, StarOutlined, MessageOutlined, EllipsisOutlined
+  EyeOutlined, CommentOutlined, HeartOutlined, LikeOutlined, DislikeOutlined, ShareAltOutlined, StarOutlined, MessageOutlined, EllipsisOutlined, FireOutlined
 } from '@ant-design/icons';
 import PostEditor from './PostEditor';
 import moment from 'moment';
@@ -79,7 +79,7 @@ class Thread extends Component {
     return (
       <>
         <div style={{ marginTop: "10px" }}>
-          <Row style={{ padding: "20px" }} gutter={[8]}>
+          <Row style={{ padding: "20px" }} gutter={[24, 24]}>
             <Col span={18}>
               <Row style={{ padding: "20px", background: "#fff", boxShadow: "0 0 3px rgb(0 0 0 / 10%)" }} gutter={[8, 24]}>
                 <Row gutter={[8, 24]} style={{ width: "100%" }}>
@@ -223,81 +223,65 @@ class Thread extends Component {
                       )
                     })
                   }
-
-                  {/* <List
-                    itemLayout="vertical"
-                    size="large"
-                    style={{ width: "100%" }}
-                    dataSource={comments}
-                    renderItem={comment => (
-                      <List.Item
-                        key={`comment-${comment.commentId}`}
-                        className="comment-single-box"
-                      >
-                        <List.Item.Meta
-                          avatar={
-                            <div>
-                              <div style={{ float: "left" }}>
-                                <Avatar style={{ backgroundColor: "#7265e6", verticalAlign: 'middle' }} size={25}>
-                                  {"Kris"}
-                                </Avatar>
-                              </div>
-                              <div style={{ marginLeft: "30px", position: "relative" }}>
-                                <h4 style={{ height: "20px", marginBottom: "0", lineHeight: "25px" }}>
-                                  Kris
-                                </h4>
-                              </div>
-                            </div>
-                          }
-                          style={{ marginBottom: "10px" }}
-                        />
-                        <div style={{ display: "flex", paddingLeft: "30px" }}>
-                          <div style={{ width: "100%" }} dangerouslySetInnerHTML={{ __html: comment.content ? comment.content : "" }}>
-                          </div>
-                        </div>
-                        <div style={{ display: "flex" }} className="comment-item-button-area">
-                          <div style={{ flex: 1 }}>
-                            <div>
-                              <span>发布于&nbsp;</span>
-                              <span>
-                                {
-                                  moment(new Date(comment.createTime)).format('MM-DD')
-                                }
-                              </span>
-                            </div>
-                          </div>
-                          <div style={{ flex: 1, textAlign: "end" }}>
-                            <Space size={16} align="center">
-                              {
-                                comment.commentId === 10 ? (
-
-                                  <div >
-                                    <ThreadOperationButton icon={MessageOutlined} text={"回复"} />
-                                  </div>
-                                ) : null
-                              }
-                              <div className="comment-single-box-action-display-hide">
-                                <ThreadOperationButton icon={StarOutlined} text={"收藏"} />
-                              </div>
-                              <div>
-                                <ThreadOperationButton icon={LikeOutlined} text={`${comment.commentId}`} />
-                              </div>
-                              <div>
-                                <ThreadOperationButton icon={EllipsisOutlined} text={""} />
-                              </div>
-                            </Space>
-                          </div>
-                        </div>
-                      </List.Item>
-                    )}
-                  /> */}
                 </div>
               </Row>
             </Col>
             <Col span={6}>
-              <div style={{ width: "100%", background: "#e0e0e0" }}>
-                12345
-              </div>
+
+              <Row gutter={[8, 0]}>
+                <Col style={{ background: "#fff", boxShadow: "0 0 3px rgb(0 0 0 / 10%)" }} span={24}>
+                  <div className="box-panel-header">
+                    相关阅读
+                  </div>
+                  <div style={{ padding: "10px" }}>
+                    <div class="item___2D6oK">
+                      <span style={{ color: "red" }} class="side-thread-title-hot">
+                        <FireOutlined />
+                      </span>
+                      <a target="_blank" title="2020.07+共识声明：阵发性睡眠性血红蛋白尿" class="side-thread-title-link" href="/bbs/newweb/pc/post/43716414">2020.07+共识声明：阵发性睡眠性血红蛋白尿</a>
+                    </div>
+                    <div class="item___2D6oK">
+                      <span style={{ color: "orange" }} class="side-thread-title-hot">
+                        <FireOutlined />
+                      </span>
+                      <a target="_blank" title="公立医院薪酬制度改革，快看！" class="side-thread-title-link" href="/bbs/newweb/pc/post/45472783">公立医院薪酬制度改革，快看！</a>
+                    </div>
+                    <div class="item___2D6oK">
+                      <span style={{ color: "orange" }} class="side-thread-title-hot">
+                        <FireOutlined />
+                      </span>
+                      <a target="_blank" title="苏州大学645 西医综合自主命题免费送" class="side-thread-title-link" href="/bbs/newweb/pc/post/43380906">苏州大学645 西医综合自主命题免费送</a>
+                    </div>
+                  </div>
+                  {/* <div>
+                    <div>
+                      <span className="side-thread-title-hot">
+                        <FireOutlined />
+                      </span>
+                      <a className="side-thread-title-link" style={{ paddingLeft: "10px" }}>
+                        说到烤整只的动物，全观察者网，哪怕是厨子都不见得比我有经验
+                      </a>
+                    </div>
+                    <div>
+                      <span className="side-thread-title-hot">
+                        <FireOutlined />
+                      </span>
+                      <a className="side-thread-title-link" style={{ paddingLeft: "10px" }}>
+                        说到烤整只的动物，全观察者网，哪怕是厨子都不见得比我有经验
+                      </a>
+                    </div>
+                    <div>
+                      <span className="side-thread-title-hot">
+                        <FireOutlined />
+                      </span>
+                      <a className="side-thread-title-link" style={{ paddingLeft: "10px" }}>
+                        说到烤整只的动物，全观察者网，哪怕是厨子都不见得比我有经验
+                      </a>
+                    </div>
+                  </div> */}
+
+                </Col>
+              </Row>
             </Col>
           </Row>
 
