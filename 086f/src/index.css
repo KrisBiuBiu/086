@@ -21,14 +21,6 @@ code {
   margin-left: auto;
 }
 
-.logo {
-  float: left;
-  width: 87px;
-  /* height: 31px;
-  margin: 16px 24px 16px 0;
-  background: rgba(255, 255, 255, 0.2); */
-}
-
 .header-menu-right {
   float: right;
   /* width: 120px;
@@ -117,4 +109,61 @@ code {
 
 .comment-list .ant-list-split .ant-list-item:last-child .comment-item-button-area {
   border-bottom: unset !important;
+}
+
+.ant-layout {
+  background: #f7f7f7 !important;
+}
+
+.box-shadow-panel {
+  box-shadow: 0 0 3px rgb(0 0 0 / 10%);
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 3px;
+}
+
+.cj-layout-header {
+  background-color: #fff !important;
+  height: 50px !important;
+  line-height: 50px !important;
+  position: fixed !important;
+  z-index: 1 !important;
+  width: 100% !important;
+  box-shadow: 0 3px 6px -4px rgb(0 0 0 / 12%), 0 6px 16px 0 rgb(0 0 0 / 8%), 0 9px 28px 8px rgb(0 0 0 / 5%);
+}
+
+.cj-layout-header .logo {
+  float: left;
+  height: 50px;
+}
+
+.cj-layout-header .logo .logo-icon {
+  height: 25px;
+  position: relative;
+  top:-5px;
+  margin: 0px 5px;
+}
+
+.cj-layout-header .logo .logo-title {
+  font-size: 25px;
+  line-height: 50px;
+  color: #364d79
+}
+
+.cj-layout-header .header-menu {
+  margin-left: 130px;
+  border-bottom: none;
+}
+
+.cj-layout-header .header-menu  > .ant-menu-item-selected a {
+  color: #000 !important;
+  font-weight: bold !important;
+}
+
+.cj-layout-header .header-menu .ant-menu-item {
+  padding: 0px 10px !important;
+}
+
+.cj-layout-header .header-menu .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover::after, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu:hover::after, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-active::after, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-active::after, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-open::after, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-open::after, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-selected::after, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-selected::after {
+  border: unset !important;
 }

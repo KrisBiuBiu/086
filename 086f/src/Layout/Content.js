@@ -9,11 +9,11 @@ import Manage from "../Pages/Manage/Index.js";
 import Editor from "../Pages/Editor/Index.js";
 import User from "../Pages/User/Index.js";
 import Thread from "../Pages/Thread/Index.js";
-import Plate from "../Pages/Plate/Index.js";
+import Topic from "../Pages/Topic/Index.js";
 
 class Content extends Component {
 
-  render() {
+  render () {
 
     // function Home () {
     //   return (
@@ -23,7 +23,7 @@ class Content extends Component {
     //   );
     // }
 
-    function About() {
+    function About () {
       return (
         <div>
           <h2>About</h2>
@@ -50,9 +50,9 @@ class Content extends Component {
             <Route path="/user">
               <User />
             </Route>
-            <Route path="/plate/:pid" render={(props) => <Plate {...props} key={props.location.pathname} />}>
+            <Route path="/topic/:topicId" render={(props) => <Topic {...props} key={props.location.pathname} />}>
             </Route>
-            <Route path="/thread/:id" render={(props) => <Thread {...props} key={props.location.pathname} />}>
+            <Route path="/thread/:threadId" render={(props) => <Thread {...props} key={props.location.pathname} />}>
             </Route>
           </Switch>
         </Layout.Content>

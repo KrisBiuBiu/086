@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 
 const imgSchema = new Schema({
-	id: {
+  imgId: {
     type: String,
     default: '',
   },
@@ -11,9 +11,11 @@ const imgSchema = new Schema({
     type: String,
     default: ''
   }
-}, {toObject: {
-		getters: true,
-		virtuals: true
-}});
+}, {
+  toObject: {
+    getters: true,
+    virtuals: true
+  }
+});
 
-module.exports = mongoose.model('imgs', imgSchema);
+module.exports = mongoose.model('img', imgSchema);

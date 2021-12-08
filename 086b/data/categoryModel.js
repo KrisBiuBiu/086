@@ -1,16 +1,15 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-
 const categorySchema = new Schema({
-  cid: {
+  categoryId: {
     type: Number,
   },
   name: {
     type: String,
     default: ''
   },
-  plates: {
+  topics: {
     type: Array,
     default: []
   },
@@ -26,27 +25,27 @@ const categorySchema = new Schema({
   }
 });
 
-categorySchema.statics.addPlateToCategory = async (cid, pid) => {
+categorySchema.statics.addTopicToCategory = async (categoryId, topicId) => {
   const categoryModel = mongoose.model('category');
-  await categoryModel.updateOne({ cid }, { $addToSet: { plates: pid } });
+  await categoryModel.updateOne({ categoryId }, { $addToSet: { topics: topicId } });
 }
 
-categorySchema.statics.getPlateCategorys = async () => {
+categorySchema.statics.getAllCategories = async () => {
   const categoryModel = mongoose.model('category');
-  const plateModel = mongoose.model('plate');
-  const categorys = await categoryModel.find({}).lean();
-  for (let category of categorys) {
-    let plates = category.plates;
-    let plateArr = [];
-    for (let pid of plates) {
-      const plate = await plateModel.findOne({ pid }).lean();
-      if (plate) {
-        plateArr.push(plate)
+  const topicModel = mongoose.model('topic');
+  const categories = await categoryModel.find({}).lean();
+  for (let category of categories) {
+    let topics = category.topics;
+    let topicArr = [];
+    for (let topicId of topics) {
+      const topic = await topicModel.findOne({ topicId }).lean();
+      if (topic) {
+        topicArr.push(topic)
       }
     }
-    category["plateArr"] = plateArr
+    category["topicArr"] = topicArr
   }
-  return categorys;
+  return categories;
 }
 
 module.exports = mongoose.model('category', categorySchema);

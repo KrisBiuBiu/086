@@ -5,7 +5,7 @@ require('mongoose-long')(mongoose);
 const { Types: { Long } } = mongoose;
 
 const commentSchema = new Schema({
-  uid: {
+  userId: {
     type: Number,
     required: true,
   },
@@ -13,7 +13,7 @@ const commentSchema = new Schema({
     type: Number,
     required: true,
   },
-  tid: {
+  threadId: {
     type: Number,
     required: true,
   },
@@ -21,7 +21,7 @@ const commentSchema = new Schema({
     type: String,
     default: ""
   },
-  plates: {
+  topics: {
     type: Array,
     default: []
   },
@@ -43,26 +43,26 @@ const commentSchema = new Schema({
   }
 });
 
-commentSchema.statics.getComments = async (tid) => {
+commentSchema.statics.getComments = async (threadId) => {
   const commentModel = mongoose.model("comment");
-  const userModel = mongoose.model("users");
-  let comments = await commentModel.find({ tid }).sort({ createTime: -1 }).lean();
+  const userModel = mongoose.model("user");
+  let comments = await commentModel.find({ threadId }).sort({ createTime: -1 }).lean();
   comments.map(async (comment) => {
-    let user = await userModel.findOne({ uid: comment.uid }).lean();
+    let user = await userModel.findOne({ userId: comment.userId }).lean();
     comment.user = user;
     return comment
   })
   return comments
 }
 
-commentSchema.statics.updateLastLoginTimeStamp = async (uid) => {
+commentSchema.statics.updateLastLoginTimeStamp = async (userId) => {
   const threadModel = mongoose.model('thread');
-  await threadModel.updateOne({ uid }, { $set: { lastLoginTimeStamp: new Date().getTime() } });
+  await threadModel.updateOne({ userId }, { $set: { lastLoginTimeStamp: new Date().getTime() } });
 }
 
-commentSchema.statics.viewCountPlusOne = async (tid) => {
+commentSchema.statics.viewCountPlusOne = async (threadId) => {
   const threadModel = mongoose.model('thread');
-  await threadModel.updateOne({ tid }, { $inc: { viewCount: 1 } })
+  await threadModel.updateOne({ threadId }, { $inc: { viewCount: 1 } })
 }
 
 module.exports = mongoose.model('comment', commentSchema);

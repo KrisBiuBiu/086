@@ -8,7 +8,7 @@ const registerRouter = routers.register;
 const signRouter = routers.sign;
 const postRouter = routers.post;
 const fileRouter = routers.file;
-const plateRouter = routers.plate;
+const topicRouter = routers.topic;
 const designRouter = routers.design;
 const resourceRouter = routers.resource;
 const controlRouter = routers.control;
@@ -21,7 +21,7 @@ router.use('/register', registerRouter.routes(), registerRouter.allowedMethods()
 router.use('/sign', signRouter.routes(), signRouter.allowedMethods());
 router.use('/post', postRouter.routes(), postRouter.allowedMethods());
 router.use('/file', fileRouter.routes(), fileRouter.allowedMethods());
-router.use('/plate', plateRouter.routes(), plateRouter.allowedMethods());
+router.use('/topic', topicRouter.routes(), topicRouter.allowedMethods());
 router.use('/design', designRouter.routes(), designRouter.allowedMethods());
 router.use('/resource', resourceRouter.routes(), resourceRouter.allowedMethods());
 router.use('/control', controlRouter.routes(), controlRouter.allowedMethods());

@@ -13,19 +13,19 @@ class Editor extends Component {
     this.state = {
       title: '',
       content: '',
-      selectedPlates: [],
-      plates: [],
+      selectedTopics: [],
+      topics: [],
       threadCoverBase64Url: '',
     };
   }
 
-  async componentDidMount() {
-    await this.getAllPlates();
+  async componentDidMount () {
+    await this.getAllTopics();
   }
 
   postThread = async () => {
     const {
-      title, content, selectedPlates, threadCoverBase64Url,
+      title, content, selectedTopics, threadCoverBase64Url,
     } = this.state;
     if (title.length < 5) {
       message.warning('标题不得少于5个字');
@@ -37,24 +37,24 @@ class Editor extends Component {
       return;
     }
 
-    if (selectedPlates.length > 2) {
+    if (selectedTopics.length > 2) {
       message.warning('板块选择不得多于2个');
       return;
     }
 
-    if (selectedPlates.length === 0) {
+    if (selectedTopics.length === 0) {
       message.warning('请至少选择1个板块');
       return;
     }
 
     await makeHttpQuery('/post/thread', {
-      title, content, selectedPlates, threadCover: threadCoverBase64Url,
+      title, content, selectedTopics, threadCover: threadCoverBase64Url,
     });
   }
 
-  getAllPlates = async () => {
-    const res = await makeHttpQuery('/plate/plates', {});
-    this.setState({ plates: res.data.list });
+  getAllTopics = async () => {
+    const res = await makeHttpQuery('/topic/topics', {});
+    this.setState({ topics: res.data.list });
   }
 
   handleInputChange = (event, type) => {
@@ -65,13 +65,13 @@ class Editor extends Component {
     this.setState({ [type]: inputText });
   }
 
-  handlePlateChange(tag, checked) {
-    const { selectedPlates } = this.state;
-    const nextSelectedPlates = checked ? [...selectedPlates, tag] : selectedPlates.filter((t) => t !== tag);
-    this.setState({ selectedPlates: nextSelectedPlates });
+  handleTopicChange (tag, checked) {
+    const { selectedTopics } = this.state;
+    const nextSelectedTopics = checked ? [...selectedTopics, tag] : selectedTopics.filter((t) => t !== tag);
+    this.setState({ selectedTopics: nextSelectedTopics });
   }
 
-  handleUploadPlateIcon = (info) => {
+  handleUploadTopicIcon = (info) => {
     const reader = new FileReader();
     reader.readAsDataURL(info);
     return new Promise((resolve, reject) => {
@@ -86,16 +86,16 @@ class Editor extends Component {
     this.setState({ threadCoverBase64Url: '' });
   }
 
-  render() {
+  render () {
     const {
-      title, content, plates, selectedPlates, threadCoverBase64Url,
+      title, content, topics, selectedTopics, threadCoverBase64Url,
     } = this.state;
     const uploadThreadCoverProps = {
       name: 'avatar',
       listType: 'picture-card',
       showUploadList: false,
       className: 'avatar-uploader',
-      beforeUpload: (info) => this.handleUploadPlateIcon(info),
+      beforeUpload: (info) => this.handleUploadTopicIcon(info),
     };
     const cropProps = {
       aspect: 4 / 3,
@@ -132,11 +132,11 @@ class Editor extends Component {
                 板块 (请至少选择1个板块， 最多2个)：
               </h4>
               <div>
-                {plates.map((tag) => (
+                {topics.map((tag) => (
                   <Tag.CheckableTag
-                    key={tag.pid}
-                    checked={selectedPlates.indexOf(tag.pid) > -1}
-                    onChange={(checked) => this.handlePlateChange(tag.pid, checked)}
+                    key={tag.topicId}
+                    checked={selectedTopics.indexOf(tag.topicId) > -1}
+                    onChange={(checked) => this.handleTopicChange(tag.topicId, checked)}
                     style={{ border: '1px solid #000' }}
                   >
                     {tag.name}

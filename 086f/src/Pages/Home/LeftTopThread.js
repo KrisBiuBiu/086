@@ -19,20 +19,20 @@ class LeftTopThread extends Component {
     };
   }
 
-  async componentDidMount() {
-    await this.getPlateCategoryList();
+  async componentDidMount () {
+    await this.getCategoryList();
   }
 
-  getPlateCategoryList = async () => {
-    const res = await makeHttpRequest('get', '/plate/categorys', {});
-    this.setState({ categoryList: res.data.list });
+  getCategoryList = async () => {
+    const res = await makeHttpRequest('get', '/topic/categories', {});
+    this.setState({ categoryList: res.data.categories });
   }
 
   onChange = (a, b, c) => {
     console.log(a, b, c);
   }
 
-  render() {
+  render () {
     const listData = [];
     for (let i = 0; i < 6; i++) {
       listData.push({
@@ -63,8 +63,8 @@ class LeftTopThread extends Component {
                 itemLayout="vertical"
                 size="large"
                 grid={{ gutter: 16, column: 2 }}
-                dataSource={category.plateArr}
-                renderItem={(plate) => (
+                dataSource={category.topicArr}
+                renderItem={(topic) => (
                   <List.Item>
                     <Card
                       style={{ width: '100%' }}
@@ -73,14 +73,14 @@ class LeftTopThread extends Component {
                     >
                       <div style={{ display: 'flex' }}>
                         <div style={{ flex: 2, marginRight: '10px' }}>
-                          <img style={{ width: '100%' }} src={`http://localhost:5001/plate/icon/${plate.pid}`} />
+                          <img style={{ width: '100%' }} src={`http://localhost:5001/topic/icon/${topic.topicId}`} />
                         </div>
                         <div style={{ flex: 7 }}>
                           <p style={{ marginBottom: '2px' }}>
                             <div style={{ display: 'flex' }}>
                               <div style={{ flex: 5, fontWeight: 'bold' }}>
-                                <Link to={`/plate/${plate.pid}`}>
-                                  {plate.name}
+                                <Link to={`/topic/${topic.topicId}`}>
+                                  {topic.name}
                                 </Link>
                               </div>
                               <div style={{ flex: 3, textAlign: 'end' }}>
@@ -90,7 +90,7 @@ class LeftTopThread extends Component {
 
                           </p>
                           <p style={{ fontSize: '10px', marginBottom: '2px', color: '#afafaf' }}>
-                            {plate.description}
+                            {topic.description}
                           </p>
                           <p style={{ fontSize: '10px', marginBottom: '2px' }}>
                             <div style={{ display: 'flex' }}>

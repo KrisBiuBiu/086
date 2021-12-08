@@ -4,12 +4,12 @@ const Schema = mongoose.Schema;
 require('mongoose-long')(mongoose);
 const { Types: { Long } } = mongoose;
 
-const plateSchema = new Schema({
-  pid: {
+const topicSchema = new Schema({
+  topicId: {
     type: Number,
     required: true,
   },
-  cid: {
+  categoryId: {
     type: Number,
   },
   name: {
@@ -19,6 +19,10 @@ const plateSchema = new Schema({
   description: {
     type: String,
     default: ''
+  },
+  color: {
+    type: String,
+    default: '#325437'
   },
   threadCount: {
     type: Number,
@@ -42,7 +46,7 @@ const plateSchema = new Schema({
     index: 1
   }
 }, {
-  collection: 'plate',
+  collection: 'topic',
   toObject: {
     getters: true,
     virtuals: true
@@ -50,11 +54,11 @@ const plateSchema = new Schema({
 });
 
 
-plateSchema.statics.threadCountPlusOne = async (pids) => {
-  const plateModel = mongoose.model('plate');
-  for (let pid of pids) {
-    await plateModel.updateOne({ pid }, { $inc: { threadCount: 1 } });
+topicSchema.statics.threadCountPlusOne = async (topicIds) => {
+  const topicModel = mongoose.model('topic');
+  for (let topicId of topicIds) {
+    await topicModel.updateOne({ topicId }, { $inc: { threadCount: 1 } });
   }
 }
 
-module.exports = mongoose.model('plate', plateSchema);
+module.exports = mongoose.model('topic', topicSchema);

@@ -7,31 +7,31 @@ const fs = require("fs");
 
 const threadModel = require(path.join(__dirname, "../../data/threadModel.js"));
 const idsModel = require(path.join(__dirname, "../../data/idsModel.js"));
-const plateModel = require(path.join(__dirname, "../../data/plateModel"));
+const topicModel = require(path.join(__dirname, "../../data/topicModel"));
 const commentModel = require(path.join(__dirname, "../../data/commentModel"));
 
 const fn = require(path.join(__dirname, `../../utils/fn`));
 
 postRouter
   .post("/thread", async (ctx, next) => {
-    const { title, content, selectedPlates, threadCover } = ctx.request.body;
-    const tid = await idsModel.getNewId("tid");
+    const { title, content, selectedTopics, threadCover } = ctx.request.body;
+    const threadId = await idsModel.getNewId("threadId");
     // 转存图片
     if (threadCover) {
       let base64Data = threadCover.replace(/^data:image\/\w+;base64,/, "");
       let dataBuffer = Buffer.from(base64Data, 'base64');
       let threadCoverPath = fn.mkDir("resource\\threadCover");
-      fs.writeFileSync(`${threadCoverPath}/${tid}.png`, dataBuffer);
+      fs.writeFileSync(`${threadCoverPath}/${threadId}.png`, dataBuffer);
     }
     const thread = new threadModel({
-      tid,
-      uid: ctx.user.uid,
+      threadId,
+      userId: ctx.user,
       title,
       content,
-      plates: selectedPlates,
+      topics: selectedTopics,
       cover: threadCover && threadCover.length !== 0 ? true : false
     });
-    await plateModel.threadCountPlusOne(selectedPlates);
+    await topicModel.threadCountPlusOne(selectedTopics);
     await thread.save();
     ctx.body = { test: "123" }
   })
@@ -41,34 +41,33 @@ postRouter
       list: threads
     }
   })
-  .get("/thread/:tid", async (ctx, next) => {
-    const { tid } = ctx.params;
-    await threadModel.viewCountPlusOne(tid);
-    const thread = await threadModel.findOne({ tid });
+  .get("/thread/:threadId", async (ctx, next) => {
+    const { threadId } = ctx.params;
+    await threadModel.viewCountPlusOne(threadId);
+    const thread = await threadModel.getThread(threadId);
     ctx.body = { thread: thread }
   })
-  .get("/thread/:tid/comments", async (ctx, next) => {
-    const { tid } = ctx.params;
-    const comments = await commentModel.getComments(tid);
-    console.log(comments)
+  .get("/thread/:threadId/comments", async (ctx, next) => {
+    const { threadId } = ctx.params;
+    const comments = await commentModel.getComments(threadId);
     ctx.body = { comments: comments }
   })
   .post("/comment", async (ctx, next) => {
-    const { content, tid } = ctx.request.body;
+    const { content, threadId } = ctx.request.body;
     const commentId = await idsModel.getNewId("commentId");
     const comment = new commentModel({
-      tid,
+      threadId,
       commentId,
-      uid: ctx.user.uid,
+      userId: ctx.user,
       content,
     });
-    await threadModel.commentCountPlusOne(tid);
+    await threadModel.commentCountPlusOne(threadId);
     await comment.save();
     ctx.body = { msg: "123" }
   })
-  .get("/threadCover/:tid", async (ctx, next) => {
-    const { tid } = ctx.params;
-    const filePath = path.join(__dirname, '../../resource/threadCover') + `/${tid}.png`;
+  .get("/threadCover/:threadId", async (ctx, next) => {
+    const { threadId } = ctx.params;
+    const filePath = path.join(__dirname, '../../resource/threadCover') + `/${threadId}.png`;
     const file = fs.readFileSync(filePath);
     let mimeType = mime.lookup(filePath);
     ctx.set("content-type", mimeType);
