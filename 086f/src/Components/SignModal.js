@@ -105,7 +105,7 @@ class SignModal extends Component {
             <>
               <Col
                 span={24}
-                style={{ marginBottom: '30px' }}
+                style={{ marginBottom: '30px', margin: "30px 0", textAlign: "center", fontSize: "24px", fontWeight: "bold", color: "#0d4f8c" }}
               >
                 极速登录/注册
               </Col>

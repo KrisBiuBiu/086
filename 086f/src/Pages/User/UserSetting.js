@@ -3,9 +3,9 @@ import {
   Row, Col, Input, Button, Tabs,
 } from 'antd';
 import { makeHttpQuery } from '../../utils/fn';
-import AccountSetting from './AccountSetting';
+import AccountSetting from '../../Components/User/AccountSetting';
 
-class User extends Component {
+class UserSetting extends Component {
   constructor() {
     super();
     this.state = {
@@ -58,8 +58,8 @@ class User extends Component {
   }
 }
 
-User.propTypes = {
+UserSetting.propTypes = {
 
 };
 
-export default User;
+export default UserSetting;

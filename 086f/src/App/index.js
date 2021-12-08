@@ -19,10 +19,10 @@ import Floating from "../Layout/Floating"
 // work properly.
 
 class App extends React.Component {
-  render () {
+  render() {
     return (
       <Router>
-        <Layout className="layout">
+        <Layout className="layout" style={{ background: "#f7f7f7" }}>
           <Header />
           <Content />
           <Footer />

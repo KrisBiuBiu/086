@@ -7,7 +7,8 @@ import { Layout } from 'antd';
 import Home from "../Pages/Home/Index.js";
 import Manage from "../Pages/Manage/Index.js";
 import Editor from "../Pages/Editor/Index.js";
-import User from "../Pages/User/Index.js";
+import UserHomePage from "../Pages/User/UserHomePage.js";
+import UserSetting from "../Pages/User/UserSetting.js";
 import Thread from "../Pages/Thread/Index.js";
 import Topic from "../Pages/Topic/Index.js";
 
@@ -47,8 +48,11 @@ class Content extends Component {
             <Route path="/manage">
               <Manage />
             </Route>
-            <Route path="/user">
-              <User />
+            <Route path="/user-homepage">
+              <UserHomePage />
+            </Route>
+            <Route path="/user-setting">
+              <UserSetting />
             </Route>
             <Route path="/topic/:topicId" render={(props) => <Topic {...props} key={props.location.pathname} />}>
             </Route>

@@ -30,8 +30,12 @@ class Header extends Component {
     });
   }
 
-  turnToUserInfo = () => {
-    window.location.replace('/user');
+  turnToUserHomePage = () => {
+    window.location.replace('/user-homepage');
+  }
+
+  turnToUserSetting = () => {
+    window.location.replace('/user-setting');
   }
 
   signOut = () => {
@@ -42,11 +46,18 @@ class Header extends Component {
 
   renderAvatorDropDown = () => {
     const data = [
-      { text: '个人主页', img: <UserOutlined />, fn: this.turnToUserInfo },
+      {
+        text: '个人主页', img: <UserOutlined />,
+        fn: this.turnToUserHomePage
+      },
       {
         text: '账号设置', img: <SettingOutlined />,
+        fn: this.turnToUserSetting
       },
-      { text: '退出', img: <LogoutOutlined />, fn: this.signOut },
+      {
+        text: '退出', img: <LogoutOutlined />,
+        fn: this.signOut
+      },
     ];
     return (
       <List
