@@ -134,22 +134,6 @@ class Thread extends Component {
                   </Space>
                 </Col>
               </Row>
-              <Row style={{ marginTop: "20px", padding: "20px", background: "#fff" }} gutter={[8, 24]}>
-                <Col span={24}>
-                  <PostEditor
-                    inputFunc={this.editorInputChange}
-                    inputType="postContent"
-                    renderText={postContent} />
-                </Col>
-                <Col>
-                  <Button onClick={this.postOneComment}>
-                    发表
-                  </Button>
-                </Col>
-              </Row>
-              {/* <Row style={{ marginTop: "20px", padding: "20px", background: "#fff" }} gutter={[8, 24]}>
-                全部评论{comments.length}条
-              </Row> */}
               <Row style={{ marginTop: "20px", padding: "20px", background: "#fff", boxShadow: "0 0 3px rgb(0 0 0 / 10%)" }} gutter={[8, 0]} className="comment-list">
                 <div style={{ width: "100%", borderBottom: "1px solid #eee", paddingBottom: "10px" }}>
                   <Row gutter={[8, 24]} style={{ width: "100%" }}>
@@ -219,66 +203,108 @@ class Thread extends Component {
                               </Space>
                             </div>
                           </div>
+
+                          <div class="reply-panel">
+                            <div class="reply-list">
+                              <span class="reply-list-speaker">
+                                <a target="_blank" rel="noopener noreferrer" href="/bbs/newweb/pc/profile/9563536">大钧2011</a>
+                                <i>:</i>
+                              </span>
+                              <span>
+                                假冒的当天就被愤怒的患者家属送上热搜了，或者被打死了
+                              </span>
+                            </div>
+                            <div class="reply-list">
+                              <span class="reply-list-speaker">
+                                <a target="_blank" rel="noopener noreferrer" href="/bbs/newweb/pc/profile/13535961">dxy_3vxdakre</a>
+                                <span>
+                                  回复
+                                </span>
+                                <a target="_blank" rel="noopener noreferrer" href="/bbs/newweb/pc/profile/9563536">@大钧2011</a>
+                                <i>:</i>
+                              </span>
+                              <span>
+                                ？？？？？？你的这个是什么回复。这个真得会？？如果是假冒的，你敢动他，必然是按着刑事类的处理的。不是医疗类的，医生被打了还要医生道歉的。你明白的。再有就是如果是假的，人家怎么可能是会让你看得出来假的。不要忘了，当年的胡万*，是多么的风光一时的。如果不是一个记者真得去查了，人家依然是比较普通的医生强上不知道多少倍的神医的。不是吗。还四大神医，如刘红宾。 人家的知名度比普通的医生要高许多的。
+                              </span>
+                            </div>
+                          </div>
                         </div>
                       )
                     })
                   }
                 </div>
               </Row>
+              <Row style={{ marginTop: "20px", boxShadow: "0 0 3px rgb(0 0 0 / 10%)", background: "#fff" }} gutter={[8, 24]}>
+                <Col span={24}>
+                  <PostEditor
+                    inputFunc={this.editorInputChange}
+                    inputType="postContent"
+                    renderText={postContent} />
+                </Col>
+                <Col>
+                  <Button onClick={this.postOneComment}>
+                    发表
+                  </Button>
+                </Col>
+              </Row>
             </Col>
             <Col span={6}>
 
               <Row gutter={[8, 0]}>
-                <Col style={{ background: "#fff", boxShadow: "0 0 3px rgb(0 0 0 / 10%)" }} span={24}>
+                <Col span={24} style={{ background: "#fff", boxShadow: "0 0 3px rgb(0 0 0 / 10%)" }}>
+                  <div style={{ alignItems: "center", display: "inline-flex", padding: "10px" }}>
+                    <div style={{ width: "30%" }}>
+                      <img src="http://localhost:5001/plate/icon/34" style={{ width: "100%" }} />
+                    </div>
+                    <div style={{ width: "70%", marginLeft: "10px" }}>
+                      <div title="新闻热点" style={{ fontSize: "15px", fontWeight: "bold" }}>新闻热点</div>
+                      <div style={{ fontSize: "12px", margin: "2px 0px" }}>2.4 万条内容 · 47.8 万人关注</div>
+                      <div style={{ fontSize: "12px", color: "#afafaf" }}>今日更新：26 </div>
+                    </div>
+                  </div>
+                </Col>
+                <Col style={{ background: "#fff", boxShadow: "0 0 3px rgb(0 0 0 / 10%)", marginTop: "20px" }} span={24}>
                   <div className="box-panel-header">
                     相关阅读
                   </div>
                   <div style={{ padding: "10px" }}>
-                    <div class="item___2D6oK">
+                    <div class="side-thread-list">
                       <span style={{ color: "red" }} class="side-thread-title-hot">
                         <FireOutlined />
                       </span>
                       <a target="_blank" title="2020.07+共识声明：阵发性睡眠性血红蛋白尿" class="side-thread-title-link" href="/bbs/newweb/pc/post/43716414">2020.07+共识声明：阵发性睡眠性血红蛋白尿</a>
                     </div>
-                    <div class="item___2D6oK">
+                    <div class="side-thread-list">
                       <span style={{ color: "orange" }} class="side-thread-title-hot">
                         <FireOutlined />
                       </span>
                       <a target="_blank" title="公立医院薪酬制度改革，快看！" class="side-thread-title-link" href="/bbs/newweb/pc/post/45472783">公立医院薪酬制度改革，快看！</a>
                     </div>
-                    <div class="item___2D6oK">
+                    <div class="side-thread-list">
                       <span style={{ color: "orange" }} class="side-thread-title-hot">
                         <FireOutlined />
                       </span>
                       <a target="_blank" title="苏州大学645 西医综合自主命题免费送" class="side-thread-title-link" href="/bbs/newweb/pc/post/43380906">苏州大学645 西医综合自主命题免费送</a>
                     </div>
+                    <div class="side-thread-list">
+                      <span style={{ color: "gray" }} class="side-thread-title-hot">
+                        <FireOutlined />
+                      </span>
+                      <a target="_blank" title="苏州大学645 西医综合自主命题免费送" class="side-thread-title-link" href="/bbs/newweb/pc/post/43380906">公立医院薪酬制度改革，快看</a>
+                    </div>
+                    <div class="side-thread-list">
+                      <span style={{ color: "gray" }} class="side-thread-title-hot">
+                        <FireOutlined />
+                      </span>
+                      <a target="_blank" title="公立医院薪酬制度改革，快看" class="side-thread-title-link" href="/bbs/newweb/pc/post/43380906">公立医院薪酬制度改革，快看</a>
+                    </div>
+                    <div class="side-thread-list">
+                      <span style={{ color: "gray" }} class="side-thread-title-hot">
+                        <FireOutlined />
+                      </span>
+                      <a target="_blank" title="公立医院薪酬制度改革，快看" class="side-thread-title-link" href="/bbs/newweb/pc/post/43380906">公立医院薪酬制度改革，快看</a>
+                    </div>
                   </div>
-                  {/* <div>
-                    <div>
-                      <span className="side-thread-title-hot">
-                        <FireOutlined />
-                      </span>
-                      <a className="side-thread-title-link" style={{ paddingLeft: "10px" }}>
-                        说到烤整只的动物，全观察者网，哪怕是厨子都不见得比我有经验
-                      </a>
-                    </div>
-                    <div>
-                      <span className="side-thread-title-hot">
-                        <FireOutlined />
-                      </span>
-                      <a className="side-thread-title-link" style={{ paddingLeft: "10px" }}>
-                        说到烤整只的动物，全观察者网，哪怕是厨子都不见得比我有经验
-                      </a>
-                    </div>
-                    <div>
-                      <span className="side-thread-title-hot">
-                        <FireOutlined />
-                      </span>
-                      <a className="side-thread-title-link" style={{ paddingLeft: "10px" }}>
-                        说到烤整只的动物，全观察者网，哪怕是厨子都不见得比我有经验
-                      </a>
-                    </div>
-                  </div> */}
 
                 </Col>
               </Row>

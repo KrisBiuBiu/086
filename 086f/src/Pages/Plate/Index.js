@@ -74,9 +74,59 @@ class Plate extends Component {
     return (
       <>
         <div style={{ marginTop: '10px' }}>
-          <Row style={{ padding: '20px' }} gutter={[8]}>
+          <Row style={{ padding: '20px' }} gutter={[24, 24]}>
             <Col span={4}>
-              <Row gutter={[0, 8]}>
+
+              <Row style={{ boxShadow: "0 0 3px rgb(0 0 0 / 10%)", background: "#fff" }} gutter={[8, 24]}>
+                <div className="plate-left-side-panel">
+                  <div>
+                    板块列表
+                  </div>
+                  <div className="plate-left-side-list">
+                    <div className="plate-left-side-option">
+                      <div className="plate-left-side-option-icon"><StarOutlined /></div>
+                      <div className="plate-left-side-option-title">爱睡觉的</div>
+                      <div className="plate-left-side-option-right">→</div>
+                    </div>
+                    <div className="plate-left-side-option">
+                      <div className="plate-left-side-option-icon"><StarOutlined /></div>
+                      <div className="plate-left-side-option-title">撒酒疯和</div>
+                      <div className="plate-left-side-option-right">→</div>
+                    </div>
+                    <div className="plate-left-side-option">
+                      <div className="plate-left-side-option-icon"><StarOutlined /></div>
+                      <div className="plate-left-side-option-title">而我和夫人</div>
+                      <div className="plate-left-side-option-right">→</div>
+                    </div>
+                    <div className="plate-left-side-option">
+                      <div className="plate-left-side-option-icon"><StarOutlined /></div>
+                      <div className="plate-left-side-option-title">吗tryn</div>
+                      <div className="plate-left-side-option-right">→</div>
+                    </div>
+                    <div className="plate-left-side-option">
+                      <div className="plate-left-side-option-icon"><StarOutlined /></div>
+                      <div className="plate-left-side-option-title">而无人机</div>
+                      <div className="plate-left-side-option-right">→</div>
+                    </div>
+                    <div className="plate-left-side-option">
+                      <div className="plate-left-side-option-icon"><StarOutlined /></div>
+                      <div className="plate-left-side-option-title">温热我是独立开发</div>
+                      <div className="plate-left-side-option-right">→</div>
+                    </div>
+                    <div className="plate-left-side-option">
+                      <div className="plate-left-side-option-icon"><StarOutlined /></div>
+                      <div className="plate-left-side-option-title">吗恩别人</div>
+                      <div className="plate-left-side-option-right">→</div>
+                    </div>
+                    <div className="plate-left-side-option">
+                      <div className="plate-left-side-option-icon"><StarOutlined /></div>
+                      <div className="plate-left-side-option-title">你特别热</div>
+                      <div className="plate-left-side-option-right">→</div>
+                    </div>
+                  </div>
+                </div>
+              </Row>
+              {/* <Row gutter={[0, 8]}>
                 {
                   plateCategory.map((category) => (
 
@@ -103,7 +153,7 @@ class Plate extends Component {
                     </Card>
                   ))
                 }
-              </Row>
+              </Row> */}
             </Col>
             <Col span={20}>
               <Row gutter={[0, 8]}>

@@ -118,8 +118,12 @@ code {
 
 .comment-list .comment-single-box {
   padding-top: 10px;
-  padding-bottom: 10px;
+  padding-bottom: 20px;
   border-bottom: 1px dashed #e0e0e0;
+}
+
+.comment-list .comment-single-box:last-child {
+  border-bottom: unset !important;
 }
 
 .comment-list .ant-list-split .ant-list-item:last-child .comment-item-button-area {
@@ -154,7 +158,7 @@ code {
 
 .side-thread-title-link:hover{
   text-decoration: underline;
-  color:#08979c;
+  color:#c75d8e;
 }
 
 .side-thread-title-hot {
@@ -165,14 +169,10 @@ code {
   padding: 1px 5px 5px 0;
 }
 
-
-
-.item___2D6oK {
+.side-thread-list {
   padding-bottom: 12px;
   overflow: hidden;
 }
-
-
 
 
 /* thread */
@@ -183,7 +183,7 @@ code {
 }
 
 .thread-operation-button:hover, .thread-operation-button:focus {
-  color: #08979c !important;
+  color: #c75d8e !important;
   /* font-weight: bold; */
 }
 
@@ -274,4 +274,87 @@ code {
   padding-left: 30px;
   padding-bottom: 10px;
   padding-top: 10px;
+}
+
+.reply-panel {
+  margin-top: 8px;
+  margin-left: 30px;
+  padding: 12px 20px 2px;
+  font-weight: 400;
+  font-size: 14px;
+  font-style: normal;
+  line-height: 24px;
+  background: #f7f7f7;
+  border-radius: 2px;
+}
+
+.reply-list {
+  margin-bottom: 10px;
+  word-break: break-all;
+  cursor: pointer;
+}
+
+.reply-list-speaker {
+  margin-bottom: 10px;
+  word-break: break-all;
+  cursor: pointer;
+}
+
+.reply-list-speaker > a {
+  color: #c75d8e
+}
+
+.reply-list-speaker > a:hover {
+  color: #c75d8e
+}
+
+.reply-list-speaker > i {
+  font-style: normal;
+  color: #c75d8e;
+  cursor: pointer;
+  margin-left:2px;
+  margin-right:5px;
+}
+
+.reply-list-speaker > span {
+  margin-left: 5px;
+  margin-right:5px
+}
+
+
+/* Plate */
+
+.plate-left-side-panel {
+  width: 100%;
+}
+
+.plate-left-side-title {
+
+}
+
+.plate-left-side-list {
+  display: grid;
+}
+
+.plate-left-side-option {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px;
+  border-top: 1px solid #eee
+}
+
+.plate-left-side-option-icon {
+  width: 20%;
+}
+
+.plate-left-side-option-title {
+  width: 60%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.plate-left-side-option-right {
+  width: 20%;
+  text-align: end;
 }
