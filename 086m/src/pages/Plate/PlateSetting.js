@@ -8,26 +8,27 @@ class PlateSetting extends Component {
   constructor() {
     super();
     this.state = {
-      plateName: "", // pass 密码登录；code 验证码登录
-      plateDescription: "",
-      plateIconBase64Url: "",
-      plateCategoryList: [],
+      topicName: "", // pass 密码登录；code 验证码登录
+      topicDescription: "",
+      topicIconBase64Url: "",
+      categoryList: [],
       addCategoryModalVisible: false,
       categoryName: "",
       currentCid: ""
     };
   }
 
-  async componentDidMount() {
-    await this.getPlateCategory()
+  async componentDidMount () {
+    await this.getCategories()
   }
 
-  getPlateCategory = async () => {
-    const res = await makeHttpRequest("get", "/api/plate/categorys", {});
-    this.setState({ plateCategoryList: res.data.list });
-    const { list } = res.data;
-    if (list.length > 0) {
-      this.setState({ currentCid: list[0].cid })
+  getCategories = async () => {
+    const res = await makeHttpRequest("get", "/api/categories", {});
+    console.log(res)
+    this.setState({ categoryList: res.data.categories });
+    const { categories } = res.data;
+    if (categories.length > 0) {
+      this.setState({ currentCid: categories[0].categoryId })
     }
   }
 
@@ -39,13 +40,13 @@ class PlateSetting extends Component {
     this.setState({ [type]: event.target.value })
   }
 
-  createNewPlate = async () => {
-    const { plateName, plateDescription, plateIconBase64Url, currentCid } = this.state;
-    const res = await makeHttpRequest("post", "/api/plate", {
-      name: plateName,
-      description: plateDescription,
-      base64Url: plateIconBase64Url,
-      cid: parseInt(currentCid)
+  createNewTopic = async () => {
+    const { topicName, topicDescription, topicIconBase64Url, currentCid } = this.state;
+    const res = await makeHttpRequest("post", "/api/topic", {
+      name: topicName,
+      description: topicDescription,
+      base64Url: topicIconBase64Url,
+      categoryId: parseInt(currentCid)
     });
     console.log(res)
   }
@@ -55,7 +56,7 @@ class PlateSetting extends Component {
     reader.readAsDataURL(info);
     return new Promise((resolve, reject) => {
       reader.onload = () => {
-        this.setState({ plateIconBase64Url: reader.result })
+        this.setState({ topicIconBase64Url: reader.result })
         reject(false)
       }
     })
@@ -77,13 +78,13 @@ class PlateSetting extends Component {
     const { categoryName } = this.state;
     if (!categoryName) return;
     console.log(categoryName)
-    const res = await makeHttpRequest("post", "/api/plate/category", { name: categoryName });
+    const res = await makeHttpRequest("post", "/api/category", { name: categoryName });
     if (!res) return;
     this.closeAddCategoryModal();
   }
 
-  render() {
-    const { plateName, plateDescription, plateIconBase64Url, plateCategoryList, addCategoryModalVisible, categoryName } = this.state;
+  render () {
+    const { topicName, topicDescription, topicIconBase64Url, categoryList, addCategoryModalVisible, categoryName } = this.state;
     const uploadPlateIconProps = {
       name: "avatar",
       listType: "picture-card",
@@ -102,12 +103,13 @@ class PlateSetting extends Component {
         <div>
           {/* 功能切换 */}
           <div>
-            <Tabs onChange={this.handleTabsChange} tabBarExtraContent={<Button onClick={this.openAddCategoryModal}>添加分类</Button>}>
+            <Tabs onChange={this.handleTabsChange}
+              tabBarExtraContent={<Button onClick={this.openAddCategoryModal}>添加分类</Button>}>
               {
-                plateCategoryList.map((category) => {
+                categoryList.map((category) => {
                   return (
 
-                    <Tabs.TabPane tab={category.name} key={category.cid}>
+                    <Tabs.TabPane tab={category.name} key={category.categoryId}>
                       {/* 板块设置 */}
                       <div >
                         <Collapse
@@ -116,20 +118,20 @@ class PlateSetting extends Component {
                           expandIconPosition="right"
                           accordion
                         >
-                          <Collapse.Panel header="添加板块" key={`collapse-panel-${category.cid}`} >
+                          <Collapse.Panel header="添加板块" key={`collapse-panel-${category.categoryId}`} >
                             <Row gutter={[8, 24]}>
                               <Col span={8} style={{ margin: "auto" }}>
                                 <Col span={24}>
                                   <div>
                                     名称：
                                   </div>
-                                  <Input value={plateName} onChange={(event) => this.handleInputChange(event, "plateName")} />
+                                  <Input value={topicName} onChange={(event) => this.handleInputChange(event, "topicName")} />
                                 </Col>
                                 <Col span={24}>
                                   <div>
                                     介绍：
                                   </div>
-                                  <Input value={plateDescription} onChange={(event) => this.handleInputChange(event, "plateDescription")} />
+                                  <Input value={topicDescription} onChange={(event) => this.handleInputChange(event, "topicDescription")} />
                                 </Col>
                               </Col>
                               <Col span={8} style={{ margin: "auto" }}>
@@ -138,13 +140,13 @@ class PlateSetting extends Component {
                                     <Upload
                                       {...uploadPlateIconProps}
                                     >
-                                      {plateIconBase64Url ? <img src={plateIconBase64Url} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+                                      {topicIconBase64Url ? <img src={topicIconBase64Url} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
                                     </Upload>
                                   </ImgCrop>
                                 </Col>
                               </Col>
                               <Col span={8}>
-                                <Button type="primary" onClick={this.createNewPlate} style={{ position: "absolute", bottom: "0px" }}>
+                                <Button type="primary" onClick={this.createNewTopic} style={{ position: "absolute", bottom: "0px" }}>
                                   提交
                                 </Button>
                               </Col>
@@ -159,26 +161,21 @@ class PlateSetting extends Component {
                       <div style={{ marginTop: "20px" }}>
                         <Row>
                           {
-                            category.plateArr.map((plate) => {
+                            category.topicArr.map((topic) => {
                               return (
-                                <Col span={6} key={`col-card-${plate.pid}`}>
+                                <Col xs={24} sm={12} md={10} lg={8} xl={6} key={`col-card-${topic.topicId}`}>
                                   <Card
                                     hoverable
                                     style={{ width: 240 }}
+                                    title={topic.name}
                                     bodyStyle={{ padding: "10px" }}
-                                    key={`card-${plate.pid}`}
+                                    headStyle={{ padding: "0px 10px" }}
+                                    key={`card-${topic.topicId}`}
+                                    className="topic-card"
                                   >
                                     <div style={{ display: "flex" }}>
-                                      <div style={{ flex: 3, marginRight: "10px" }}>
-                                        <img style={{ width: "100%" }} src={`http://localhost:5001/plate/icon/${plate.pid}`} alt="123" />
-                                      </div>
-                                      <div style={{ flex: 5 }}>
-                                        <p style={{ textAlign: "center", fontWeight: "bold" }}>
-                                          {plate.name}
-                                        </p>
-                                        <p style={{ fontSize: "10px", textAlign: "center" }}>
-                                          {plate.description}
-                                        </p>
+                                      <div style={{}}>
+                                        <img style={{ width: "100%" }} src={`http://localhost:5001/topic/icon/${topic.topicId}`} alt="123" />
                                       </div>
                                     </div>
                                   </Card>

@@ -18,19 +18,19 @@ class Thread extends Component {
     };
   }
 
-  async componentDidMount() {
-    this.setState({ tid: this.props.match.params.id });
-    await this.getThreadInfo(this.props.match.params.id)
-    await this.getComments(this.props.match.params.id)
+  async componentDidMount () {
+    this.setState({ threadId: this.props.match.params.threadId });
+    await this.getThreadInfo(this.props.match.params.threadId)
+    await this.getComments(this.props.match.params.threadId)
   }
 
-  getThreadInfo = async (tid) => {
-    const res = await makeHttpRequest("get", `/post/thread/${tid}`, { tid });
+  getThreadInfo = async (threadId) => {
+    const res = await makeHttpRequest("get", `/post/thread/${threadId}`, { threadId });
     this.setState({ thread: res.data.thread })
   }
 
-  getComments = async (tid) => {
-    const res = await makeHttpRequest("get", `/post/thread/${tid}/comments`, {});
+  getComments = async (threadId) => {
+    const res = await makeHttpRequest("get", `/post/thread/${threadId}/comments`, {});
     this.setState({ comments: res.data.comments })
   }
 
@@ -40,24 +40,23 @@ class Thread extends Component {
 
   postOneComment = async () => {
     const { postContent } = this.state;
-    console.log(postContent)
     if (!postContent || postContent.length < 5) {
       message.warning("请最少输入五个字符", 3);
       return;
     }
-    const res = await makeHttpQuery("/post/comment", {
+    await makeHttpQuery("/post/comment", {
       content: postContent,
-      tid: this.props.match.params.id
+      threadId: this.props.match.params.threadId
     });
-    await this.getThreadInfo(this.props.match.params.id);
-    await this.getComments(this.props.match.params.id)
+    await this.getThreadInfo(this.props.match.params.threadId);
+    await this.getComments(this.props.match.params.threadId)
   }
 
   switchCommentType = (type) => {
     this.setState({ commentSortType: type })
   }
 
-  render() {
+  render () {
     const {
       thread,
       postContent,

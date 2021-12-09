@@ -4,11 +4,12 @@ import {
   Route,
 } from "react-router-dom";
 import { Layout } from 'antd';
-import PlateSetting from "../pages/Plate/PlateSetting.js";
+import Topic from "../pages/Setting/Topic.js";
+import TopicDefault from "../pages/Setting/TopicDefault.js";
 
 class Content extends Component {
 
-  render() {
+  render () {
 
     // function Home () {
     //   return (
@@ -18,7 +19,7 @@ class Content extends Component {
     //   );
     // }
 
-    function Home() {
+    function Home () {
       return (
         <div>
           <h2>About</h2>
@@ -79,8 +80,10 @@ class Content extends Component {
               <Route exact path="/">
                 <Home />
               </Route>
-              <Route exact path="/plateSetting">
-                <PlateSetting />
+              <Route exact path="/setting/topic">
+                <Topic />
+              </Route>
+              <Route exact path="/setting/topicDefault/:topicId" render={(props) => <TopicDefault {...props} />}>
               </Route>
               {/* <Route path="/thread/:id" render={(props) => <Thread {...props} />}>
             </Route> */}

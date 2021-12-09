@@ -5,7 +5,7 @@ require('mongoose-long')(mongoose);
 const { Types: { Long } } = mongoose;
 
 const userSchema = new Schema({
-  uid: {
+  userId: {
     type: Number,
     unique: true,
     required: true,
@@ -57,27 +57,27 @@ const userSchema = new Schema({
   }
 });
 
-userSchema.statics.updateLastLoginTimeStamp = async (uid) => {
+userSchema.statics.updateLastLoginTimeStamp = async (userId) => {
   const userModel = mongoose.model('user');
-  await userModel.updateOne({ uid }, { $set: { lastLoginTimeStamp: new Date().getTime() } });
+  await userModel.updateOne({ userId }, { $set: { lastLoginTimeStamp: new Date().getTime() } });
 }
 
-userSchema.statics.updateUserInfo = async (uid, username, description) => {
+userSchema.statics.updateUserInfo = async (userId, username, description) => {
   const userModel = mongoose.model("user");
-  await userModel.updateOne({ uid }, { $set: { username, description } })
+  await userModel.updateOne({ userId }, { $set: { username, description } })
 }
 
-userSchema.statics.getUid = async (mobile) => {
+userSchema.statics.getUserId = async (mobile) => {
   const userModel = mongoose.model('user');
   let user = await userModel.findOne({ mobile });
-  return user.uid;
+  return user.userId;
 }
 
-userSchema.statics.getUserTokenInfo = async (uid) => {
+userSchema.statics.getUserTokenInfo = async (userId) => {
   const userModel = mongoose.model('user');
-  let user = await userModel.findOne({ uid });
+  let user = await userModel.findOne({ userId });
   return {
-    uid: user.uid,
+    userId: user.userId,
     lastLoginTimeStamp: user.lastLoginTimeStamp
   };
 }

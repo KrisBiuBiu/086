@@ -34,7 +34,7 @@ signRouter
   })
   .post("/loginWithSmsCode", async (ctx, next) => {
     const { mobile, smsCode } = ctx.request.body;
-    let uid;
+    let userId;
 
     // 校验手机号与验证码
     if (!mobile || !regular.mobileReg.test(mobile)) ctx.throw(400, "手机号码格式不正确")
@@ -47,22 +47,21 @@ signRouter
     const mobileRegistered = await userModel.checkMobileRegistered(mobile);
     if (!mobileRegistered) {
       // 创建用户
-      uid = await idsModel.getNewId("uid");
+      userId = await idsModel.getNewId("userId");
       const user = new userModel({
-        uid,
+        userId,
         mobile,
       });
       await user.save();
     } else {
-      uid = await userModel.getUid(mobile);
-      await userModel.updateLastLoginTimeStamp(uid); // 更新用户最后登录时间
+      userId = await userModel.getUserId(mobile);
+      await userModel.updateLastLoginTimeStamp(userId); // 更新用户最后登录时间
     }
 
     // 返回token
-    const userInfo = await userModel.getUserTokenInfo(uid); // 获取用户信息
-    console.log(userInfo)
+    const userInfo = await userModel.getUserTokenInfo(userId); // 获取用户信息
     const secret = "react-koa-bookiezilla"; // 指定密钥，这是之后用来判断token合法性的标志
-    const token = jwt.sign(uid, secret); // 签发token
+    const token = jwt.sign(userId, secret); // 签发token
     ctx.body = { token }
   })
   .post("/register", async (ctx, next) => {
@@ -77,9 +76,9 @@ signRouter
       ctx.throw(404, "该手机号已被注册");
     }
     // 创建用户
-    const uid = await idsModel.getNewId("uid");
+    const userId = await idsModel.getNewId("userId");
     const user = new userModel({
-      uid,
+      userId,
       mobile: 13547829667,
     });
     await user.save();

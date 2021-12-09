@@ -5,11 +5,11 @@ require('mongoose-long')(mongoose);
 const { Types: { Long } } = mongoose;
 
 const threadSchema = new Schema({
-  uid: {
+  userId: {
     type: Number,
     required: true,
   },
-  tid: {
+  threadId: {
     type: Number,
     required: true,
   },
@@ -21,7 +21,7 @@ const threadSchema = new Schema({
     type: String,
     default: ""
   },
-  plates: {
+  topics: {
     type: Array,
     default: []
   },
@@ -65,19 +65,28 @@ const threadSchema = new Schema({
   }
 });
 
-threadSchema.statics.updateLastLoginTimeStamp = async (uid) => {
+threadSchema.statics.updateLastLoginTimeStamp = async (userId) => {
   const threadModel = mongoose.model('thread');
-  await threadModel.updateOne({ uid }, { $set: { lastLoginTimeStamp: new Date().getTime() } });
+  await threadModel.updateOne({ userId }, { $set: { lastLoginTimeStamp: new Date().getTime() } });
 }
 
-threadSchema.statics.viewCountPlusOne = async (tid) => {
+threadSchema.statics.viewCountPlusOne = async (threadId) => {
   const threadModel = mongoose.model('thread');
-  await threadModel.updateOne({ tid }, { $inc: { viewCount: 1 } })
+  await threadModel.updateOne({ threadId }, { $inc: { viewCount: 1 } })
 }
 
-threadSchema.statics.commentCountPlusOne = async (tid) => {
+threadSchema.statics.commentCountPlusOne = async (threadId) => {
   const threadModel = mongoose.model('thread');
-  await threadModel.updateOne({ tid }, { $inc: { commentCount: 1 } })
+  await threadModel.updateOne({ threadId }, { $inc: { commentCount: 1 } })
+}
+
+threadSchema.statics.getThread = async (threadId) => {
+  const threadModel = mongoose.model("thread");
+  const topicModel = mongoose.model("topic");
+  let thread = await threadModel.findOne({ threadId }).lean();
+  let topicArr = await topicModel.find({ topicId: { $in: thread.topics } }).lean();
+  thread.topicArr = topicArr;
+  return thread;
 }
 
 module.exports = mongoose.model('thread', threadSchema);

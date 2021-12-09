@@ -55,3 +55,28 @@ code {
 .ant-collapse>.ant-collapse-item {
   border-bottom: none;
 }
+
+.topic-card {
+
+}
+
+.topic-card>.ant-card-head>.ant-card-head-wrapper>.ant-card-head-title {
+  padding: 10px 0px;
+}
+
+.topicIconCover .ant-upload.ant-upload-select-picture-card {
+  width: 200px !important;
+  height: 200px !important
+}
+
+.topicIconCover .ant-upload.ant-upload-select-picture-card img{
+  height:inherit
+}
+
+.topicIconCover .ant-upload-picture-card-wrapper{
+  width: unset;
+}
+
+.topicIconCover .ant-btn {
+  border: none;
+}

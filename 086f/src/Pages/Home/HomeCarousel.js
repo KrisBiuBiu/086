@@ -8,7 +8,7 @@ class HomeCarousel extends Component {
     console.log(a, b, c);
   }
 
-  render() {
+  render () {
     const contentStyle = {
       height: '260px',
       color: '#fff',
@@ -17,7 +17,7 @@ class HomeCarousel extends Component {
       background: '#364d79',
     };
     return (
-      <Card bodyStyle={{ padding: '10px' }}>
+      <Card bodyStyle={{ padding: '10px' }} className="box-shadow-panel">
         <Row gutter={8}>
           <Col span={12}>
             <div>

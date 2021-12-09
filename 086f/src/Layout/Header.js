@@ -79,29 +79,32 @@ class Header extends Component {
     );
   }
 
-  render() {
+  render () {
     const { modalVisiable } = this.state;
     const token = cookies.get('token');
     return (
       <>
         <Layout.Header
-          style={{
-            position: 'fixed',
-            zIndex: 1,
-            width: '100%',
-          }}
+          className="cj-layout-header"
         >
           <div className="logo">
-            <img
-              src={logo}
-              style={{ verticalAlign: 'top' }}
-              alt={logo}
-            />
+            <Link to={`/`}>
+              <img
+                src={logo}
+                alt={logo}
+                className="logo-icon"
+              />
+            </Link>
+            <Link to={`/`}>
+              <span
+                className="logo-title">
+                测试
+              </span>
+            </Link>
           </div>
           <div className="header-menu-right">
             {
               token ? (
-                // onClick={this.signOut}
                 <Popover
                   placement="bottomRight"
                   content={this.renderAvatorDropDown}
@@ -130,13 +133,23 @@ class Header extends Component {
               )
             }
           </div>
+          {/* <ul 
+            className="header-menu">
+            <li>
+              <Link to="/">首页</Link></li>
+            <li>
+              <Link to="/about">About</Link></li>
+            <li>
+              <Link to="/manage">Manage</Link></li>
+          </ul> */}
           <Menu
-            theme="dark"
+            // theme="dark"
             mode="horizontal"
             defaultSelectedKeys={['1']}
+            className="header-menu"
           >
             <Menu.Item key="1">
-              <Link to="/">Home</Link>
+              <Link to="/">首页</Link>
             </Menu.Item>
             <Menu.Item key="2">
               <Link to="/about">About</Link>

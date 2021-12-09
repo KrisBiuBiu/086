@@ -11,25 +11,25 @@ const mime = require("mime-types")
 
 userRouter
   .post("/getInfo", async (ctx, next) => {
-    const { title, content, selectedPlates } = ctx.request.body;
-    const tid = await idsModel.getNewId("tid");
+    const { title, content, selectedTopics } = ctx.request.body;
+    const threadId = await idsModel.getNewId("threadId");
     const thread = new threadModel({
-      tid,
-      uid: ctx.user.uid,
+      threadId,
+      userId: ctx.user.userId,
       title,
       content,
-      plates: selectedPlates
+      topics: selectedTopics
     });
     await thread.save();
     // 检查手机号
     // const mobileRegistered = await userModel.checkMobileRegistered(mobile);
     // if (!mobileRegistered) ctx.throw(401, "手机号不存在");
-    // // 获取uid
-    // let uid = await userModel.getUid(mobile);
+    // // 获取userId
+    // let userId = await userModel.getUserId(mobile);
     // // 更新用户最后登录时间
-    // await userModel.updateLastLoginTimeStamp(uid);
+    // await userModel.updateLastLoginTimeStamp(userId);
     // // 获取用户信息
-    // const userInfo = await userModel.getUserTokenInfo(uid);
+    // const userInfo = await userModel.getUserTokenInfo(userId);
     // const secret = "react-koa-bookiezilla"; // 指定密钥，这是之后用来判断token合法性的标志
     // const token = jwt.sign(userInfo, secret); // 签发token
     ctx.body = { test: "123" }
@@ -37,7 +37,7 @@ userRouter
   .post("/updateInfo", async (ctx, next) => {
     const { username, description } = ctx.request.body;
     const { user } = ctx;
-    await userModel.updateUserInfo(user.uid, username, description)
+    await userModel.updateUserInfo(user.userId, username, description)
     ctx.body = { text: "132" }
   })
   .post("/uploadAvator", async (ctx, next) => {
@@ -45,16 +45,16 @@ userRouter
     const files = ctx.request.body.files || {};
     const file = files.file;
     let ext = fn.getFileType(file.name);
-    const filePath = path.join(__dirname, '../../resource/avator') + `/${user.uid}.png`;
+    const filePath = path.join(__dirname, '../../resource/avator') + `/${user.userId}.png`;
     const reader = fs.createReadStream(file.path);
     const writer = fs.createWriteStream(filePath);
     reader.pipe(writer);
-    ctx.body = { status: "success", msg: `${user.uid}` }
+    ctx.body = { status: "success", msg: `${user.userId}` }
   })
   //https://blog.csdn.net/lihefei_coder/article/details/105435358
-  .get("/avator/:uid", async (ctx, next) => {
-    const { uid } = ctx.params;
-    const filePath = path.join(__dirname, '../../resource/avator') + `/${uid}.png`;
+  .get("/avator/:userId", async (ctx, next) => {
+    const { userId } = ctx.params;
+    const filePath = path.join(__dirname, '../../resource/avator') + `/${userId}.png`;
     const file = fs.readFileSync(filePath);
     let mimeType = mime.lookup(filePath);
     ctx.set("content-type", mimeType);

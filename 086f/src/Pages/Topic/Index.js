@@ -10,46 +10,46 @@ import {
   MessageOutlined, LikeOutlined, StarOutlined, EyeOutlined,
 } from '@ant-design/icons';
 import { makeHttpQuery, makeHttpRequest, removeHTMLTagsSubString } from '../../utils/fn';
-import PlateCard from './PlateCard';
+import TopicCard from './TopicCard';
 
-class Plate extends Component {
+class Topic extends Component {
   constructor() {
     super();
     this.state = {
-      pid: '', // pass 密码登录；code 验证码登录
-      plateDescription: '',
-      plateInfo: {},
-      plateThreads: [],
-      plateCategory: [],
+      topicId: '', // pass 密码登录；code 验证码登录
+      topicDescription: '',
+      topicInfo: {},
+      topicThreads: [],
+      topicCategory: [],
     };
   }
 
-  async componentDidMount() {
+  async componentDidMount () {
     this.setState({
-      pid: this.props.match.params.pid,
+      topicId: this.props.match.params.topicId,
     });
-    await this.getPlateInfo(this.props.match.params.pid);
-    await this.getPlateThread(this.props.match.params.pid);
-    await this.getPlateCategory();
+    await this.getTopicInfo(this.props.match.params.topicId);
+    await this.getTopicThread(this.props.match.params.topicId);
+    await this.getTopicCategory();
   }
 
   onChange = (a, b, c) => {
     console.log(a, b, c);
   }
 
-  getPlateInfo = async (pid) => {
-    const res = await makeHttpRequest('get', `/plate/info/${pid}`, { pid });
-    this.setState({ plateInfo: res.data.info });
+  getTopicInfo = async (topicId) => {
+    const res = await makeHttpRequest('get', `/topic/info/${topicId}`, { topicId });
+    this.setState({ topicInfo: res.data.info });
   }
 
-  getPlateThread = async (pid) => {
-    const res = await makeHttpRequest('get', `/plate/threads/${pid}`, {});
-    this.setState({ plateThreads: res.data.list });
+  getTopicThread = async (topicId) => {
+    const res = await makeHttpRequest('get', `/topic/threads/${topicId}`, {});
+    this.setState({ topicThreads: res.data.list });
   }
 
-  getPlateCategory = async () => {
-    const res = await makeHttpRequest('get', '/plate/categorys', {});
-    this.setState({ plateCategory: res.data.list });
+  getTopicCategory = async () => {
+    const res = await makeHttpRequest('get', '/topic/categories', {});
+    this.setState({ topicCategory: res.data.categories });
   }
 
   handleInputChange = (event, type) => {
@@ -57,13 +57,13 @@ class Plate extends Component {
   }
 
   addNewThread = async () => {
-    const { plateName, plateDescription } = this.state;
-    const res = await makeHttpQuery('/plate/create', { name: plateName, description: plateDescription });
+    const { topicName, topicDescription } = this.state;
+    const res = await makeHttpQuery('/topic/create', { name: topicName, description: topicDescription });
   }
 
-  render() {
+  render () {
     const {
-      plateName, plateDescription, plateInfo, plateThreads, plateCategory,
+      topicName, topicDescription, topicInfo, topicThreads, topicCategory,
     } = this.state;
     const IconText = ({ icon, text }) => (
       <Space>
@@ -128,23 +128,23 @@ class Plate extends Component {
               </Row>
               {/* <Row gutter={[0, 8]}>
                 {
-                  plateCategory.map((category) => (
+                  topicCategory.map((category) => (
 
                     <Card size="small" title={category.name} style={{ width: '100%' }}>
                       <List
                         itemLayout="vertical"
                         size="small"
                         grid={{ gutter: 8, column: 1 }}
-                        dataSource={category.plateArr}
-                        renderItem={(plate) => (
+                        dataSource={category.topicArr}
+                        renderItem={(topic) => (
                           <List.Item>
                             <Card
                               style={{ width: '100%' }}
                               bodyStyle={{ padding: '0px' }}
                               bordered={false}
                             >
-                              <Link to={`/plate/${plate.pid}`}>
-                                {plate.name}
+                              <Link to={`/topic/${topic.topicId}`}>
+                                {topic.name}
                               </Link>
                             </Card>
                           </List.Item>
@@ -160,13 +160,13 @@ class Plate extends Component {
                 <Col span={24} style={{ background: '#fff' }}>
                   <div style={{ display: 'flex' }}>
                     <div style={{ flex: 2, marginRight: '10px' }}>
-                      <img style={{ width: '50px' }} src={`http://localhost:5001/plate/icon/${plateInfo.pid}`} />
+                      <img style={{ width: '50px' }} src={`http://localhost:5001/topic/icon/${topicInfo.topicId}`} />
                     </div>
                     <div style={{ flex: 7 }}>
                       <p style={{ marginBottom: '2px' }}>
                         <div style={{ display: 'flex' }}>
                           <div style={{ flex: 5, fontWeight: 'bold' }}>
-                            {plateInfo.name}
+                            {topicInfo.name}
                           </div>
                           <div style={{ flex: 3, textAlign: 'end' }}>
                             贴数：66500
@@ -175,7 +175,7 @@ class Plate extends Component {
 
                       </p>
                       <p style={{ fontSize: '10px', marginBottom: '2px', color: '#afafaf' }}>
-                        {plateInfo.description}
+                        {topicInfo.description}
                       </p>
                       <p style={{ fontSize: '10px', marginBottom: '2px' }}>
                         <div style={{ display: 'flex' }}>
@@ -195,10 +195,10 @@ class Plate extends Component {
                   <List
                     itemLayout="vertical"
                     size="large"
-                    dataSource={plateThreads}
-                    renderItem={(item) => (
+                    dataSource={topicThreads}
+                    renderItem={(thread) => (
                       <List.Item
-                        key={item.title}
+                        key={thread.title}
                       >
                         <List.Item.Meta
                           avatar={(
@@ -220,36 +220,36 @@ class Plate extends Component {
                           style={{ marginBottom: '10px' }}
                         />
                         <div>
-                          <Link to={`/thread/${item.tid}`}>
+                          <Link to={`/thread/${thread.threadId}`}>
                             <h3 style={{ fontWeight: '600' }}>
-                              {item.title}
+                              {thread.title}
                             </h3>
                           </Link>
                         </div>
                         <div style={{ display: 'flex' }}>
                           {
-                            item.cover ? (
+                            thread.cover ? (
                               <div style={{ flex: 1 }}>
-                                <img src={`http://localhost:5001/post/threadCover/${item.tid}`} style={{ width: '100%' }} />
+                                <img src={`http://localhost:5001/post/threadCover/${thread.threadId}`} style={{ width: '100%' }} />
                               </div>
                             ) : null
                           }
                           <div style={{ flex: 5 }}>
 
                             <p>
-                              {removeHTMLTagsSubString(item.content, 100, true)}
+                              {removeHTMLTagsSubString(thread.content, 100, true)}
                             </p>
                           </div>
                         </div>
                         <div style={{ display: 'flex' }}>
                           <div style={{ flex: 7 }}>
                             <span>
-                              <IconText icon={EyeOutlined} text={item.viewCount} key="list-vertical-star-o" />
+                              <IconText icon={EyeOutlined} text={thread.viewCount} key="list-vertical-star-o" />
                             </span>
                           </div>
                           <div style={{ flex: 2, textAlign: 'end' }}>
                             {
-                              moment(new Date(item.lastTime)).format('MM-DD HH:mm')
+                              moment(new Date(thread.lastTime)).format('MM-DD HH:mm')
                             }
                           </div>
                         </div>
@@ -266,8 +266,8 @@ class Plate extends Component {
   }
 }
 
-Plate.propTypes = {
+Topic.propTypes = {
 
 };
 
-export default Plate;
+export default Topic;
