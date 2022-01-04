@@ -21,7 +21,7 @@ class Topic extends Component {
     };
   }
 
-  async componentDidMount () {
+  async componentDidMount() {
     await this.getCategories()
   }
 
@@ -65,8 +65,8 @@ class Topic extends Component {
     this.setState({ addCategoryModalVisible: false })
   }
 
-  openAddTopicModal = () => {
-    this.setState({ addTopicModalVisible: true })
+  openAddTopicModal = (text, record) => {
+    this.setState({ addTopicModalVisible: true, currentCid: record.categoryId })
   }
 
   closeAddTopicModal = () => {
@@ -124,7 +124,7 @@ class Topic extends Component {
         title: 'Action',
         key: 'action',
         render: (text, record) => (
-          <Button type="link" onClick={this.openAddTopicModal}>
+          <Button type="link" onClick={() => this.openAddTopicModal(text, record)}>
             ADD
           </Button>
         ),
@@ -137,7 +137,7 @@ class Topic extends Component {
 
   }
 
-  render () {
+  render() {
     const { topicName, topicDescription, topicIconBase64Url, categoryList, addCategoryModalVisible, addTopicModalVisible, categoryName } = this.state;
     const uploadPlateIconProps = {
       name: "avatar",

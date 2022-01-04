@@ -11,10 +11,11 @@ import UserHomePage from "../Pages/User/UserHomePage.js";
 import UserSetting from "../Pages/User/UserSetting.js";
 import Thread from "../Pages/Thread/Index.js";
 import Topic from "../Pages/Topic/Index.js";
+import Latest from "../Pages/Latest/Index.js";
 
 class Content extends Component {
 
-  render () {
+  render() {
 
     // function Home () {
     //   return (
@@ -24,7 +25,7 @@ class Content extends Component {
     //   );
     // }
 
-    function About () {
+    function About() {
       return (
         <div>
           <h2>About</h2>
@@ -42,8 +43,8 @@ class Content extends Component {
             <Route path="/editor">
               <Editor />
             </Route>
-            <Route path="/about">
-              <About />
+            <Route path="/latest">
+              <Latest />
             </Route>
             <Route path="/manage">
               <Manage />

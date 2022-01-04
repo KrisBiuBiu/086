@@ -79,7 +79,7 @@ class Header extends Component {
     );
   }
 
-  render () {
+  render() {
     const { modalVisiable } = this.state;
     const token = cookies.get('token');
     return (
@@ -122,8 +122,8 @@ class Header extends Component {
                     type="text"
                     style={{
                       padding: '5px 10px',
-                      margin: '15px 0',
-                      color: '#fff',
+                      // margin: '15px 0',
+                      color: '#000',
                     }}
                     onClick={this.handleOk}
                   >
@@ -133,31 +133,15 @@ class Header extends Component {
               )
             }
           </div>
-          {/* <ul 
+          <ul
             className="header-menu">
             <li>
               <Link to="/">首页</Link></li>
             <li>
-              <Link to="/about">About</Link></li>
+              <Link to="/latest">最新</Link></li>
             <li>
               <Link to="/manage">Manage</Link></li>
-          </ul> */}
-          <Menu
-            // theme="dark"
-            mode="horizontal"
-            defaultSelectedKeys={['1']}
-            className="header-menu"
-          >
-            <Menu.Item key="1">
-              <Link to="/">首页</Link>
-            </Menu.Item>
-            <Menu.Item key="2">
-              <Link to="/about">About</Link>
-            </Menu.Item>
-            <Menu.Item key="3">
-              <Link to="/manage">Manage</Link>
-            </Menu.Item>
-          </Menu>
+          </ul>
         </Layout.Header>
         <div>
           <Modal
